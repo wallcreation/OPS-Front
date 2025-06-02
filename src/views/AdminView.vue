@@ -7,7 +7,11 @@ import AdminHeader from '@/components/AdminHeader.vue'
 import TeamListH from '@/components/TeamListH.vue'
 const router = useRouter()
 const me = ref({})
-const dashboard = ref({})
+const dashboard = ref({
+  teams: [],
+  operators: [],
+  accounts: [],
+})
 onMounted(() => {
   const token = localStorage.getItem('token')
   if (!token) {
@@ -28,6 +32,7 @@ onMounted(() => {
     .get('/admin/dashboard')
     .then((response) => {
       dashboard.value = response.data
+      console.log('Dashboard data:', dashboard)
     })
     .catch((error) => {
       console.error('Error fetching dashboard data:', error)
@@ -36,6 +41,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <AdminHeader :fname="me.fname" :lname="me.lname" />
-  <main class="bg-[url('/generalbg.jpg')] bg-cover h-screen w-full"></main>
+  <AdminHeader
+    :fname="me.fname"
+    :lname="me.lname"
+    :teams="dashboard.teams.length"
+    :operators="dashboard.operators.length"
+    :accounts="dashboard.accounts.length"
+  />
+  <main class="bg-[url('/generalbg.jpg')] bg-cover h-screen w-full px-5"></main>
 </template>

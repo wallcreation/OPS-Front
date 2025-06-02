@@ -1,4 +1,4 @@
 <script setup></script>
 <template>
-    <div></div>
+    <div class="bg-[#13223A] w-full mx-5"></div>
 </template>

@@ -1,4 +1,15 @@
 <script setup>
+import { ref } from 'vue'
+const props = defineProps({
+  lname: {
+    type: String,
+    default: 'admin',
+  },
+  fname: {
+    type: String,
+    default: '',
+  },
+})
 </script>
 <template>
   <header class="w-full bg-[#13223A] text-[#06B6D4] px-4 py-2">
@@ -69,8 +80,8 @@
 
       <!-- Droite -->
       <div class="relative text-sm p-2 flex gap-2">
-        <p>lname</p>
-        <p>fname</p>
+        <p>{{ lname }}</p>
+        <p>{{ fname }}</p>
         <div class="absolute top-0 left-0 border-t-2 border-l-2 border-cyan-500 w-3 h-3"></div>
         <div class="absolute bottom-0 right-0 border-b-2 border-r-2 border-cyan-500 w-3 h-3"></div>
       </div>

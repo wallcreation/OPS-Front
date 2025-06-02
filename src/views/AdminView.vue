@@ -4,12 +4,38 @@ import { useRouter } from 'vue-router'
 import api from '@/api'
 import { onMounted } from 'vue'
 import AdminHeader from '@/components/AdminHeader.vue'
-onMounted(() => {})
+import TeamListH from '@/components/TeamListH.vue'
+const router = useRouter()
+const me = ref({})
+const dashboard = ref({})
+onMounted(() => {
+  const token = localStorage.getItem('token')
+  if (!token) {
+    router.push('/login')
+    return
+  }
+  api
+    .get('/me')
+    .then((response) => {
+      me.value = response.data.user
+    })
+    .catch((error) => {
+      console.error('Error fetching admin data:', error)
+      router.push('/login')
+    })
+
+  api
+    .get('/admin/dashboard')
+    .then((response) => {
+      dashboard.value = response.data
+    })
+    .catch((error) => {
+      console.error('Error fetching dashboard data:', error)
+    })
+})
 </script>
 
 <template>
-  <AdminHeader />
-  <main class="bg-[url('/generalbg.jpg')] bg-cover h-screen w-full">
-    <p>dashboard</p>
-  </main>
+  <AdminHeader :fname="me.fname" :lname="me.lname" />
+  <main class="bg-[url('/generalbg.jpg')] bg-cover h-screen w-full"></main>
 </template>

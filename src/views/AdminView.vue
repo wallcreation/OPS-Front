@@ -48,5 +48,9 @@ onMounted(() => {
     :operators="dashboard.operators.length"
     :accounts="dashboard.accounts.length"
   />
-  <main class="bg-[url('/generalbg.jpg')] bg-cover h-screen w-full px-5"></main>
+  <main class="bg-[url('/generalbg.jpg')] bg-cover h-screen w-full">
+    <div class="p-2">
+      <TeamListH :teams="dashboard.teams" />
+    </div>
+  </main>
 </template>

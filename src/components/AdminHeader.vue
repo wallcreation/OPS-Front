@@ -24,7 +24,7 @@ const props = defineProps({
 })
 </script>
 <template>
-  <header class="bg-[#13223A] text-[#06B6D4] px-4 py-1">
+  <header class="bg-[#13223A]/80 text-[#06B6D4] px-4 py-1">
     <div class="flex justify-between items-center font-bold">
       <!-- Gauche -->
       <div class="relative text-sm p-2 flex gap-4">

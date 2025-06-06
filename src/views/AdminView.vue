@@ -3,7 +3,9 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/api'
 import { onMounted } from 'vue'
+import AccountListV from '@/components/AccountListV.vue'
 import AdminHeader from '@/components/AdminHeader.vue'
+import OperatorListV from '@/components/OperatorListV.vue'
 import TeamListH from '@/components/TeamListH.vue'
 const router = useRouter()
 const me = ref({})
@@ -49,9 +51,13 @@ onMounted(() => {
     :accounts="dashboard.accounts.length"
     class=""
   />
-  <main class="bg-[url('/generalbg.jpg')] bg-cover h-screen">
+  <main class="h-screen">
     <div class="p-2">
       <TeamListH :teams="dashboard.teams" />
+    </div>
+    <div class="flex justify-center gap-2 p-2">
+      <OperatorListV :operators="dashboard.operators" class="w-1/2" />
+      <AccountListV :accounts="dashboard.accounts" class="w-1/2" />
     </div>
   </main>
 </template>

@@ -24,7 +24,7 @@ const props = defineProps({
       </div>
     </div>
     <div v-else>
-      <h1 class="text-xl bg-[#EF4444] p-1 mx-4 my-1 rounded-lg font-bold text-white">
+      <h1 class="text-xl bg-[#EF4444] p-1 mx-4 my-1 rounded-lg text-white animate-pulse">
         Aucune équipe disponible
       </h1>
     </div>

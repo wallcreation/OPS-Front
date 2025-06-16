@@ -1,4 +1,6 @@
 <script setup></script>
 <template>
-    <div></div>
+    <div class="">
+    	<a>Acceuil</a>
+    </div>
 </template>

@@ -3,7 +3,8 @@ import AdminSide from '@/components/AdminSide.vue'
 import AdminDashboard from '@/components/AdminDashboard.vue';
 </script>
 <template>
-    <h1>jgjg</h1>
-    <AdminSide/>
-    <AdminDashboard/>
+    <div class="flex h-screen">
+        <AdminSide class="w-1/6"/>
+        <AdminDashboard/>
+    </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <aside class="bg-[#222222] text-[#E0E0E0] w-1/6 p-2 h-screen fixed top-0 left-0 text-center flex flex-col justify-between">
+  <aside class="bg-[#222222] text-[#E0E0E0] p-1 h-screen text-center flex flex-col justify-between">
     <div>
       <a
         href="#"

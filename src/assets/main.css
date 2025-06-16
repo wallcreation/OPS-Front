@@ -1,11 +1,11 @@
 @import 'tailwindcss';
 /* main.css */
 
-body {
+/* body {
     background-image: url('/public/generalbg.jpg');
     background-position: center;
     background-attachment: fixed;
-}
+} */
 
 ::-webkit-scrollbar {
   width: 9px;

@@ -7,6 +7,9 @@
     background-attachment: fixed;
 } */
 
+body {
+  background-color: #1A1A1A;
+}
 ::-webkit-scrollbar {
   width: 9px;
   height: 9px; /* important si scroll horizontal */

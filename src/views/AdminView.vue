@@ -5,6 +5,6 @@ import AdminDashboard from '@/components/AdminDashboard.vue';
 <template>
     <div class="flex h-screen">
         <AdminSide class="w-1/6"/>
-        <AdminDashboard/>
+        <AdminDashboard class="h-screen"/>
     </div>
 </template>

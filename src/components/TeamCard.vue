@@ -15,7 +15,7 @@ const props = defineProps({
 })
 </script>
 <template>
-  <div class="bg-[#222222] text-white p-3">
+  <div class="bg-[#222222] p-3">
     <div class="flex items-center justify-between">
       <h2>{{ name }}</h2>
       <div class="flex gap-2">

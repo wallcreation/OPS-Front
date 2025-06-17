@@ -14,11 +14,15 @@ const operators = ref([
 ])
 </script>
 <template>
-    <main>
-        <div>
-            <div v-for="operator in operators" :key="operator.id">
-                <h1>{{ operator.lname }} {{ operator.fname }}</h1>
-            </div>
-        </div>
-    </main>
+  <main class="flex flex-col h-full">
+    <div class="flex items-center gap-2 p-1 mb-2 overflow-x-auto">
+      <div
+        v-for="operator in operators"
+        :key="operator.id"
+        class="py-1 px-3 text-nowrap outline outline-2 outline-[#00B894] rounded-lg"
+      >
+        <h1>{{ operator.lname }} {{ operator.fname }}</h1>
+      </div>
+    </div>
+  </main>
 </template>

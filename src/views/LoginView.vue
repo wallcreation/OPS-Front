@@ -5,6 +5,7 @@ import axios from 'axios'
 const router = useRouter()
 const displayerror = ref(false)
 const disablelogin = ref(false)
+const showpassword = ref(false)
 const email = ref('')
 const password = ref('')
 const onlogin = async () => {
@@ -95,7 +96,7 @@ const onlogin = async () => {
             id="email"
             placeholder="Email"
             required
-            class="border-b-2 border-[#2563EB] ouline-none focus:outline-none focus:border-[#06B6D4]"
+            class="ps-1 border-b-2 border-[#2563EB] ouline-none focus:outline-none focus:border-[#06B6D4]"
             v-model="email"
           />
         </div>
@@ -107,6 +108,7 @@ const onlogin = async () => {
             stroke-width="1.5"
             stroke="currentColor"
             class="size-6"
+            @click="showpassword = !showpassword"
           >
             <path
               stroke-linecap="round"
@@ -115,12 +117,12 @@ const onlogin = async () => {
             />
           </svg>
           <input
-            type="password"
+            :type="showpassword ? 'text' : 'password'"
             name="password"
             id="password"
             placeholder="Mot de passe"
             required
-            class="border-b-2 border-[#2563EB] outline-none focus:outline-none focus:border-[#06B6D4]"
+            class="ps-1 border-b-2 border-[#2563EB] outline-none focus:outline-none focus:border-[#06B6D4]"
             v-model="password"
           />
         </div>

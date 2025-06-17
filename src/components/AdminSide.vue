@@ -62,8 +62,9 @@ import { RouterLink } from 'vue-router'
         <span class="hidden md:inline">Équipes</span>
       </RouterLink>
 
-      <a
-        href="#"
+      <RouterLink
+        active-class="text-bold text-[#00B894]"
+        to="/admin/operators"
         class="flex items-center gap-2 my-1 p-1 rounded-lg border-3 border-[#333333] hover:border-[#00B894] hover:text-[#00B894]"
       >
         <svg
@@ -84,7 +85,7 @@ import { RouterLink } from 'vue-router'
           />
         </svg>
         <span class="hidden md:inline">Opérateurs</span>
-      </a>
+      </RouterLink>
 
       <a
         href="#"

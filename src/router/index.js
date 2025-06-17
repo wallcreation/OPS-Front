@@ -5,8 +5,9 @@ import OperatorLayout from '@/layouts/OperatorLayout.vue'
 // views
 import LoginView from '@/views/LoginView.vue'
 import AdminView from '@/views/AdminView.vue'
-import AdminTeamView from '@/views/AdminTeamView.vue'
 import AdminDashboardView from '@/views/AdminDashboardView.vue'
+import AdminOperatorView from '@/views/AdminOperatorView.vue'
+import AdminTeamView from '@/views/AdminTeamView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,11 @@ const router = createRouter({
           name: 'admin-teams',
           component: AdminTeamView,
         },
+        {
+          path: 'operators',
+          name: 'admin-operators',
+          component: AdminOperatorView,
+        }
       ],
     },
   ],

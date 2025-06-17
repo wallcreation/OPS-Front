@@ -29,7 +29,7 @@ const operators = ref([
 </script>
 <template>
   <main class="p-1 w-5/6 h-screen text-[#E0E0E0]">
-    <div class="w-full h-1/5 flex rounded-lg border-1 border-[#6C5CE7] overflow-x-auto">
+    <div class="w-full h-1/6 flex rounded-lg border-1 border-[#6C5CE7] overflow-x-auto">
       <TeamCard
         v-for="team in teams"
         :key="team.id"
@@ -39,7 +39,7 @@ const operators = ref([
         class="m-1 rounded-lg"
       />
     </div>
-    <div class="w-1/2 h-4/5 mt-1">
+    <div class="w-1/2 h-5/6 mt-1">
       <div class="h-full rounded border-1 border-[#00B894] overflow-y-auto">
           <OperatorCard
             v-for="operator in operators"

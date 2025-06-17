@@ -3,8 +3,8 @@ import { RouterView } from 'vue-router';
 import AdminSide from '@/components/AdminSide.vue'
 </script>
 <template>
-  <div class="flex h-screen">
+  <div class="flex h-screen text-[#E0E0E0]">
     <AdminSide class="w-1/6" />
-    <RouterView/>
+    <RouterView class="w-5/6 h-screen"/>
   </div>
 </template>

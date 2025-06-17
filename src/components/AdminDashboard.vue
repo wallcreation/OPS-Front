@@ -41,9 +41,9 @@ const accounts = ref([
 ])
 </script>
 <template>
-  <main class="p-1 w-5/6 h-screen text-[#E0E0E0] flex flex-col">
+  <main class="p-1 flex flex-col">
     <!-- Zone TeamCard (en haut) -->
-    <div class="w-full min-h-[8rem] flex rounded-lg border-1 border-[#6C5CE7] overflow-x-auto">
+    <div class="w-full min-h-[7rem] flex rounded-lg border-1 border-[#6C5CE7] overflow-x-auto">
       <TeamCard
         v-for="team in teams"
         :key="team.id"
@@ -56,7 +56,7 @@ const accounts = ref([
 
     <!-- Zone OperatorCard (en bas) -->
     <div class="w-full flex-grow flex gap-1 mt-1 overflow-hidden">
-      <div class="h- w-1/2 rounded border-1 border-[#00B894] overflow-y-auto">
+      <div class="w-1/2 rounded border-1 border-[#00B894] overflow-y-auto">
         <OperatorCard
           v-for="operator in operators"
           :key="operator.id"

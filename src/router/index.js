@@ -23,18 +23,18 @@ const router = createRouter({
     {
       path: '/admin/',
       component: AdminLayout,
-      children : [
+      children: [
         {
           path: 'dashboard',
           name: 'admin-dashboard',
-          component: AdminDashboardView
+          component: AdminDashboardView,
         },
         {
           path: 'teams',
           name: 'admin-teams',
-          component: AdminTeamView
-        }
-      ]
+          component: AdminTeamView,
+        },
+      ],
     },
   ],
 })

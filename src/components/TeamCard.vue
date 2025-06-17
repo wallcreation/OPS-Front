@@ -50,14 +50,14 @@ const props = defineProps({
       </div>
     </div>
     <div class="flex gap-2">
-        <div v-for="operator in operators" :key="operator">
-            <p>{{ operator }}</p>
-        </div>
+      <div v-for="operator in operators" :key="operator">
+        <p>{{ operator }}</p>
+      </div>
     </div>
     <div class="flex gap-2">
-        <div v-for="account in accounts" :key="account">
-            <p>{{ account }}</p>
-        </div>
+      <div v-for="account in accounts" :key="account">
+        <p>{{ account }}</p>
+      </div>
     </div>
   </div>
 </template>

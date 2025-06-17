@@ -1,6 +1,7 @@
 <script setup>
 import TeamCard from './TeamCard.vue'
 import OperatorCard from './OperatorCard.vue'
+import AccountCard from './AccountCard.vue'
 import { ref } from 'vue'
 const teams = ref([
   { id: 1, name: 'Team A', operators: ['Alice', 'Bob'], accounts: ['Account1', 'Account2'] },
@@ -26,6 +27,18 @@ const operators = ref([
   { id: 9, fname: 'Ivan', lname: 'Lopez', team: 'Team E', workat: 'day' },
   { id: 10, fname: 'Judy', lname: 'Gonzalez', team: 'Team E', workat: 'night' },
 ])
+const accounts = ref([
+  { id: 1, name: 'Account1', team: 'Team A' },
+  { id: 2, name: 'Account2', team: 'Team A' },
+  { id: 3, name: 'Account3', team: 'Team B' },
+  { id: 4, name: 'Account4', team: 'Team B' },
+  { id: 5, name: 'Account5', team: 'Team C' },
+  { id: 6, name: 'Account6', team: 'Team C' },
+  { id: 7, name: 'Account7', team: 'Team D' },
+  { id: 8, name: 'Account8', team: 'Team D' },
+  { id: 9, name: 'Account9', team: 'Team E' },
+  { id: 10, name: 'Account10', team: 'Team E' },
+])
 </script>
 <template>
   <main class="p-1 w-5/6 h-screen text-[#E0E0E0] flex flex-col">
@@ -42,8 +55,8 @@ const operators = ref([
     </div>
 
     <!-- Zone OperatorCard (en bas) -->
-    <div class="w-full flex-grow mt-1 overflow-hidden">
-      <div class="h-full rounded border-1 border-[#00B894] overflow-y-auto">
+    <div class="w-full flex-grow flex gap-1 mt-1 overflow-hidden">
+      <div class="h- w-1/2 rounded border-1 border-[#00B894] overflow-y-auto">
         <OperatorCard
           v-for="operator in operators"
           :key="operator.id"
@@ -52,6 +65,16 @@ const operators = ref([
           :lname="operator.lname"
           :team="operator.team"
           :workat="operator.workat"
+          class="m-1 rounded-lg"
+        />
+      </div>
+      <div class="h-full w-1/2 rounded border-1 border-[#E84393] overflow-y-auto">
+        <AccountCard
+          v-for="account in accounts"
+          :key="account.id"
+          :id="account.id"
+          :name="account.name"
+          :team="account.team"
           class="m-1 rounded-lg"
         />
       </div>

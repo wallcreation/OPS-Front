@@ -102,15 +102,15 @@ const changeTeam = (team) => {
   <main class="flex flex-col h-full">
     <!-- Important : h-full ici -->
     <div
-      class="min-h-[2rem] sm:min-h-[3rem] flex items-center gap-1 rounded-lg p-1 mb-2 overflow-x-auto"
+      class="min-h-[2rem] sm:min-h-[3rem] flex gap-3 items-center gap-1 rounded-lg p-1 mb-2 overflow-x-auto"
     >
       <div
         v-for="team in teams"
         :key="team.id"
-        class="py-1 px-3 text-center rounded-lg cursor-pointer"
+        class="py-1 px-3 text-center rounded-lg outline-2 outline-offset-2 outline-[#6C5CE7]"
         :class="[
           currentTeam.id === team.id
-            ? 'bg-[#6C5CE7] border-[#6C5CE7] text-[#222222] text-bold'
+            ? 'bg-[#6C5CE7] text-[#222222] text-bold'
             : 'bg-[#222222]',
         ]"
         @click="currentTeam = team"

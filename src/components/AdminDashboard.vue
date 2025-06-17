@@ -47,6 +47,7 @@ const accounts = ref([
       <TeamCard
         v-for="team in teams"
         :key="team.id"
+        :id="team.id"
         :name="team.name"
         :operators="team.operators"
         :accounts="team.accounts"

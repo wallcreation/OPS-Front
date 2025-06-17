@@ -25,7 +25,7 @@ const props = defineProps({
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="size-5 text-[#3B91F9] mx-auto"
+            class="size-5 text-[#3B91F9] fill-current mx-auto"
           >
             <path
               stroke-linecap="round"
@@ -44,7 +44,7 @@ const props = defineProps({
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="size-5 text-[#EB5757] mx-auto"
+            class="size-5 text-[#EB5757] fill-current mx-auto"
           >
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
           </svg>

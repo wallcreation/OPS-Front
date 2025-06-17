@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import TeamInfo from '@/components/TeamInfo.vue'
 const teams = ref([
   {
@@ -93,6 +94,7 @@ const teams = ref([
     total_penality: 5020,
   },
 ])
+const router = useRouter()
 const currentTeam = ref(teams.value[0])
 const changeTeam = (team) => {
   currentTeam.value = team

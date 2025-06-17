@@ -1,5 +1,10 @@
 <script setup>
+import { useRouter } from 'vue-router';
 const props = defineProps({
+  id: {
+    type: Number,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
@@ -13,6 +18,10 @@ const props = defineProps({
     required: true,
   },
 })
+const router = useRouter()
+const toteams = () => {
+  router.push({ name: "admin-teams", params: { id: props.id}})
+}
 </script>
 <template>
   <div class="bg-[#222222] p-2">

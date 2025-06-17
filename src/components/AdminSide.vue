@@ -1,8 +1,12 @@
+<script setup>
+import { RouterLink } from 'vue-router'
+</script>
 <template>
   <aside class="bg-[#222222] text-[#E0E0E0] p-1 h-screen text-center flex flex-col justify-between">
     <div>
-      <a
-        href="#"
+      <RouterLink
+        to="/admin/dashboard"
+        active-class="text-bold text-[#3B91F9]"
         class="flex items-center gap-2 my-1 p-1 rounded-lg border-3 border-[#333333] hover:border-[#3B91F9] hover:text-[#3B91F9]"
       >
         <svg
@@ -24,10 +28,11 @@
           />
         </svg>
         <span class="hidden md:inline">Accueil</span>
-      </a>
+      </RouterLink>
 
-      <a
-        href="#"
+      <RouterLink
+        to="/admin/teams"
+        active-class="text-bold text-[#6C5CE7]"
         class="flex items-center gap-2 my-1 p-1 rounded-lg border-3 border-[#333333] hover:border-[#6C5CE7] hover:text-[#6C5CE7]"
       >
         <svg
@@ -55,7 +60,7 @@
           />
         </svg>
         <span class="hidden md:inline">Équipes</span>
-      </a>
+      </RouterLink>
 
       <a
         href="#"

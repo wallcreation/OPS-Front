@@ -28,8 +28,9 @@ const operators = ref([
 ])
 </script>
 <template>
-  <main class="p-1 w-5/6 h-screen text-[#E0E0E0]">
-    <div class="w-full h-1/6 flex rounded-lg border-1 border-[#6C5CE7] overflow-x-auto">
+  <main class="p-1 w-5/6 h-screen text-[#E0E0E0] flex flex-col">
+    <!-- Zone TeamCard (en haut) -->
+    <div class="w-full min-h-[8rem] flex rounded-lg border-1 border-[#6C5CE7] overflow-x-auto">
       <TeamCard
         v-for="team in teams"
         :key="team.id"
@@ -39,18 +40,20 @@ const operators = ref([
         class="m-1 rounded-lg"
       />
     </div>
-    <div class="w-1/2 h-5/6 mt-1">
+
+    <!-- Zone OperatorCard (en bas) -->
+    <div class="w-full flex-grow mt-1 overflow-hidden">
       <div class="h-full rounded border-1 border-[#00B894] overflow-y-auto">
-          <OperatorCard
-            v-for="operator in operators"
-            :key="operator.id"
-            :id="operator.id"
-            :fname="operator.fname"
-            :lname="operator.lname"
-            :team="operator.team"
-            :workat="operator.workat"
-            class="m-1 rounded-lg"
-          />
+        <OperatorCard
+          v-for="operator in operators"
+          :key="operator.id"
+          :id="operator.id"
+          :fname="operator.fname"
+          :lname="operator.lname"
+          :team="operator.team"
+          :workat="operator.workat"
+          class="m-1 rounded-lg"
+        />
       </div>
     </div>
   </main>

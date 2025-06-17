@@ -1,4 +1,5 @@
 <script setup>
+import OperatorInfo from '@/components/OperatorInfo.vue'
 import { ref } from 'vue'
 const operators = ref([
   { id: 1, fname: 'Alice', lname: 'Smith', team: 'Team A', workat: 'day' },
@@ -12,10 +13,11 @@ const operators = ref([
   { id: 9, fname: 'Ivan', lname: 'Lopez', team: 'Team E', workat: 'day' },
   { id: 10, fname: 'Judy', lname: 'Gonzalez', team: 'Team E', workat: 'night' },
 ])
+const currentOperator = ref(operators.value[0])
 </script>
 <template>
   <main class="flex flex-col h-full">
-    <div class="flex items-center gap-2 p-1 mb-2 overflow-x-auto">
+    <div class="min-h-[2rem] sm:min-h-[3rem] flex items-center gap-2 p-1 mb-2 overflow-x-auto">
       <div
         v-for="operator in operators"
         :key="operator.id"
@@ -23,6 +25,9 @@ const operators = ref([
       >
         <h1>{{ operator.lname }} {{ operator.fname }}</h1>
       </div>
+    </div>
+    <div class="flex flex-col gap-2 p-2 overflow-y-auto h-full">
+        <OperatorInfo :operator="currentOperator" />
     </div>
   </main>
 </template>

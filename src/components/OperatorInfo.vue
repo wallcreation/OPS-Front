@@ -19,9 +19,26 @@ function getpenaltyamount(date) {
 function getpenaltyraison(date) {
   return props.penalty.find((p) => p.date === date)?.reason
 }
-function formatDate(dateStr, options = { weekday: 'short', day: '2-digit' }) {
+// function formatDate(dateStr, options = { weekday: 'short', day: '2-digit' }) {
+//   const date = new Date(dateStr)
+//   return new Intl.DateTimeFormat('fr-FR', options).format(date)
+// }
+function formatDate(dateStr) {
   const date = new Date(dateStr)
-  return new Intl.DateTimeFormat('fr-FR', options).format(date)
+  return new Intl.DateTimeFormat('fr-FR', {
+    day: '2-digit',
+    month: '2-digit',
+  }).format(date)
+}
+
+function getPenaltyAmount(date) {
+  const penaltyEntry = props.penalty.find((p) => p.date === date)
+  return penaltyEntry ? penaltyEntry.amount : '-'
+}
+
+function getPenaltyReason(date) {
+  const penaltyEntry = props.penalty.find((p) => p.date === date)
+  return penaltyEntry ? penaltyEntry.reason : 'Aucune pénalité'
 }
 </script>
 <template>
@@ -86,23 +103,58 @@ function formatDate(dateStr, options = { weekday: 'short', day: '2-digit' }) {
     <!--Stat table-->
     <div class="mt-2">
       <div></div>
-      <table class="w-full text-center border-2 border-[#2F80ED] rounded-lg">
-        <thead>
+      <table
+        class="w-full table-auto border border-[#2F80ED] text-sm text-white rounded-lg overflow-hidden"
+      >
+        <thead class="">
           <tr>
-            <th class="w-16">Date</th>
-            <th class="">Messages</th>
-            <th class="">Pénalités</th>
+            <th class="px-3 py-2 border-b border-[#2F80ED] text-left font-semibold w-24">Date</th>
+            <th class="px-3 py-2 border-b border-[#2F80ED] text-left font-semibold text-[#2F80ED]">
+              Messages
+            </th>
+            <th class="px-3 py-2 border-b border-[#EB5757] text-left font-semibold text-[#EB5757]">
+              Pénalités
+            </th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="stat in stats" :key="stat">
-            <td class="w-16">{{ formatDate(stat.date) }}</td>
-            <td>
-              {{ stat.total }} <sup>{{ stat.stop_total }}</sup>
+          <tr
+            v-for="stat in stats"
+            :key="stat.id"
+            class="hover:bg-[#2F80ED]/10 transition-colors border-b border-[#444]"
+          >
+            <td class="px-3 py-2">
+              {{ formatDate(stat.date) }}
             </td>
-            <td>
-              {{ penalty.find((p) => p.date === stat.date)?.amount || '-' }}
-              {{ getpenaltyraison(stat.date) }}
+            <td class="px-3 py-2 text-[#2F80ED]">
+              <div>
+                  <p class="inline me-5 ">
+                    {{ stat.total }} <sup class="text-xs text-gray-400">{{ stat.stop_total }}</sup>
+                  </p>
+                  <p class="inline text-xs text-gray-400">
+                    {{ stat.start }}
+                    <span
+                      ><svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-6 inline"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                        />
+                      </svg>
+                    </span>
+                    {{ stat.end }}
+                  </p>
+              </div>
+            </td>
+            <td class="px-3 py-2 text-[#EB5757]" :title="getPenaltyReason(stat.date)">
+              {{ getPenaltyAmount(stat.date) }} - {{ getPenaltyReason(stat.date) }}
             </td>
           </tr>
         </tbody>
@@ -131,7 +183,6 @@ function formatDate(dateStr, options = { weekday: 'short', day: '2-digit' }) {
 
 /* Hover */
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #00B894; /* plus foncé */
+  background-color: #00b894; /* plus foncé */
 }
-
 </style>

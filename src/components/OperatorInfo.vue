@@ -67,5 +67,9 @@ const props = defineProps({
             <p><span class="underline">Total</span>: 98009</p>
         </fieldset>
     </div>
+    <!--Stat table-->
+    <div>
+        <table></table>
+    </div>
   </div>
 </template>

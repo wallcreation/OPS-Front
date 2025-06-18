@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="p-4 space-y-4 rounded">
+  <div class="p-2 rounded">
     <!-- Informations de l'équipe -->
     <div class="flex justify-between">
       <div>
@@ -52,12 +52,11 @@ const props = defineProps({
         </button>
       </div>
     </div>
-
     <!-- Opérateurs et Comptes -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-1">
       <!-- Opérateurs -->
       <fieldset class="flex items-center gap-2 border-2 border-[#00B894] rounded-lg p-1">
-        <legend class="text-[#00B894] text-center text-xl font-semibold mb-1">Opérateurs</legend>
+        <legend class="text-[#00B894] text-center text-lg font-semibold mb-1">Opérateurs</legend>
         <p v-for="operator in team.operators" :key="operator">
           {{ operator }}
         </p>
@@ -65,7 +64,7 @@ const props = defineProps({
 
       <!-- Comptes -->
       <fieldset class="flex items-center gap-2 border-2 border-[#E84393] rounded-lg p-1">
-        <legend class="text-[#E84393] text-center text-xl font-semibold mb-1">Comptes</legend>
+        <legend class="text-[#E84393] text-center text-lg font-semibold mb-1">Comptes</legend>
           <p v-for="account in team.accounts" :key="account">
             {{ account }}
           </p>

@@ -17,16 +17,16 @@ const currentOperator = ref(operators.value[0])
 </script>
 <template>
   <main class="flex flex-col h-full">
-    <div class="min-h-[2rem] sm:min-h-[3rem] flex items-center gap-2 p-1 mb-2 overflow-x-auto">
+    <div class="min-h-[3.5rem] flex items-center gap-3 p-1 mb-2 overflow-x-auto">
       <div
         v-for="operator in operators"
         :key="operator.id"
-        class="py-1 px-3 text-nowrap outline outline-2 outline-[#00B894] rounded-lg"
+        class="py-1 px-3 text-nowrap outline-2 outline-[#00B894] rounded-lg"
       >
         <h1>{{ operator.lname }} {{ operator.fname }}</h1>
       </div>
     </div>
-    <div class="flex flex-col gap-2 p-2 overflow-y-auto h-full">
+    <div class="flex flex-col gap-2 p-2 overflow-y-auto h-full p-1">
         <OperatorInfo :operator="currentOperator" />
     </div>
   </main>

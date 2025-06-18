@@ -35,6 +35,39 @@ const stats = ref([
     { id: 30, date: '2023-10-30', start: 6, end: 14, total: 8, stop_start: 10, stop_end: 12, stop_total: 2 },
     { id: 31, date: '2023-10-31', start: 7, end: 15, total: 8, stop_start: 11, stop_end: 13, stop_total: 2 },
 ])
+const penalty = ref([
+    { id: 1, date: '2023-10-01', reason: 'Late start', amount: 50 },
+    { id: 2, date: '2023-10-02', reason: 'Early stop', amount: 30 },
+    { id: 3, date: '2023-10-03', reason: 'Missed break', amount: 20 },
+    { id: 4, date: '2023-10-04', reason: 'Late start', amount: 50 },
+    { id: 5, date: '2023-10-05', reason: 'Early stop', amount: 30 },
+    { id: 6, date: '2023-10-06', reason: 'Missed break', amount: 20 },
+    { id: 7, date: '2023-10-07', reason: 'Late start', amount: 50 },
+    { id: 8, date: '2023-10-08', reason: 'Early stop', amount: 30 },
+    { id: 9, date: '2023-10-09', reason: 'Missed break', amount: 20 },
+    { id: 10, date: '2023-10-10', reason: 'Late start', amount: 50 },
+    { id: 11, date: '2023-10-11', reason: 'Early stop', amount: 30 },
+    { id: 12, date: '2023-10-12', reason: 'Missed break', amount: 20 },
+    { id: 13, date: '2023-10-13', reason: 'Late start', amount: 50 },
+    { id: 14, date: '2023-10-14', reason: 'Early stop', amount: 30 },
+    { id: 15, date: '2023-10-15', reason: 'Missed break', amount: 20 },
+    { id: 16, date: '2023-10-16', reason: 'Late start', amount: 50 },
+    { id: 17, date: '2023-10-17', reason: 'Early stop', amount: 30 },
+    { id: 18, date: '2023-10-18', reason: 'Missed break', amount: 20 },
+    { id: 19, date: '2023-10-19', reason: 'Late start', amount: 50 },
+    { id: 20, date: '2023-10-20', reason: 'Early stop', amount: 30 },
+    { id: 21, date: '2023-10-21', reason: 'Missed break', amount: 20 },
+    { id: 22, date: '2023-10-22', reason: 'Late start', amount: 50 },
+    { id: 23, date: '2023-10-23', reason: 'Early stop', amount: 30 },
+    { id: 24, date: '2023-10-24', reason: 'Missed break', amount: 20 },
+    { id: 25, date: '2023-10-25', reason: 'Late start', amount: 50 },
+    { id: 26, date: '2023-10-26', reason: 'Early stop', amount: 30 },
+    { id: 27, date: '2023-10-27', reason: 'Missed break', amount: 20 },
+    { id: 28, date: '2023-10-28', reason: 'Late start', amount: 50 },
+    { id: 29, date: '2023-10-29', reason: 'Early stop', amount: 30 },
+    { id: 30, date: '2023-10-30', reason: 'Missed break', amount: 20 },
+    { id: 31, date: '2023-10-31', reason: 'Late start', amount: 50 },
+])
 const operators = ref([
   { id: 1, fname: 'Alice', lname: 'Smith', team: 'Team A', workat: 'day' },
   { id: 2, fname: 'Bob', lname: 'Johnson', team: 'Team A', workat: 'night' },
@@ -63,7 +96,7 @@ const currentOperator = ref(operators.value[0])
     <div
       class="flex-1 bg-[#222222] border-2 border-[#00B894] rounded-lg gap-2 p-2 overflow-y-auto h-full p-1"
     >
-      <OperatorInfo :operator="currentOperator" />
+      <OperatorInfo :operator="currentOperator" :stats="stats" :penalty="penalty"/>
     </div>
   </main>
 </template>

@@ -13,11 +13,16 @@ const props = defineProps({
     required: true,
   },
 })
-function formatDate(dateStr, options = { weekday: "short", day: '2-digit'}) {
+function getpenaltyamount(date) {
+  return props.penalty.find((p) => p.date === date)?.amount || '-'
+}
+function getpenaltyraison(date) {
+  return props.penalty.find((p) => p.date === date)?.reason
+}
+function formatDate(dateStr, options = { weekday: 'short', day: '2-digit' }) {
   const date = new Date(dateStr)
   return new Intl.DateTimeFormat('fr-FR', options).format(date)
 }
-
 </script>
 <template>
   <div class="p-2 rounded">
@@ -79,13 +84,14 @@ function formatDate(dateStr, options = { weekday: "short", day: '2-digit'}) {
       </fieldset>
     </div>
     <!--Stat table-->
-    <div>
-      <table class="w-full text-center">
+    <div class="mt-2">
+      <div></div>
+      <table class="w-full text-center border-2 border-[#2F80ED] rounded-lg">
         <thead>
           <tr>
-            <th class="w-16 ">Date</th>
-            <th>Messages</th>
-            <th>Pénalités</th>
+            <th class="w-16">Date</th>
+            <th class="">Messages</th>
+            <th class="">Pénalités</th>
           </tr>
         </thead>
         <tbody>
@@ -95,7 +101,8 @@ function formatDate(dateStr, options = { weekday: "short", day: '2-digit'}) {
               {{ stat.total }} <sup>{{ stat.stop_total }}</sup>
             </td>
             <td>
-                {{ penalty.find(p => p.date === stat.date)?.amount || '-' }}
+              {{ penalty.find((p) => p.date === stat.date)?.amount || '-' }}
+              {{ getpenaltyraison(stat.date) }}
             </td>
           </tr>
         </tbody>
@@ -103,3 +110,28 @@ function formatDate(dateStr, options = { weekday: "short", day: '2-digit'}) {
     </div>
   </div>
 </template>
+<style>
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px; /* important si scroll horizontal */
+}
+
+/* Fond du track (la ligne du scroll) */
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+/* Barre de scroll */
+::-webkit-scrollbar-thumb {
+  background-color: #888888; /* violet */
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+/* Hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #00B894; /* plus foncé */
+}
+
+</style>

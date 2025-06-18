@@ -102,9 +102,8 @@ const changeTeam = (team) => {
 </script>
 <template>
   <main class="flex flex-col h-full">
-    <!-- Important : h-full ici -->
     <div
-      class="min-h-[2rem] sm:min-h-[3rem] flex gap-3 items-center rounded-lg p-1 mb-1 overflow-x-auto"
+      class="min-h-[3.5rem] flex gap-3 items-center rounded-lg p-1 mb-1 overflow-x-auto"
     >
       <div
         v-for="team in teams"

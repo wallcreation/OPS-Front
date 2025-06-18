@@ -17,7 +17,7 @@ const currentOperator = ref(operators.value[0])
 </script>
 <template>
   <main class="flex flex-col h-full">
-    <div class="min-h-[3.5rem] flex items-center gap-3 p-1 mb-2 overflow-x-auto">
+    <div class="min-h-[3.5rem] flex items-center gap-3 p-1 mb-1 overflow-x-auto">
       <div
         v-for="operator in operators"
         :key="operator.id"
@@ -26,8 +26,10 @@ const currentOperator = ref(operators.value[0])
         <h1>{{ operator.lname }} {{ operator.fname }}</h1>
       </div>
     </div>
-    <div class="flex flex-col gap-2 p-2 overflow-y-auto h-full p-1">
-        <OperatorInfo :operator="currentOperator" />
+    <div
+      class="flex-1 bg-[#222222] border-2 border-[#00B894] rounded-lg gap-2 p-2 overflow-y-auto h-full p-1"
+    >
+      <OperatorInfo :operator="currentOperator" />
     </div>
   </main>
 </template>

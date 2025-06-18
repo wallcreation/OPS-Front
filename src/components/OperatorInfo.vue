@@ -1,5 +1,4 @@
 <script setup>
-import { VueCal } from 'vue-cal'
 const props = defineProps({
   operator: {
     type: Object,
@@ -15,7 +14,7 @@ const props = defineProps({
                 <p class="text-sm">Équipe : {{ operator.team }}</p>
                 <p class="text-sm">Travaille à : {{ operator.workat }}</p>
             </div>
-            <VueCal xs defalul-view="month" />
+            
         </div>
     </div>
 </template>

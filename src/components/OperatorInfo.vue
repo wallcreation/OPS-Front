@@ -207,27 +207,3 @@ function getPenaltyReason(date) {
     </div>
   </div>
 </template>
-<style>
-::-webkit-scrollbar {
-  width: 7px;
-  height: 7px; /* important si scroll horizontal */
-}
-
-/* Fond du track (la ligne du scroll) */
-::-webkit-scrollbar-track {
-  background: transparent !important;
-}
-
-/* Barre de scroll */
-::-webkit-scrollbar-thumb {
-  background-color: #888888; /* violet */
-  border-radius: 5px;
-  border: 2px solid transparent;
-  background-clip: content-box;
-}
-
-/* Hover */
-::-webkit-scrollbar-thumb:hover {
-  background-color: #00b894; /* plus foncé */
-}
-</style>

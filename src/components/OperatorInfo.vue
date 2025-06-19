@@ -84,18 +84,18 @@ function getPenaltyReason(date) {
       <p class="text-sm inline mx-1">{{ operator.workat }}</p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-1">
-      <fieldset class="flex items-center gap-2 border-2 border-[#2F80ED] rounded-lg p-1">
-        <legend class="text-center text-lg font-semibold text-[#2F80ED]">Statistiques</legend>
-        <p><span class="underline">Compte 1</span>: 50522</p>
-        <p><span class="underline">Compte 2</span>: 50522</p>
-        <p><span class="underline">Total</span>: 98009</p>
-      </fieldset>
-      <fieldset class="flex items-center gap-2 border-2 border-[#EB5757] rounded-lg px-2">
-        <legend class="text-center text-lg font-semibold text-[#EB5757]">Pénalités</legend>
-        <p><span class="underline">Compte 1</span>: 50522</p>
-        <p><span class="underline">Compte 2</span>: 50522</p>
-        <p><span class="underline">Total</span>: 98009</p>
-      </fieldset>
+      <div class="mx-2">
+        <p class="text-lg font-semibold text-[#2F80ED] border-b-2 border-[#2F80ED]">Statistiques</p>
+        <p><span class="ml-2 underline">Compte 1</span>: 50522</p>
+        <p><span class="ml-2 underline">Compte 2</span>: 50522</p>
+        <p><span class="ml-2 underline">Total</span>: 98009</p>
+      </div>
+      <div class="mx-2">
+        <p class="text-lg font-semibold text-[#EB5757] border-b-2 border-[#EB5757]">Pénalités</p>
+        <p><span class="ml-2 underline">Compte 1</span>: 50522</p>
+        <p><span class="ml-2 underline">Compte 2</span>: 50522</p>
+        <p><span class="ml-2 underline">Total</span>: 98009</p>
+      </div>
     </div>
     <!--Stat table-->
     <div class="mt-2">

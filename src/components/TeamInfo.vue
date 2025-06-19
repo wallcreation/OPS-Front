@@ -58,21 +58,18 @@ const props = defineProps({
     </div>
     <!-- Opérateurs et Comptes -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-1">
-      <!-- Opérateurs -->
-      <fieldset class="flex items-center gap-2 border-2 border-[#00B894] rounded-lg p-1">
-        <legend class="text-[#00B894] text-center text-lg font-semibold mb-1">Opérateurs</legend>
-        <p v-for="operator in team.operators" :key="operator">
+      <div class="mx-2">
+        <p class="border-b-2 border-[#00B894] text-[#00B894]">Opérateurs</p>
+        <p v-for="operator in team.operators" :key="operator" class="ml-2">
           {{ operator }}
         </p>
-      </fieldset>
-
-      <!-- Comptes -->
-      <fieldset class="flex items-center gap-2 border-2 border-[#E84393] rounded-lg p-1">
-        <legend class="text-[#E84393] text-center text-lg font-semibold mb-1">Comptes</legend>
-          <p v-for="account in team.accounts" :key="account">
-            {{ account }}
-          </p>
-      </fieldset>
+      </div>
+      <div class="mx-2">
+        <p class="border-b-2 border-[#E84393] text-[#E84393]">Comptes</p>
+        <p v-for="account in team.accounts" :key="account" class="ml-2">
+          {{ account }}
+        </p>
+      </div>
     </div>
 
     <!-- Statistiques -->
@@ -82,27 +79,3 @@ const props = defineProps({
     </div>
   </div>
 </template>
-<style>
-::-webkit-scrollbar {
-  width: 7px;
-  height: 7px; /* important si scroll horizontal */
-}
-
-/* Fond du track (la ligne du scroll) */
-::-webkit-scrollbar-track {
-  background: transparent !important;
-}
-
-/* Barre de scroll */
-::-webkit-scrollbar-thumb {
-  background-color: #888888; /* violet */
-  border-radius: 5px;
-  border: 2px solid transparent;
-  background-clip: content-box;
-}
-
-/* Hover */
-::-webkit-scrollbar-thumb:hover {
-  background-color: #6C5CE7; /* plus foncé */
-}
-</style>

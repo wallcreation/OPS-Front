@@ -125,5 +125,11 @@ const accounts = ref([
 ])
 </script>
 <template>
-    
+  <main class="flex flex-col h-full">
+    <div class="min-h-[3.5rem] flex items-center gap-3 p-1 mb-1 overflow-x-auto">
+      <div v-for="account in accounts" :key="account.id" class="py-1 px-3 text-nowrap outline-2 outline-[#E84393] rounded-lg">
+        <h1>{{ account.name }}</h1>
+      </div>
+    </div>
+  </main>
 </template>

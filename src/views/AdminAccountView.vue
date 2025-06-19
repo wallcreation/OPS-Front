@@ -131,5 +131,6 @@ const accounts = ref([
         <h1>{{ account.name }}</h1>
       </div>
     </div>
+    <div class="flex-1 bg-[#222222] border-2 border-[#E84393] rounded-lg gap-2 p-2 overflow-y-auto h-full p-1"></div>
   </main>
 </template>

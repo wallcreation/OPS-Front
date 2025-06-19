@@ -4,7 +4,7 @@ import AdminLayout from '@/layouts/AdminLayout.vue'
 import OperatorLayout from '@/layouts/OperatorLayout.vue'
 // views
 import LoginView from '@/views/LoginView.vue'
-import AdminView from '@/views/AdminView.vue'
+import AdminAccountView from '@/views/AdminAccountView.vue'
 import AdminDashboardView from '@/views/AdminDashboardView.vue'
 import AdminOperatorView from '@/views/AdminOperatorView.vue'
 import AdminTeamView from '@/views/AdminTeamView.vue'
@@ -39,6 +39,11 @@ const router = createRouter({
           path: 'operators',
           name: 'admin-operators',
           component: AdminOperatorView,
+        },
+        {
+          path: 'accounts',
+          name: 'admin-accounts',
+          component: AdminAccountView,
         }
       ],
     },

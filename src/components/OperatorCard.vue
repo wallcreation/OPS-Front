@@ -9,9 +9,11 @@ const props = defineProps({
 })
 </script>
 <template>
-  <div class="bg-[#222222] p-2">
-    <div class="flex items-center justify-between mb-1">
-      <h2>{{ lname }} {{ lname }}</h2>
+  <div class="bg-[#222222] rounded border-2 border-[#00B894] p-2">
+    <div class="flex items-center justify-between">
+      <h2 class="font-bold">
+        {{ lname }} <span class="hidden md:inline">{{ lname }}</span>
+      </h2>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

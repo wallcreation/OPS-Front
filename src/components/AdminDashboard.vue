@@ -43,7 +43,7 @@ const accounts = ref([
 <template>
   <main class="p-1 flex flex-col">
     <!-- Zone TeamCard (en haut) -->
-    <div class="w-full min-h-[7rem] flex rounded-lg border-1 border-[#6C5CE7] overflow-x-auto">
+    <div class="w-full min-h-[6rem] flex overflow-x-auto">
       <TeamCard
         v-for="team in teams"
         :key="team.id"
@@ -57,7 +57,7 @@ const accounts = ref([
 
     <!-- Zone OperatorCard (en bas) -->
     <div class="w-full flex-grow flex gap-1 mt-1 overflow-hidden">
-      <div class="w-1/2 rounded border-1 border-[#00B894] overflow-y-auto">
+      <div class="w-1/2 overflow-y-auto">
         <OperatorCard
           v-for="operator in operators"
           :key="operator.id"
@@ -69,7 +69,7 @@ const accounts = ref([
           class="m-1 rounded-lg"
         />
       </div>
-      <div class="h-full w-1/2 rounded border-1 border-[#E84393] overflow-y-auto">
+      <div class="h-full w-1/2 overflow-y-auto">
         <AccountCard
           v-for="account in accounts"
           :key="account.id"

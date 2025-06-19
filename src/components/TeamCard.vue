@@ -24,9 +24,9 @@ const toteams = () => {
 }
 </script>
 <template>
-  <div class="bg-[#222222] p-2">
-    <div class="flex items-center justify-between mb-1">
-      <h2>{{ name }}</h2>
+  <div class="bg-[#222222] rounded-lg border-2 border-[#6C5CE7] p-2">
+    <div class="flex items-center justify-between">
+      <h2 class="font-bold">{{ name }}</h2>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -44,12 +44,12 @@ const toteams = () => {
     </div>
     <div class="flex gap-2">
       <div v-for="operator in operators" :key="operator">
-        <p>{{ operator }}</p>
+        <p class="text-sm">{{ operator }}</p>
       </div>
     </div>
     <div class="flex gap-2">
       <div v-for="account in accounts" :key="account">
-        <p>{{ account }}</p>
+        <p class="text-sm">{{ account }}</p>
       </div>
     </div>
   </div>

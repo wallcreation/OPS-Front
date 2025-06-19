@@ -81,6 +81,9 @@ const operators = ref([
   { id: 10, fname: 'Judy', lname: 'Gonzalez', team: 'Team E', workat: 'night' },
 ])
 const currentOperator = ref(operators.value[0])
+function changeOperator(operator) {
+  currentOperator.value = operator
+}
 </script>
 <template>
   <main class="flex flex-col h-full">
@@ -88,7 +91,9 @@ const currentOperator = ref(operators.value[0])
       <div
         v-for="operator in operators"
         :key="operator.id"
-        class="py-1 px-3 text-nowrap outline-2 outline-[#00B894] rounded-lg"
+        class="py-1 px-3 text-nowrap outline-2 outline-offset-2 outline-[#00B894] rounded-lg"
+        @click="currentOperator = operator"
+        :class="[ currentOperator.id === operator.id ? 'bg-[#00B894] text-[#222222] text-bold' : 'bg-[#222222]']"
       >
         <h1>{{ operator.lname }} {{ operator.fname }}</h1>
       </div>

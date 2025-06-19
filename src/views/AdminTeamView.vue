@@ -94,11 +94,7 @@ const teams = ref([
     total_penality: 5020,
   },
 ])
-const router = useRouter()
 const currentTeam = ref(teams.value[0])
-const changeTeam = (team) => {
-  currentTeam.value = team
-}
 </script>
 <template>
   <main class="flex flex-col h-full">

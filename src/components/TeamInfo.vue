@@ -11,13 +11,10 @@ const props = defineProps({
   <div class="p-2 rounded">
     <!-- Informations de l'équipe -->
     <div class="flex justify-between">
-      <div>
         <h2 class="text-[#6C5CE7] text-5xl font-bold mb-1">{{ team.name }}</h2>
-        <p class="text-xs">Clé : {{ team.key }}</p>
-      </div>
       <div class="flex gap-1 h-1/2">
         <button
-          class="flex items-center justify-center p-1 rounded-lg border-2 border-[#3B91F9] hover:bg-[#3B91F9] hover:text-white"
+          class="flex items-center justify-center p-1 hover:border-b-2 hover:border-[#3B91F9]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +33,7 @@ const props = defineProps({
           <span class="md:inline hidden ms-1">Modifier</span>
         </button>
         <button
-          class="flex items-center justify-center p-1 rounded-lg border-2 border-[#EB5757] hover:bg-[#EB5757] hover:text-white"
+          class="flex items-center justify-center p-1 hover:border-b-2 hover:border-[#EB5757]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -51,6 +48,13 @@ const props = defineProps({
           <span class="md:inline hidden">Supprimer</span>
         </button>
       </div>
+    </div>
+    <div class="flex ">
+      <p class="">Clé : {{ team.key }}</p>
+      <p><span class="mx-1 text-gray-400">•</span></p>
+      <p>{{ team.operators.length || 0 }} opérateurs</p>
+      <p><span class="mx-1 text-gray-400">•</span></p>
+      <p>{{ team.accounts.length || 0 }} comptes</p>
     </div>
     <!-- Opérateurs et Comptes -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-1">

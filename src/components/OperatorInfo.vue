@@ -45,7 +45,7 @@ function getPenaltyReason(date) {
         <h1 class="text-5xl font-bold text-[#00B894]">{{ operator.lname }} {{ operator.fname }}</h1>
         <div class="flex gap-1">
           <button
-            class="flex items-center justify-center p-1 rounded-lg border-2 border-[#3B91F9] hover:bg-[#3B91F9] hover:text-white"
+            class="flex items-center justify-center p-1 hover:border-b-2 hover:border-[#3B91F9]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +64,7 @@ function getPenaltyReason(date) {
             <span class="md:inline hidden ms-1">Modifier</span>
           </button>
           <button
-            class="flex items-center justify-center p-1 rounded-lg border-2 border-[#EB5757] hover:bg-[#EB5757] hover:text-white"
+            class="flex items-center justify-center p-1 hover:border-b-2 hover:border-[#EB5757]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

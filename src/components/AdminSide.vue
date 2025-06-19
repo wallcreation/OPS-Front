@@ -87,8 +87,9 @@ import { RouterLink } from 'vue-router'
         <span class="hidden md:inline">Opérateurs</span>
       </RouterLink>
 
-      <a
-        href="#"
+      <RouterLink
+        to="/admin/accounts"
+        active-class="text-bold text-[#E84393]"
         class="flex items-center gap-2 my-1 p-1 rounded-lg border-3 border-[#333333] hover:border-[#E84393] hover:text-[#E84393]"
       >
         <svg
@@ -118,7 +119,7 @@ import { RouterLink } from 'vue-router'
           />
         </svg>
         <span class="hidden md:inline">Comptes</span>
-      </a>
+      </RouterLink>
     </div>
 
     <div class="mx-2 flex items-center gap-1 justify-center">

@@ -11,7 +11,7 @@ const props = defineProps({
   <div class="p-2">
     <div class="flex items-center justify-between">
       <h1 class="text-5xl font-bold text-[#E84393]">{{ account.name }}</h1>
-      <div class="flex gap-1">
+      <div class="flex items-center gap-1">
         <button
           class="flex items-center justify-center p-1 hover:border-b-2 hover:border-[#3B91F9]"
         >

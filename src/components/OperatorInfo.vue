@@ -128,29 +128,30 @@ function getPenaltyReason(date) {
             </td>
             <td class="px-3 py-2 text-[#2F80ED]">
               <div>
-                  <p class="inline me-5 ">
-                    {{ stat.total }} <sup class="text-xs text-gray-400">{{ stat.stop_total }}</sup>
-                  </p>
-                  <p class="inline text-xs text-gray-400">
-                    {{ stat.start }}
-                    <span
-                      ><svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="size-6 inline"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-                        />
-                      </svg>
-                    </span>
-                    {{ stat.end }}
-                  </p>
+                <p class="inline me-5">
+                  {{ stat.total }} <sup class="text-xs text-gray-400">{{ stat.stop_total }}</sup>
+                </p>
+                <p class="inline text-xs text-gray-400">
+                  {{ stat.start }} <sup>{{ stat.stop_start }}</sup>
+                  <span
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-6 inline"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                      />
+                    </svg>
+                  </span>
+                  {{ stat.end }}
+                  <sup>{{ stat.stop_end }}</sup>
+                </p>
               </div>
             </td>
             <td class="px-3 py-2 text-[#EB5757]" :title="getPenaltyReason(stat.date)">

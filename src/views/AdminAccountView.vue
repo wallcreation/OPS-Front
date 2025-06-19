@@ -1,6 +1,7 @@
 <script setup>
+import AccountInfo from '@/components/AccountInfo.vue'
 import { ref } from 'vue'
-// account = { id, name, team, stats: {total: int, op:[{name, amount}, {name, amount}]} }
+// account = { id, name, team, stats: {total: int, op:[{id, name, amount}, {name, amount}]} }
 const accounts = ref([
   {
     id: 1,
@@ -9,8 +10,8 @@ const accounts = ref([
     stats: {
       total: 100,
       op: [
-        { name: 'Operator1', amount: 50 },
-        { name: 'Operator2', amount: 50 },
+        { id: 1, name: 'Operator1', amount: 50 },
+        { id: 2, name: 'Operator2', amount: 100 },
       ],
     },
   },
@@ -21,8 +22,8 @@ const accounts = ref([
     stats: {
       total: 200,
       op: [
-        { name: 'Operator3', amount: 100 },
-        { name: 'Operator4', amount: 100 },
+        { id: 1, name: 'Operator3', amount: 100 },
+        { id: 2, name: 'Operator4', amount: 100 },
       ],
     },
   },
@@ -33,8 +34,8 @@ const accounts = ref([
     stats: {
       total: 150,
       op: [
-        { name: 'Operator5', amount: 75 },
-        { name: 'Operator6', amount: 75 },
+        { id: 1, name: 'Operator5', amount: 75 },
+        { id: 2, name: 'Operator6', amount: 75 },
       ],
     },
   },
@@ -45,8 +46,8 @@ const accounts = ref([
     stats: {
       total: 250,
       op: [
-        { name: 'Operator7', amount: 125 },
-        { name: 'Operator8', amount: 125 },
+        { id: 1, name: 'Operator7', amount: 125 },
+        { id: 2, name: 'Operator8', amount: 125 },
       ],
     },
   },
@@ -57,8 +58,8 @@ const accounts = ref([
     stats: {
       total: 300,
       op: [
-        { name: 'Operator9', amount: 150 },
-        { name: 'Operator10', amount: 150 },
+        { id: 1, name: 'Operator9', amount: 150 },
+        { id: 2, name: 'Operator10', amount: 150 },
       ],
     },
   },
@@ -69,8 +70,8 @@ const accounts = ref([
     stats: {
       total: 350,
       op: [
-        { name: 'Operator11', amount: 175 },
-        { name: 'Operator12', amount: 175 },
+        { id: 1, name: 'Operator11', amount: 175 },
+        { id: 2, name: 'Operator12', amount: 175 },
       ],
     },
   },
@@ -81,8 +82,8 @@ const accounts = ref([
     stats: {
       total: 400,
       op: [
-        { name: 'Operator13', amount: 200 },
-        { name: 'Operator14', amount: 200 },
+        { id: 1, name: 'Operator13', amount: 200 },
+        { id: 2, name: 'Operator14', amount: 200 },
       ],
     },
   },
@@ -93,8 +94,8 @@ const accounts = ref([
     stats: {
       total: 450,
       op: [
-        { name: 'Operator15', amount: 225 },
-        { name: 'Operator16', amount: 225 },
+        { id: 1, name: 'Operator15', amount: 225 },
+        { id: 2, name: 'Operator16', amount: 225 },
       ],
     },
   },
@@ -105,8 +106,8 @@ const accounts = ref([
     stats: {
       total: 500,
       op: [
-        { name: 'Operator17', amount: 250 },
-        { name: 'Operator18', amount: 250 },
+        { id: 1, name: 'Operator17', amount: 250 },
+        { id: 2, name: 'Operator18', amount: 250 },
       ],
     },
   },
@@ -117,20 +118,23 @@ const accounts = ref([
     stats: {
       total: 550,
       op: [
-        { name: 'Operator19', amount: 275 },
-        { name: 'Operator20', amount: 275 },
+        { id: 1, name: 'Operator19', amount: 275 },
+        { id: 2, name: 'Operator20', amount: 275 },
       ],
     },
   },
 ])
+const currentAccount = ref(accounts.value[0])
 </script>
 <template>
   <main class="flex flex-col h-full">
     <div class="min-h-[3.5rem] flex items-center gap-3 p-1 mb-1 overflow-x-auto">
-      <div v-for="account in accounts" :key="account.id" class="py-1 px-3 text-nowrap outline-2 outline-[#E84393] rounded-lg">
+      <div v-for="account in accounts" :key="account.id" class="py-1 px-3 text-nowrap outline-2 outline-offset-2 outline-[#E84393] rounded-lg" :class="[ currentAccount.id === account.id ? 'bg-[#E84393] text-[#222222] text-bold' : 'bg-[#222222]']" @click="currentAccount = account">
         <h1>{{ account.name }}</h1>
       </div>
     </div>
-    <div class="flex-1 bg-[#222222] border-2 border-[#E84393] rounded-lg gap-2 p-2 overflow-y-auto h-full p-1"></div>
+    <div class="flex-1 bg-[#222222] border-2 border-[#E84393] rounded-lg gap-2 p-2 overflow-y-auto h-full p-1">
+      <AccountInfo :account="currentAccount" />
+    </div>
   </main>
 </template>

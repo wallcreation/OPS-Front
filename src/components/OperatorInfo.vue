@@ -42,7 +42,7 @@ function getPenaltyReason(date) {
   <div class="p-2 rounded">
     <div class="">
       <div class="w-full flex items-center justify-between">
-        <h1 class="text-5xl font-bold text-[#00B894]">{{ operator.lname }} {{ operator.fname }}</h1>
+        <h1 class="text-5xl font-bold text-[#00B894]"><span class="hidden md:inline">{{ operator.lname }}</span> {{ operator.fname }}</h1>
         <div class="flex gap-1">
           <button
             class="flex items-center justify-center p-1 hover:border-b-2 hover:border-[#3B91F9]"
@@ -85,30 +85,60 @@ function getPenaltyReason(date) {
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-1">
       <div class="mx-2">
-        <p class="text-lg font-semibold text-[#2F80ED] border-b-2 border-[#2F80ED]">Statistiques</p>
+        <div
+          class="flex items-center justify-between text-lg font-semibold text-[#2F80ED] border-b-2 border-[#2F80ED]"
+        >
+          <p>Statistiques</p>
+          <button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+          </button>
+        </div>
         <p><span class="ml-2 underline">Compte 1</span>: 50522</p>
         <p><span class="ml-2 underline">Compte 2</span>: 50522</p>
         <p><span class="ml-2 underline">Total</span>: 98009</p>
       </div>
       <div class="mx-2">
-        <p class="text-lg font-semibold text-[#EB5757] border-b-2 border-[#EB5757]">Pénalités</p>
+        <div class="flex items-center justify-between text-lg font-semibold text-[#EB5757] border-b-2 border-[#EB5757]">
+          <p>Pénalités</p>
+          <button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+          </button>
+        </div>
         <p><span class="ml-2 underline">Compte 1</span>: 50522</p>
         <p><span class="ml-2 underline">Compte 2</span>: 50522</p>
         <p><span class="ml-2 underline">Total</span>: 98009</p>
       </div>
     </div>
     <!--Stat table-->
-    <div class="mt-2">
+    <div class="mt-2 mx-2">
       <table
         class="w-full table-auto border border-[#2F80ED] text-sm text-white rounded-lg overflow-hidden"
       >
         <thead class="">
           <tr>
-            <th class="px-3 py-2 border-b border-[#2F80ED] text-left font-semibold w-24">Date</th>
-            <th class="px-3 py-2 border-b border-[#2F80ED] text-left font-semibold text-[#2F80ED]">
+            <th class=" py-2 border-b text-left font-semibold w-24">Date</th>
+            <th class=" py-2 border-b border-[#2F80ED] text-left font-semibold text-[#2F80ED]">
               Messages
             </th>
-            <th class="px-3 py-2 border-b border-[#EB5757] text-left font-semibold text-[#EB5757]">
+            <th class=" py-2 border-b border-[#EB5757] text-left font-semibold text-[#EB5757]">
               Pénalités
             </th>
           </tr>
@@ -125,14 +155,14 @@ function getPenaltyReason(date) {
             </td>
 
             <!-- MESSAGES + icône suppression -->
-            <td class="px-3 py-2 text-[#2F80ED]">
+            <td class="px-3 py-2">
               <div class="flex justify-between items-center w-full">
                 <div>
                   <p class="inline me-5">
                     {{ stat.total }}
-                    <sup class="text-xs text-gray-400">{{ stat.stop_total }}</sup>
+                    <sup class="text-xs">{{ stat.stop_total }}</sup>
                   </p>
-                  <p class="hidden md:inline text-xs text-gray-400">
+                  <p class="hidden md:inline text-xs">
                     {{ stat.start }}
                     <sup>{{ stat.stop_start }}</sup>
                     <svg
@@ -161,7 +191,7 @@ function getPenaltyReason(date) {
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="size-4"
+                    class="size-4 text-[#2F80ED]"
                   >
                     <path
                       stroke-linecap="round"
@@ -174,13 +204,14 @@ function getPenaltyReason(date) {
             </td>
 
             <!-- PÉNALITÉS + icône suppression -->
-            <td class="px-3 py-2 text-[#EB5757]">
+            <td class="px-3 py-2">
               <div
                 class="flex justify-between items-center w-full"
                 :title="getPenaltyReason(stat.date)"
               >
                 <p class="inline">
-                  {{ getPenaltyAmount(stat.date) }} - {{ getPenaltyReason(stat.date) }}
+                  {{ getPenaltyAmount(stat.date) }} <span class="text-[#EB5757]">-</span>
+                  {{ getPenaltyReason(stat.date) }}
                 </p>
                 <button class="ml-3">
                   <!-- suppression pénalité -->

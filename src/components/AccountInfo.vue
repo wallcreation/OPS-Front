@@ -48,9 +48,9 @@ const props = defineProps({
         </button>
       </div>
     </div>
-    <p class="inline">{{ account.team }}</p>
-    <p class="inline"><span class="mx-2 text-gray-400">•</span></p>
-    <p class="inline">Total : {{ account.stats.total }}</p>
+    <p class="inline text-sm">{{ account.team }}</p>
+    <p class="inline text-sm"><span class="mx-2 text-gray-400">•</span></p>
+    <p class="inline text-sm">Total : {{ account.stats.total }}</p>
   </div>
   <div>
     <AccountChart :account="account" />

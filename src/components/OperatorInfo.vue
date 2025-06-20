@@ -40,7 +40,7 @@ function getPenaltyReason(date) {
 </script>
 <template>
   <div class="p-2 rounded">
-    <div class="">
+    <div class="mb-2">
       <div class="w-full flex items-center justify-between">
         <h1 class="text-5xl font-bold text-[#00B894]"><span class="hidden md:inline">{{ operator.lname }}</span> {{ operator.fname }}</h1>
         <div class="flex gap-1">
@@ -80,8 +80,11 @@ function getPenaltyReason(date) {
           </button>
         </div>
       </div>
-      <p class="text-sm inline mx-1">{{ operator.team }}</p>
-      <p class="text-sm inline mx-1">{{ operator.workat }}</p>
+      <p class="text-sm inline">operator@email.com</p>
+      <p class="inline"><span class="mx-1 text-gray-400">•</span></p>
+      <p class="text-sm inline">{{ operator.team }}</p>
+      <p class="inline"><span class="mx-1 text-gray-400">•</span></p>
+      <p class="text-sm inline">{{ operator.workat }}</p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-1">
       <div class="mx-2">
@@ -210,7 +213,7 @@ function getPenaltyReason(date) {
                 :title="getPenaltyReason(stat.date)"
               >
                 <p class="inline">
-                  {{ getPenaltyAmount(stat.date) }} <span class="hidden md:inline text-[#EB5757]">-</span>
+                  {{ getPenaltyAmount(stat.date) }} <span class="hidden md:inline text-[#EB5757]">- </span>
                   <span class="hidden md:inline">{{ getPenaltyReason(stat.date) }}</span>
                 </p>
                 <button class="ml-3">

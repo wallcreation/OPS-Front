@@ -49,7 +49,7 @@ const props = defineProps({
         </button>
       </div>
     </div>
-    <div class="flex ">
+    <div class="flex text-sm ">
       <p class="">Clé : {{ team.key }}</p>
       <p><span class="mx-1 text-gray-400">•</span></p>
       <p>{{ team.operators.length || 0 }} opérateurs</p>

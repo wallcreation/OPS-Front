@@ -210,8 +210,8 @@ function getPenaltyReason(date) {
                 :title="getPenaltyReason(stat.date)"
               >
                 <p class="inline">
-                  {{ getPenaltyAmount(stat.date) }} <span class="text-[#EB5757]">-</span>
-                  {{ getPenaltyReason(stat.date) }}
+                  {{ getPenaltyAmount(stat.date) }} <span class="hidden md:inline text-[#EB5757]">-</span>
+                  <span class="hidden md:inline">{{ getPenaltyReason(stat.date) }}</span>
                 </p>
                 <button class="ml-3">
                   <!-- suppression pénalité -->

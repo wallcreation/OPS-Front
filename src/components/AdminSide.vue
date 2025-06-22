@@ -2,122 +2,41 @@
 import { RouterLink } from 'vue-router'
 </script>
 <template>
-  <aside class="bg-[#222222] text-[#E0E0E0] p-1 h-screen text-center flex flex-col justify-between">
+  <aside class="bg-[#1E293B] text-[#E0E0E0] p-1 h-full text-center flex flex-col justify-between">
     <div>
       <RouterLink
         to="/admin/dashboard"
-        active-class="text-bold text-[#3B91F9]"
-        class="flex items-center gap-2 my-1 p-1 rounded-lg border-3 border-[#333333] hover:border-[#3B91F9] hover:text-[#3B91F9]"
+        active-class="text-bold text-primary border-b-2 border-primary"
+        class="flex items-center gap-2 my-1 p-1 border-b-1 border-color hover:border-[#38BDF8]"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 
-            .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 
-            1.125-1.125h2.25c.621 0 1.125.504 
-            1.125 1.125V21h4.125c.621 0 1.125-.504 
-            1.125-1.125V9.75M8.25 21h8.25"
-          />
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M13.45 2.533a2.25 2.25 0 0 0-2.9 0L3.8 8.228a2.25 2.25 0 0 0-.8 1.72v9.305c0 .966.784 1.75 1.75 1.75h3a1.75 1.75 0 0 0 1.75-1.75V15.25c0-.68.542-1.232 1.217-1.25h2.566a1.25 1.25 0 0 1 1.217 1.25v4.003c0 .966.784 1.75 1.75 1.75h3a1.75 1.75 0 0 0 1.75-1.75V9.947a2.25 2.25 0 0 0-.8-1.72z"/></svg>
         <span class="hidden md:inline">Accueil</span>
       </RouterLink>
 
       <RouterLink
         to="/admin/teams"
-        active-class="text-bold text-[#6C5CE7]"
-        class="flex items-center gap-2 my-1 p-1 rounded-lg border-3 border-[#333333] hover:border-[#6C5CE7] hover:text-[#6C5CE7]"
+        active-class="text-bold text-primary border-b-2 border-primary"
+        class="flex items-center gap-2 my-1 p-1 border-b-1 border-border hover:border-primary-light"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 
-            3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 
-            .225-.012.447-.037.666A11.944 11.944 0 0 1 
-            12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 
-            6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 
-            0-.941-3.197m0 0A5.995 5.995 0 0 0 12 
-            12.75a5.995 5.995 0 0 0-5.058 
-            2.772m0 0a3 3 0 0 0-4.681 2.72 
-            8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 
-            5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 
-            1-6 0 3 3 0 0 1 6 0Z"
-          />
-        </svg>
+       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16 17v2H2v-2s0-4 7-4s7 4 7 4m-3.5-9.5A3.5 3.5 0 1 0 9 11a3.5 3.5 0 0 0 3.5-3.5m3.44 5.5A5.32 5.32 0 0 1 18 17v2h4v-2s0-3.63-6.06-4M15 4a3.4 3.4 0 0 0-1.93.59a5 5 0 0 1 0 5.82A3.4 3.4 0 0 0 15 11a3.5 3.5 0 0 0 0-7"/></svg>
         <span class="hidden md:inline">Équipes</span>
       </RouterLink>
 
       <RouterLink
-        active-class="text-bold text-[#00B894]"
         to="/admin/operators"
-        class="flex items-center gap-2 my-1 p-1 rounded-lg border-3 border-[#333333] hover:border-[#00B894] hover:text-[#00B894]"
+        active-class="text-bold text-primary border-b-2 border-primary"
+        class="flex items-center gap-2 my-1 p-1 border-b-1 border-border hover:border-primary-light"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 
-            3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 
-            1 14.998 0A17.933 17.933 0 0 1 12 
-            21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-          />
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16"><path fill="currentColor" d="M3 14s-1 0-1-1s1-4 6-4s6 3 6 4s-1 1-1 1zm5-6a3 3 0 1 0 0-6a3 3 0 0 0 0 6"/></svg>
         <span class="hidden md:inline">Opérateurs</span>
       </RouterLink>
 
       <RouterLink
         to="/admin/accounts"
-        active-class="text-bold text-[#E84393]"
-        class="flex items-center gap-2 my-1 p-1 rounded-lg border-3 border-[#333333] hover:border-[#E84393] hover:text-[#E84393]"
+        active-class="text-bold text-primary border-b-2 border-primary"
+        class="flex items-center gap-2 my-1 p-1 border-b-1 border-border hover:border-primary-light"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 
-            2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 
-            0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 
-            48.114 0 0 0-3.413-.387m4.5 
-            8.006c-.194.165-.42.295-.673.38A23.978 
-            23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 
-            2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 
-            3 12.489V8.706c0-1.081.768-2.015 
-            1.837-2.175a48.111 48.111 0 0 1 
-            3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 
-            13.5 3h-3a2.25 2.25 0 0 0-2.25 
-            2.25v.894m7.5 0a48.667 48.667 0 0 
-            0-7.5 0M12 12.75h.008v.008H12v-.008Z"
-          />
-        </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M10 2h4a2 2 0 0 1 2 2v2h4a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8c0-1.11.89-2 2-2h4V4c0-1.11.89-2 2-2m4 4V4h-4v2z"/></svg>
         <span class="hidden md:inline">Comptes</span>
       </RouterLink>
     </div>
@@ -125,7 +44,7 @@ import { RouterLink } from 'vue-router'
     <div class="mx-2 flex items-center gap-1 justify-center">
       <a
         href="#"
-        class="flex items-center gap-2 w-3/4 p-1 rounded-lg border-3 border-[#333333] hover:border-[#EB5757] hover:text-[#EB5757]"
+        class="flex items-center gap-2 w-3/4 p-1 border-b-1 border-border hover:border-primary-light"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -148,10 +67,7 @@ import { RouterLink } from 'vue-router'
         <span class="hidden md:inline">Admin</span>
       </a>
 
-      <a
-        href="#"
-        class="p-1 rounded-lg border-3 border-[#333333] hover:border-[#3B91F9] hover:text-[#3B91F9]"
-      >
+      <a href="#" class="p-1 border-b-2 border-[#3F3A60] border-border hover:border-primary-light">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

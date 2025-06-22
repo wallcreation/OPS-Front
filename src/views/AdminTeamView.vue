@@ -97,28 +97,32 @@ const teams = ref([
 const currentTeam = ref(teams.value[0])
 </script>
 <template>
-  <main class="flex flex-col h-full">
+  <div class="h-full">
     <div
-      class="min-h-[3.5rem] flex gap-3 items-center rounded-lg p-1 mb-1 overflow-x-auto"
+      class="grid grid-cols-1 md:grid-cols-3 gap-3 items-center rounded-lg p-1 mb-1 overflow-x-auto"
     >
       <div
         v-for="team in teams"
         :key="team.id"
-        class="py-1 px-3 text-center rounded-lg outline-2 outline-offset-2 outline-[#6C5CE7]"
+        class="flex items-center gap-1 bg-surface py-1 px-3 rounded-lg outline-2 outline-offset-2"
         :class="[
           currentTeam.id === team.id
-            ? 'bg-[#6C5CE7] text-[#222222] text-bold'
-            : 'bg-[#222222]',
+            ? 'text-bold outline-primary-light'
+            : 'outline-border',
         ]"
         @click="currentTeam = team"
       >
         <h1 class="whitespace-nowrap">{{ team.name }}</h1>
+        <p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 16 16"><path fill="currentColor" d="M4 8a4 4 0 1 1 8 0a4 4 0 0 1-8 0m4-2.5a2.5 2.5 0 1 0 0 5a2.5 2.5 0 0 0 0-5"/></svg>
+        </p>
+        <div class="flex items-center">
+          <p>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" d="M3 14s-1 0-1-1s1-4 6-4s6 3 6 4s-1 1-1 1zm5-6a3 3 0 1 0 0-6a3 3 0 0 0 0 6"/></svg>
+          </p>
+          <p>{{ team.operators.length }}</p>
+        </div>
       </div>
     </div>
-
-    <!-- Container pour l'info équipe avec scroll si nécessaire -->
-    <div class="flex-1 bg-[#222222] border-2 border-[#6C5CE7] rounded-lg overflow-y-auto p-1">
-      <TeamInfo :team="currentTeam" class="min-h-full" />
-    </div>
-  </main>
+  </div>
 </template>

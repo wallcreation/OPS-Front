@@ -127,7 +127,7 @@ const accounts = ref([
 const currentAccount = ref(accounts.value[0])
 </script>
 <template>
-  <main class="flex flex-col h-full">
+  <div class="flex flex-col h-full">
     <div class="min-h-[3.5rem] flex items-center gap-3 p-1 mb-1 overflow-x-auto">
       <div v-for="account in accounts" :key="account.id" class="py-1 px-3 text-nowrap outline-2 outline-offset-2 outline-[#E84393] rounded-lg" :class="[ currentAccount.id === account.id ? 'bg-[#E84393] text-[#222222] text-bold' : 'bg-[#222222]']" @click="currentAccount = account">
         <h1>{{ account.name }}</h1>
@@ -136,7 +136,7 @@ const currentAccount = ref(accounts.value[0])
     <div class="flex-1 bg-[#222222] border-2 border-[#E84393] rounded-lg gap-2 p-2 overflow-y-auto h-full p-1">
       <AccountInfo :account="currentAccount" />
     </div>
-  </main>
+  </div>
 </template>
 <style scoped>
 ::-webkit-scrollbar {

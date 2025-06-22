@@ -365,7 +365,7 @@ function changeOperator(operator) {
 }
 </script>
 <template>
-  <main class="flex flex-col h-full">
+  <div class="flex flex-col h-full">
     <div class="min-h-[3.5rem] flex items-center gap-3 p-1 mb-1 overflow-x-auto">
       <div
         v-for="operator in operators"
@@ -388,7 +388,7 @@ function changeOperator(operator) {
     >
       <OperatorInfo :operator="currentOperator" :stats="stats" :penalty="penalty" />
     </div>
-  </main>
+  </div>
 </template>
 <style scoped>
 ::-webkit-scrollbar {

@@ -41,7 +41,7 @@ const accounts = ref([
 ])
 </script>
 <template>
-  <main class="p-1 flex flex-col">
+  <div class="p-1 flex flex-col">
     <!-- Zone TeamCard (en haut) -->
     <div class="w-full min-h-[6rem] flex overflow-x-auto">
       <TeamCard
@@ -80,5 +80,5 @@ const accounts = ref([
         />
       </div>
     </div>
-  </main>
+  </div>
 </template>

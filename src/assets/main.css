@@ -1,15 +1,32 @@
 @import 'tailwindcss';
-/* main.css */
 
-/* body {
-    background-image: url('/public/generalbg.jpg');
-    background-position: center;
-    background-attachment: fixed;
-} */
+@theme {
+  --color-primary: oklch(0.72 0.18 230);        /* #0EA5E9 */
+  --color-primary-light: oklch(0.80 0.17 230);  /* #38BDF8 */
+  --color-primary-dark: oklch(0.60 0.16 230);   /* #0369A1 */
+
+  --color-bg: oklch(0.18 0.01 260);             /* #0F172A */
+  --color-surface: oklch(0.26 0.01 260);        /* #1E293B */
+  --color-border: oklch(0.35 0.02 260);         /* #334155 */
+
+  --color-text: oklch(0.95 0.01 260);           /* #F1F5F9 */
+  --color-muted: oklch(0.72 0.03 260);          /* #94A3B8 */
+
+  --color-warning: oklch(0.89 0.19 95);         /* #FACC15 */
+  --color-warning-dark: oklch(0.69 0.18 85);    /* #CA8A04 */
+
+  --color-error: oklch(0.67 0.23 30);           /* #EF4444 */
+  --color-error-dark: oklch(0.48 0.24 30);      /* #991B1B */
+
+  --shadow-soft: 0 4px 6px rgba(14, 165, 233, 0.15);
+  --shadow-deep: 0 8px 24px rgba(14, 165, 233, 0.25);
+}
 
 body {
-  background-color: #1A1A1A;
+  background-color: #0F172A; /* Couleur de fond */
   height: 100vh;
+    margin: 0;
+  padding: 0;
 }
 ::-webkit-scrollbar {
   width: 8px;

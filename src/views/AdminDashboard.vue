@@ -1,7 +1,4 @@
 <script setup>
-import TeamCard from '@/components/TeamCard.vue'
-import OperatorCard from '@/components/OperatorCard.vue'
-import AccountCard from '@/components/AccountCard.vue'
 import { ref } from 'vue'
 const teams = ref([
   { id: 1, name: 'Team A', operators: ['Alice', 'Bob'], accounts: ['Account1', 'Account2'] },
@@ -39,26 +36,12 @@ const accounts = ref([
   { id: 9, name: 'Account9', team: 'Team E' },
   { id: 10, name: 'Account10', team: 'Team E' },
 ])
+const switcher = ref(0)
 </script>
 <template>
-  <div class="h-screen flex flex-col items-center justify-center text-center bg-[#0F172A] text-[#E4E2F0]">
-    <div class="bg-[#1E293B] p-8 rounded-2xl shadow-xl outline outline-2 outline-offset-2 outline-[#334155] w-full max-w-md">
-      <div class="space-y-6">
-        <div class="bg-[#334155] p-4 rounded-xl shadow text-lg">
-          <p class="text-2xl font-bold text-[#7B61FF]">{{ teams.length }}</p>
-          <p>Équipes</p>
-        </div>
-        <div class="flex justify-between gap-4">
-          <div class="bg-[#334155] p-4 rounded-xl shadow flex-1 text-lg">
-            <p class="text-2xl font-bold text-[#27AE60]">{{ operators.length }}</p>
-            <p>Opérateurs</p>
-          </div>
-          <div class="bg-[#334155] p-4 rounded-xl shadow flex-1 text-lg">
-            <p class="text-2xl font-bold text-[#F2994A]">{{ accounts.length }}</p>
-            <p>Comptes</p>
-          </div>
-        </div>
-      </div>
+    <div>
+        <button>Equipes</button>
+        <button>Opérateurs</button>
+        <button>Comptes</button>
     </div>
-  </div>
 </template>

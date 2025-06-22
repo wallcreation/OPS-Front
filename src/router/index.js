@@ -3,11 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import OperatorLayout from '@/layouts/OperatorLayout.vue'
 // views
+import AdminDashboard from '@/components/AdminDashboard.vue'
 import LoginView from '@/views/LoginView.vue'
-import AdminAccountView from '@/views/AdminAccountView.vue'
-import AdminDashboardView from '@/views/AdminDashboardView.vue'
-import AdminOperatorView from '@/views/AdminOperatorView.vue'
-import AdminTeamView from '@/views/AdminTeamView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,25 +23,10 @@ const router = createRouter({
       component: AdminLayout,
       children: [
         {
-          path: 'dashboard',
+          path: '',
           name: 'admin-dashboard',
-          component: AdminDashboardView,
+          component: AdminDashboard,
         },
-        {
-          path: 'teams',
-          name: 'admin-teams',
-          component: AdminTeamView,
-        },
-        {
-          path: 'operators',
-          name: 'admin-operators',
-          component: AdminOperatorView,
-        },
-        {
-          path: 'accounts',
-          name: 'admin-accounts',
-          component: AdminAccountView,
-        }
       ],
     },
   ],

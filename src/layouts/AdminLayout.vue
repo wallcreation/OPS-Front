@@ -1,12 +1,12 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import AdminSide from '@/components/AdminSide.vue'
+import Header from '@/components/admin/Header.vue'
 </script>
 <template>
-  <main class="flex h-screen text-[#EDE9FE]">
-    <AdminSide class="w-1/6 rounded-r-lg"/>
-    <section class="w-5/6 p-1 m-1 overflow-y-hidden">
-      <RouterView />
-    </section>
+  <header class="w-screen bg-surface px-4 py-2 flex items-center justify-between text-text">
+    <Header />
+  </header>
+  <main class="h-full text-text">
+    <RouterView />
   </main>
 </template>

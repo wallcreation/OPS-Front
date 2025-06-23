@@ -5,6 +5,7 @@ import OperatorLayout from '@/layouts/OperatorLayout.vue'
 // views
 import AdminDashboard from '@/views/AdminDashboard.vue'
 import TeamInfo from '@/views/TeamInfo.vue'
+import TeamList from '@/views/TeamList.vue'
 import LoginView from '@/views/LoginView.vue'
 
 const router = createRouter({
@@ -27,6 +28,11 @@ const router = createRouter({
           path: '/admin/dashboard',
           name: 'admin-dashboard',
           component: AdminDashboard,
+        },
+        {
+          path: '/admin/teams',
+          name: 'team-list',
+          component: TeamList,
         },
         {
           path: '/admin/teams/:id',

@@ -16,7 +16,7 @@ const props = defineProps({
 </script>
 <template>
   <div>
-    <div class="bg-[#222222] rounded-lg border-2 border-[#E84393] p-2">
+    <div class="bg-surface rounded-lg border-2 border-border hover:border-primary p-2">
       <div class="flex justify-between items-center">
           <h2 class="font-bold">{{ name }}</h2>
           <svg

@@ -24,7 +24,7 @@ const toteams = () => {
 }
 </script>
 <template>
-  <div class="bg-[#222222] rounded-lg border-2 border-[#6C5CE7] p-2">
+  <div class="group bg-surface rounded-lg border-2 border-border hover:border-primary p-2">
     <div class="flex items-center justify-between">
       <h2 class="font-bold">{{ name }}</h2>
       <svg
@@ -33,7 +33,7 @@ const toteams = () => {
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="currentColor"
-        class="size-4 text-[#EB5757]"
+        class="size-4 invisible group-hover:visible text-[#EB5757]"
       >
         <path
           stroke-linecap="round"

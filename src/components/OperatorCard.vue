@@ -9,7 +9,7 @@ const props = defineProps({
 })
 </script>
 <template>
-  <div class="bg-[#222222] rounded border-2 border-[#00B894] p-2">
+  <div class="bg-surface rounded-lg border-2 border-border hover:border-primary-light p-2">
     <div class="flex items-center justify-between">
       <h2 class="font-bold">
         {{ lname }} <span class="hidden md:inline">{{ lname }}</span>

@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import OperatorLayout from '@/layouts/OperatorLayout.vue'
 // views
-import AdminDashboard from '@/components/AdminDashboard.vue'
+import AdminDashboard from '@/views/AdminDashboard.vue'
 import LoginView from '@/views/LoginView.vue'
 
 const router = createRouter({

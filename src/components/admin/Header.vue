@@ -50,7 +50,7 @@ import { RouterLink } from 'vue-router'
       <span class="hidden md:inline">Equipes</span>
     </RouterLink>
     <RouterLink
-    to="/admin/operators"
+      to="/admin/operators"
       class="mx-1 hover:border-b-2 hover:border-primary-light"
       active-class="text-primary-light border-b-2 border-primary"
     >
@@ -71,12 +71,12 @@ import { RouterLink } from 'vue-router'
       <span class="hidden md:inline">Opérateurs</span>
     </RouterLink>
     <RouterLink
-    to="/admin/accounts"
+      to="/admin/accounts"
       class="mx-1 hover:border-b-2 hover:border-primary-light"
       active-class="text-primary-light border-b-2 border-primary"
     >
-      <span class="md:hidden"
-        ><svg
+      <span class="md:hidden">
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"

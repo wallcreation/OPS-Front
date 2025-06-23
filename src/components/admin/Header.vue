@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router'
   <h1 class="text-5xl font-bold text-primary">OPS</h1>
   <nav>
     <RouterLink
-      to="/admin/"
+      to="/admin/dashboard"
       class="mx-1 hover:border-b-2 hover:border-primary-light"
       active-class="text-primary-light border-b-2 border-primary"
     >
@@ -30,7 +30,7 @@ import { RouterLink } from 'vue-router'
       <span class="hidden md:inline">Accueil</span>
     </RouterLink>
     <RouterLink
-      to="/admin/teams"
+      to="/admin/teams/"
       class="mx-1 hover:border-b-2 hover:border-primary-light"
       active-class="text-primary-light border-b-2 border-primary"
     >

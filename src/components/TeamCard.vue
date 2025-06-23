@@ -1,5 +1,5 @@
 <script setup>
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 const props = defineProps({
   id: {
     type: Number,
@@ -20,11 +20,14 @@ const props = defineProps({
 })
 const router = useRouter()
 const toteams = () => {
-  router.push({ name: "admin-teams", params: { id: props.id}})
+  router.push({ name: 'team-info', params: { id: props.id } })
 }
 </script>
 <template>
-  <div class="group bg-surface rounded-lg border-2 border-border hover:border-primary p-2">
+  <div
+    class="group bg-surface rounded-lg border-2 border-border hover:border-primary p-2"
+    @click="toteams"
+  >
     <div class="flex items-center justify-between">
       <h2 class="font-bold">{{ name }}</h2>
       <svg

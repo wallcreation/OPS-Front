@@ -62,8 +62,23 @@ const teams = ref([
     accounts: ['Account19', 'Account20'],
   },
 ])
+import Modal from '@/components/admin/GPTModal.vue'
+const showModal = ref(false)
 </script>
 <template>
+  <div class="p-4">
+    <button
+      @click="showModal = true"
+      class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-light transition"
+    >
+      Ouvrir la boîte de dialogue
+    </button>
+
+    <Modal :show="showModal" @close="showModal = false">
+      <h2 class="text-xl font-bold mb-2">Titre de la boîte</h2>
+      <p>Voici un contenu de boîte de dialogue personnalisable.</p>
+    </Modal>
+  </div>
   <div class="w-full p-2">
     <div class="flex gap-2 items-center justify-between">
       <h1 class="text-2xl">Listes des équipes</h1>

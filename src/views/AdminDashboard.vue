@@ -107,7 +107,7 @@ const switcher = ref(1)
       <span class="hidden md:inline">Comptes</span>
     </button>
   </div>
-  <div class="">
+  <div class="motion-duration-[2s] motion-ease-spring-smooth">
     <div v-if="switcher === 1" class="grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <TeamCard
         v-for="team in teams"

@@ -15,7 +15,7 @@ const close = () => {
     v-if="show"
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
   >
-    <div class="bg-surface text-text rounded-2xl shadow-deep p-6 max-w-lg w-full">
+    <div class="bg-surface text-text rounded-2xl p-6 max-w-lg w-full">
       <!-- Slot pour contenu dynamique -->
       <slot />
       <!-- Bouton de fermeture -->

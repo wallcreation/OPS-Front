@@ -62,27 +62,24 @@ const teams = ref([
     accounts: ['Account19', 'Account20'],
   },
 ])
-import Modal from '@/components/admin/GPTModal.vue'
 const showModal = ref(false)
+const teamipt = ref("")
+const addteam = async () => {
+  teams.value.push({
+    id:20,
+    name: teamipt.value,
+    operators: [],
+    accounts: []
+  })
+  showModal.value = false
+}
 </script>
 <template>
-  <div class="p-4">
-    <button
-      @click="showModal = true"
-      class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-light transition"
-    >
-      Ouvrir la boîte de dialogue
-    </button>
-
-    <Modal :show="showModal" @close="showModal = false">
-      <h2 class="text-xl font-bold mb-2">Titre de la boîte</h2>
-      <p>Voici un contenu de boîte de dialogue personnalisable.</p>
-    </Modal>
-  </div>
   <div class="w-full p-2">
     <div class="flex gap-2 items-center justify-between">
       <h1 class="text-2xl">Listes des équipes</h1>
       <button
+        @click="showModal = true"
         class="flex items-center active:border-b-2 active:border-primary-light hover:border-b-2 hover:border-primary-light"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="29" height="20" viewBox="0 0 24 24">
@@ -98,12 +95,13 @@ const showModal = ref(false)
   <div class="grid gap-1 grid-cols-1 md:grid-cols-2">
     <div
       v-for="team in teams"
-      class="w-full grid gap-2 grid-cols-4 text-left p-2 bg-surface rounded-lg border-2 border-border"
+      class="w-full grid gap-2 grid-cols-4 text-left p-2 bg-surface rounded-lg border-2 border-border hover:border-primary-light active:border-primary-light"
     >
       <p>{{ team.name }}</p>
-      <div class="">
+      <div v-if"team.operators.length" class="">
         <p v-for="operator in team.operators">{{ operator }}</p>
       </div>
+      
       <div class="">
         <p v-for="account in team.accounts">{{ account }}</p>
       </div>
@@ -123,6 +121,32 @@ const showModal = ref(false)
               d="M20 6a1 1 0 0 1 .117 1.993L20 8h-.081L19 19a3 3 0 0 1-2.824 2.995L16 22H8c-1.598 0-2.904-1.249-2.992-2.75l-.005-.167L4.08 8H4a1 1 0 0 1-.117-1.993L4 6zm-6-4a2 2 0 0 1 2 2a1 1 0 0 1-1.993.117L14 4h-4l-.007.117A1 1 0 0 1 8 4a2 2 0 0 1 1.85-1.995L10 2z"
             />
           </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Add modal -->
+  <div
+    v-if="showModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-md"
+  >
+    <div class="mx-5 p-3 max-w-lg w-full bg-surface rounded-lg border-1 border-border">
+      <h1 class="text-xl font-bold">Ajouter une équipe</h1>
+      <form action="" class="my-2">
+        <input
+          type="text"
+          name="tname"
+          id="tname"
+          required
+          placeholder="Nom de la nouvelle équipe"
+          :value="teamipt"
+          class="w-full border-b-2 border-border active:border-primary hover:border-primary-dark outline-none"
+        />
+      </form>
+      <div class="flex gap-2 justify-end mt-1">
+        <button @click="addteam" class="text-primary hover:border-b-2 hover:border-primary">Valider</button>
+        <button @click="showModal = false" class="text-error hover:border-b-2 hover:border-error">
+          Annuler
         </button>
       </div>
     </div>

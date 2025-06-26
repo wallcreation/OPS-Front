@@ -7,6 +7,7 @@ import AdminDashboard from '@/views/AdminDashboard.vue'
 import TeamInfo from '@/views/TeamInfo.vue'
 import TeamList from '@/views/TeamList.vue'
 import LoginView from '@/views/LoginView.vue'
+import OperatorInfo from '@/views/OperatorInfo.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +40,11 @@ const router = createRouter({
           name: 'team-info',
           component: TeamInfo,
         },
+        {
+          path: '/admin/operator/:id',
+          name: 'operator-info',
+          component: OperatorInfo
+        }
       ],
     },
   ],

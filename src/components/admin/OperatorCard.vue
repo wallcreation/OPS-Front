@@ -9,7 +9,10 @@ const props = defineProps({
 })
 </script>
 <template>
-  <div class="bg-surface rounded-lg border-2 border-border hover:border-primary-light p-2">
+  <RouterLink
+    :to="{ name: 'operator-info', params: { id: id } }"
+    class="bg-surface rounded-lg border-2 border-border hover:border-primary-light p-2"
+  >
     <div class="flex items-center justify-between">
       <h2 class="font-bold">
         {{ lname }} <span class="hidden md:inline">{{ lname }}</span>
@@ -33,5 +36,5 @@ const props = defineProps({
       <p>{{ team }}</p>
       <p>{{ workat }}</p>
     </div>
-  </div>
+  </RouterLink>
 </template>

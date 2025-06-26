@@ -18,15 +18,11 @@ const props = defineProps({
     required: true,
   },
 })
-const router = useRouter()
-const toteams = () => {
-  router.push({ name: 'team-info', params: { id: props.id } })
-}
 </script>
 <template>
-  <div
+  <RouterLink
+    :to="{ name: 'team-info', params: { id: id } }"
     class="group bg-surface rounded-lg border-2 border-border hover:border-primary p-2"
-    @click="toteams"
   >
     <div class="flex items-center justify-between">
       <h2 class="font-bold">{{ name }}</h2>
@@ -55,5 +51,5 @@ const toteams = () => {
         <p class="text-sm">{{ account }}</p>
       </div>
     </div>
-  </div>
+  </RouterLink>
 </template>

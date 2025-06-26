@@ -143,7 +143,7 @@ const showAccountAdd = ref(false)
       </button>
     </div>
   </div>
-  <div class="motion-duration-[1s] motion-ease-spring-smooth">
+  <div class="">
     <div v-if="switcher === 1" class="grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <TeamCard
         v-for="team in teams"

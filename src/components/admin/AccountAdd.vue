@@ -31,7 +31,7 @@ const teamlist = [
 ]
 </script>
 <template>
-  <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50">
+  <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-md">
     <div
       class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border"
       :class="[teamsel ? 'bg-surface' : 'backdrop-blur-md']"

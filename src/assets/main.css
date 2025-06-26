@@ -26,7 +26,7 @@
 body {
   background-color: #0f1216; /* Couleur de fond */
   height: 100vh;
-    margin: 0;
+  margin: 0;
   padding: 0;
 }
 ::-webkit-scrollbar {

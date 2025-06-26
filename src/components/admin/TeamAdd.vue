@@ -15,9 +15,9 @@ const addteam = async () => {
 <template>
     <div
     v-if="showModal"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-md"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50"
   >
-    <div class="mx-5 p-3 max-w-lg w-full bg-surface rounded-lg border-1 border-border">
+    <div class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border backdrop-blur-md">
       <h1 class="text-xl font-bold">Ajouter une équipe</h1>
       <form action="" class="my-2">
         <input
@@ -32,7 +32,7 @@ const addteam = async () => {
       </form>
       <div class="flex gap-2 justify-end mt-1">
         <button @click="addteam" class="text-primary hover:border-b-2 hover:border-primary">Valider</button>
-        <button @click="showModal = false" class="text-error hover:border-b-2 hover:border-error">
+        <button @click="close" class="text-error hover:border-b-2 hover:border-error">
           Annuler
         </button>
       </div>

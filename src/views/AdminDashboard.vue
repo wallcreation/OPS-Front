@@ -1,8 +1,11 @@
 <script setup>
 import { ref } from 'vue'
+import TeamAdd from '@/components/admin/TeamAdd.vue'
 import TeamCard from '@/components/admin/TeamCard.vue'
 import OperatorCard from '@/components/admin/OperatorCard.vue'
+import OperatorAdd from '@/components/admin/OperatorAdd.vue'
 import AccountCard from '@/components/admin/AccountCard.vue'
+import AccountAdd from '@/components/admin/AccountAdd.vue'
 const teams = ref([
   { id: 1, name: 'Team A', operators: ['Alice', 'Bob'], accounts: ['Account1', 'Account2'] },
   { id: 2, name: 'Team B', operators: ['Charlie', 'David'], accounts: ['Account3', 'Account4'] },
@@ -40,9 +43,12 @@ const accounts = ref([
   { id: 10, name: 'Account10', team: 'Team E' },
 ])
 const switcher = ref(1)
+const showTeamAdd = ref(false)
+const showOperatorAdd = ref(false)
+const showAccountAdd = ref(false)
 </script>
 <template>
-  <div class="flex items-center justify-between px-5 py-2 mt-2 mb-2 bg-surface rounded-lg">
+  <div class="flex items-center justify-between px-5 py-2 mt-2 mb-2 bg-surface/50 backdrop-blur-md rounded-lg">
     <div class="flex items-center">
       <button
         class="hover:border-b-2 hover:border-primary"
@@ -65,7 +71,7 @@ const switcher = ref(1)
         </span>
         <span class="hidden md:inline">Equipes</span>
       </button>
-      <button class="active:text-primary hover:text-primary">
+      <button @click="showTeamAdd = true" class="active:text-primary hover:text-primary">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path
             fill="currentColor"
@@ -96,7 +102,7 @@ const switcher = ref(1)
         </span>
         <span class="hidden md:inline">Opérateurs</span>
       </button>
-      <button class="active:text-primary hover:text-primary">
+      <button class="active:text-primary hover:text-primary" @click="showOperatorAdd = true">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path
             fill="currentColor"
@@ -127,7 +133,7 @@ const switcher = ref(1)
         </span>
         <span class="hidden md:inline">Comptes</span>
       </button>
-      <button class="active:text-primary hover:text-primary">
+      <button class="active:text-primary hover:text-primary" @click="showAccountAdd = true">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path
             fill="currentColor"
@@ -137,7 +143,7 @@ const switcher = ref(1)
       </button>
     </div>
   </div>
-  <div class="motion-duration-[2s] motion-ease-spring-smooth">
+  <div class="motion-duration-[1s] motion-ease-spring-smooth">
     <div v-if="switcher === 1" class="grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <TeamCard
         v-for="team in teams"
@@ -169,4 +175,9 @@ const switcher = ref(1)
       />
     </div>
   </div>
+  <!-- modal -->
+
+  <TeamAdd :showModal="showTeamAdd" @close="showTeamAdd = false"/>
+  <OperatorAdd :showModal="showOperatorAdd" @close="showOperatorAdd = false"/>
+  <AccountAdd :showModal="showAccountAdd" @close="showAccountAdd = false" />
 </template>

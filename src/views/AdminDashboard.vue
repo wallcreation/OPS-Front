@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue'
-import TeamCard from '@/components/TeamCard.vue'
-import OperatorCard from '@/components/OperatorCard.vue'
-import AccountCard from '@/components/AccountCard.vue'
+import TeamCard from '@/components/admin/TeamCard.vue'
+import OperatorCard from '@/components/admin/OperatorCard.vue'
+import AccountCard from '@/components/admin/AccountCard.vue'
 const teams = ref([
   { id: 1, name: 'Team A', operators: ['Alice', 'Bob'], accounts: ['Account1', 'Account2'] },
   { id: 2, name: 'Team B', operators: ['Charlie', 'David'], accounts: ['Account3', 'Account4'] },
@@ -43,69 +43,99 @@ const switcher = ref(1)
 </script>
 <template>
   <div class="flex items-center justify-between px-5 py-2 mt-2 mb-2 bg-surface rounded-lg">
-    <button
-      class="hover:border-b-2 hover:border-primary"
-      :class="[switcher === 1 ? 'text-primary border-b-2 border-primary' : '']"
-      @click="switcher = 1"
-    >
-      <span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 32 32"
-          class="inline pb-1"
-        >
+    <div class="flex items-center">
+      <button
+        class="hover:border-b-2 hover:border-primary"
+        :class="[switcher === 1 ? 'text-primary border-b-2 border-primary' : '']"
+        @click="switcher = 1"
+      >
+        <span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 32 32"
+            class="inline pb-1"
+          >
+            <path
+              fill="currentColor"
+              d="M16 11a4 4 0 1 0 0-8a4 4 0 0 0 0 8m-6-3.5a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0m19 0a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0M9.377 13a3.98 3.98 0 0 0-.877 2.5V23c0 1.235.298 2.4.827 3.427A5 5 0 0 1 2 22v-6.5A2.5 2.5 0 0 1 4.5 13zm13.296 13.427A7.5 7.5 0 0 0 23.5 23v-7.5c0-.946-.328-1.815-.877-2.5H27.5a2.5 2.5 0 0 1 2.5 2.5V22a5 5 0 0 1-7.327 4.427M12.5 13a2.5 2.5 0 0 0-2.5 2.5V23a6 6 0 0 0 12 0v-7.5a2.5 2.5 0 0 0-2.5-2.5z"
+            />
+          </svg>
+        </span>
+        <span class="hidden md:inline">Equipes</span>
+      </button>
+      <button class="active:text-primary hover:text-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path
             fill="currentColor"
-            d="M16 11a4 4 0 1 0 0-8a4 4 0 0 0 0 8m-6-3.5a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0m19 0a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0M9.377 13a3.98 3.98 0 0 0-.877 2.5V23c0 1.235.298 2.4.827 3.427A5 5 0 0 1 2 22v-6.5A2.5 2.5 0 0 1 4.5 13zm13.296 13.427A7.5 7.5 0 0 0 23.5 23v-7.5c0-.946-.328-1.815-.877-2.5H27.5a2.5 2.5 0 0 1 2.5 2.5V22a5 5 0 0 1-7.327 4.427M12.5 13a2.5 2.5 0 0 0-2.5 2.5V23a6 6 0 0 0 12 0v-7.5a2.5 2.5 0 0 0-2.5-2.5z"
+            d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z"
           />
         </svg>
-      </span>
-      <span class="hidden md:inline">Equipes</span>
-    </button>
-    <button
-      class="hover:border-b-2 hover:border-primary"
-      :class="[switcher === 2 ? 'text-primary border-b-2 border-primary' : '']"
-      @click="switcher = 2"
-    >
-      <span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          class="inline pb-1"
-        >
+      </button>
+    </div>
+    <div class="flex items-center">
+      <button
+        class="hover:border-b-2 hover:border-primary"
+        :class="[switcher === 2 ? 'text-primary border-b-2 border-primary' : '']"
+        @click="switcher = 2"
+      >
+        <span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            class="inline pb-1"
+          >
+            <path
+              fill="currentColor"
+              d="M12 12q-1.65 0-2.825-1.175T8 8t1.175-2.825T12 4t2.825 1.175T16 8t-1.175 2.825T12 12m-8 8v-2.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2V20z"
+            />
+          </svg>
+        </span>
+        <span class="hidden md:inline">Opérateurs</span>
+      </button>
+      <button class="active:text-primary hover:text-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path
             fill="currentColor"
-            d="M12 12q-1.65 0-2.825-1.175T8 8t1.175-2.825T12 4t2.825 1.175T16 8t-1.175 2.825T12 12m-8 8v-2.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2V20z"
+            d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z"
           />
         </svg>
-      </span>
-      <span class="hidden md:inline">Opérateurs</span>
-    </button>
-    <button
-      class="hover:border-b-2 hover:border-primary"
-      :class="[switcher === 3 ? 'text-primary border-b-2 border-primary' : '']"
-      @click="switcher = 3"
-    >
-      <span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          class="inline pb-1"
-        >
+      </button>
+    </div>
+    <div class="flex items-center">
+      <button
+        class="hover:border-b-2 hover:border-primary"
+        :class="[switcher === 3 ? 'text-primary border-b-2 border-primary' : '']"
+        @click="switcher = 3"
+      >
+        <span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            class="inline pb-1"
+          >
+            <path
+              fill="currentColor"
+              d="M10 2h4a2 2 0 0 1 2 2v2h4a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8c0-1.11.89-2 2-2h4V4c0-1.11.89-2 2-2m4 4V4h-4v2z"
+            />
+          </svg>
+        </span>
+        <span class="hidden md:inline">Comptes</span>
+      </button>
+      <button class="active:text-primary hover:text-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path
             fill="currentColor"
-            d="M10 2h4a2 2 0 0 1 2 2v2h4a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8c0-1.11.89-2 2-2h4V4c0-1.11.89-2 2-2m4 4V4h-4v2z"
+            d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z"
           />
         </svg>
-      </span>
-      <span class="hidden md:inline">Comptes</span>
-    </button>
+      </button>
+    </div>
   </div>
   <div class="motion-duration-[2s] motion-ease-spring-smooth">
     <div v-if="switcher === 1" class="grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

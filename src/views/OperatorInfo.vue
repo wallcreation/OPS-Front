@@ -13,6 +13,16 @@ const operator = ref({
 })
 const passtype = ref('password')
 const showopedit = ref(false)
+const showstatadd = ref(false) // ce bool déclenche le modal
+const addStat = () => {
+  console.log('Ajouter stat !')
+  showstatadd.value = false
+}
+const showpenality = ref(false) // ce bool déclenche le modal
+const addPenality = () => {
+  console.log('Ajouter stat !')
+  showpenality.value = false
+}
 </script>
 <template>
   <div class="grid grid-cols-1 gap-2 md:grid-cols-4 mt-2">
@@ -36,7 +46,7 @@ const showopedit = ref(false)
     <div class="bg-surface p-2 border-2 border-border rounded-lg">
       <div class="flex justify-between">
         <h1 class="text-primary font-bold">Statistiques</h1>
-        <button class="active:text-primary hover:text-primary">
+        <button class="active:text-primary hover:text-primary" @click="showstatadd = true">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <path
               fill="currentColor"
@@ -49,7 +59,7 @@ const showopedit = ref(false)
     <div class="bg-surface p-2 border-2 border-border rounded-lg">
       <div class="flex justify-between">
         <h1 class="text-error font-bold">Pénalités</h1>
-        <button class="active:text-error hover:text-error">
+        <button class="active:text-error hover:text-error" @click="showpenality = true">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <path
               fill="currentColor"
@@ -139,6 +149,69 @@ const showopedit = ref(false)
           Annuler
         </button>
       </div>
+    </div>
+  </div>
+  <div
+    v-if="showstatadd"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-sm"
+  >
+    <div class="w-full max-w-lg mx-4 bg-surface border border-border rounded-xl p-4">
+      <h2 class="text-xl font-bold text-text mb-4">Ajouter une stat</h2>
+      <form class="grid gap-3">
+        <input
+          type="number"
+          placeholder="Montant"
+          class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none bg-transparent px-2 py-1"
+        />
+        <div class="flex justify-end gap-3 mt-2">
+          <button
+            class="text-primary hover:border-b-2 hover:border-primary-light"
+            @click.prevent="addStat"
+          >
+            Ajouter
+          </button>
+          <button
+            class="text-error hover:border-b-2 hover:border-error"
+            @click="showstatadd = false"
+          >
+            Annuler
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div
+    v-if="showpenality"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-sm"
+  >
+    <div class="w-full max-w-lg mx-4 bg-surface border border-border rounded-xl p-4">
+      <h2 class="text-xl font-bold text-text mb-4">Ajouter une pénalité</h2>
+      <form class="grid gap-3">
+        <input
+          type="text"
+          placeholder="Raison"
+          class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none bg-transparent px-2 py-1"
+        />
+        <input
+          type="number"
+          placeholder="Montant"
+          class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none bg-transparent px-2 py-1"
+        />
+        <div class="flex justify-end gap-3 mt-2">
+          <button
+            class="text-primary hover:border-b-2 hover:border-primary-light"
+            @click.prevent="addPenality"
+          >
+            Ajouter
+          </button>
+          <button
+            class="text-error hover:border-b-2 hover:border-error"
+            @click="showpenality = false"
+          >
+            Annuler
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </template>

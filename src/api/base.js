@@ -9,12 +9,12 @@ const api = axios.create({
 })
 
 // 🔐 Ajouter le token automatiquement dans les headers
-// api.interceptors.request.use((config) => {
-//   const token = localStorage.getItem('token')
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`
-//   }
-//   return config
-// })
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
 
 export default api

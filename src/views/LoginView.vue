@@ -1,94 +1,101 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
+import { getErrorMessage, login, safeCall } from '@/api'
 const router = useRouter()
 const displayerror = ref(false)
+const errorMessage = ref('')
 const disablelogin = ref(false)
 const showpassword = ref(false)
 const email = ref('')
 const password = ref('')
 const onlogin = async () => {
   disablelogin.value = true
+
   if (!email.value || !password.value) {
     displayerror.value = true
-    setInterval(() => {
+    setTimeout(() => {
       displayerror.value = false
     }, 5000)
-    return
-  }
-  await axios
-    .post('http://localhost:8000/login', {
-      email: email.value,
-      password: password.value,
-    })
-    .then((response) => {
-      console.log('Login response:', response)
-      if (response.status === 200) {
-        if (response.data.status) {
-          localStorage.setItem('token', response.data.token)
-          if (response.data.role === 'admin') {
-            router.push('/admin/dashboard')
-          }
-        } else {
-          displayerror.value = true
-          setInterval(() => {
-            displayerror.value = false
-          }, 5000)
-        }
-      }
-    })
-    .catch((error) => {
-      console.error('Login error:', error)
+  } else {
+    const [res, err] = await safeCall(login({ email: email.value, password: password.value }))
+
+    if (err) {
+      // Optionnel : afficher un message plus précis
+      errorMessage.value = getErrorMessage(err.code) || err.message
       displayerror.value = true
-      setInterval(() => {
+      setTimeout(() => {
         displayerror.value = false
       }, 5000)
-    })
-    disablelogin.value = false
+    } else {
+      localStorage.setItem('token', res.token)
+      console.log("profile: ", res.profile)
+      console.log("data: ", res)
+      if (res.profile.role === 'admin') {
+        router.push('/admin/dashboard')
+      }
+    }
+  }
+
+  disablelogin.value = false
 }
 </script>
 <template>
   <div
     class="h-screen w-screen bg-[url('/loginbg.jpg')] bg-cover bg-center flex items-center justify-center"
   >
-    <div class="bg-gray-900/60 rounded-lg text-white p-10 text-center pb-5">
+    <div class="bg-bg/50 backdrop-blur-md rounded-lg text-text p-10 text-center pb-5">
       <h1 class="text-4xl">OPS</h1>
       <div
-        class="flex items-center justify-center gap-2 text-xs bg-[#EF4444] p-1 rounded-lg my-2"
+        class="flex items-center justify-center gap-2 text-xs bg-error text-text p-1 rounded-lg my-2"
         v-show="displayerror"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-5"
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 12 12">
           <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+            fill="currentColor"
+            d="M5.214 1.459a.903.903 0 0 1 1.572 0l4.092 7.169c.348.61-.089 1.372-.787 1.372H1.91c-.698 0-1.135-.762-.787-1.372zM5.5 4.5v1a.5.5 0 0 0 1 0v-1a.5.5 0 0 0-1 0M6 6.75a.75.75 0 1 0 0 1.5a.75.75 0 0 0 0-1.5"
           />
         </svg>
-        <p>Identifitans incorrect.</p>
+        <p>{{ errorMessage }}</p>
       </div>
       <form @submit.prevent="onlogin">
-        <div class="flex gap-2 my-5">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-6"
-          >
-            <path
+        <div
+          class="flex items-center gap-2 my-5 border-b-2 border-border focus-within:border-primary"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="currentColor" fill-opacity="0" d="M12 11l-8 -5h16l-8 5Z">
+              <animate
+                fill="freeze"
+                attributeName="fill-opacity"
+                begin="0.8s"
+                dur="0.15s"
+                values="0;0.3"
+              />
+            </path>
+            <g
+              fill="none"
+              stroke="currentColor"
               stroke-linecap="round"
               stroke-linejoin="round"
-              d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
-            />
+              stroke-width="2"
+            >
+              <path
+                stroke-dasharray="64"
+                stroke-dashoffset="64"
+                d="M4 5h16c0.55 0 1 0.45 1 1v12c0 0.55 -0.45 1 -1 1h-16c-0.55 0 -1 -0.45 -1 -1v-12c0 -0.55 0.45 -1 1 -1Z"
+              >
+                <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="64;0" />
+              </path>
+              <path stroke-dasharray="24" stroke-dashoffset="24" d="M3 6.5l9 5.5l9 -5.5">
+                <animate
+                  fill="freeze"
+                  attributeName="stroke-dashoffset"
+                  begin="0.6s"
+                  dur="0.2s"
+                  values="24;0"
+                />
+              </path>
+            </g>
           </svg>
           <input
             type="email"
@@ -96,25 +103,44 @@ const onlogin = async () => {
             id="email"
             placeholder="Email"
             required
-            class="ps-1 border-b-2 border-[#2563EB] ouline-none focus:outline-none focus:border-[#06B6D4]"
+            class="ps-1 outline-none bg-transparent"
             v-model="email"
           />
         </div>
-        <div class="flex gap-2 my-5">
+        <div
+          class="flex items-center gap-2 my-5 border-b-2 border-border focus-within:border-primary"
+        >
           <svg
+            v-if="!showpassword"
             xmlns="http://www.w3.org/2000/svg"
-            fill="none"
+            width="24"
+            height="24"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-6"
             @click="showpassword = !showpassword"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
-            />
+            <g fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="16" r="2" />
+              <path
+                stroke-linecap="round"
+                d="M6 10V8q0-.511.083-1M18 10V8A6 6 0 0 0 7.5 4.031M11 22H8c-2.828 0-4.243 0-5.121-.879C2 20.243 2 18.828 2 16s0-4.243.879-5.121C3.757 10 5.172 10 8 10h8c2.828 0 4.243 0 5.121.879C22 11.757 22 13.172 22 16s0 4.243-.879 5.121C20.243 22 18.828 22 16 22h-1"
+              />
+            </g>
+          </svg>
+          <svg
+            v-else
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            @click="showpassword = !showpassword"
+          >
+            <g fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="16" r="2" />
+              <path
+                stroke-linecap="round"
+                d="M11 22H8c-2.828 0-4.243 0-5.121-.879C2 20.243 2 18.828 2 16s0-4.243.879-5.121C3.757 10 5.172 10 8 10h8c2.828 0 4.243 0 5.121.879C22 11.757 22 13.172 22 16s0 4.243-.879 5.121C20.243 22 18.828 22 16 22h-1M6 10V8q0-.511.083-1m11.728-.5A6.003 6.003 0 0 0 7.528 4"
+              />
+            </g>
           </svg>
           <input
             :type="showpassword ? 'text' : 'password'"
@@ -122,11 +148,15 @@ const onlogin = async () => {
             id="password"
             placeholder="Mot de passe"
             required
-            class="ps-1 border-b-2 border-[#2563EB] outline-none focus:outline-none focus:border-[#06B6D4]"
+            class="ps-1 outline-none"
             v-model="password"
           />
         </div>
-        <button type="submit" class="p-2 mt-5 bg-[#2563EB] rounded-lg hover:bg-[#06B6D4]" v-show="!disablelogin">
+        <button
+          type="submit"
+          class="p-2 bg-[#2563EB] rounded-lg hover:bg-[#06B6D4]"
+          v-show="!disablelogin"
+        >
           Se connecter
         </button>
       </form>

@@ -97,7 +97,7 @@ const selectedNames = computed(() =>
     class="fixed inset-0 z-50 w-full h-full flex items-center justify-center bg-bg/50"
   >
     <div
-      class="p-2 grid gap-2 grid-cols-2 justify-center items-center border-2 border-border rounded-lg backdrop-blur-md"
+      class="p-2 my-auto grid gap-2 grid-cols-2 justify-center items-center border-2 border-border rounded-lg backdrop-blur-md"
     >
       <button
         @click="showoplist = false"

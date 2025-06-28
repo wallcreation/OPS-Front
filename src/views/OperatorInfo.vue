@@ -69,7 +69,16 @@ const addPenality = () => {
         </button>
       </div>
     </div>
+    <div class="p-2 md:col-span-2 bg-surface border-2 border-border rounded-lg">
+        <h2 class="text-xl font-bold">Détail des Statistiques</h2>
+        <table>
+        </table>
+    </div>
+    <div class="p-2 md:col-span-2 bg-surface border-2 border-border rounded-lg">
+        <h2 class="text-xl font-bold">Diagramme des Statistiques</h2>
+    </div>
   </div>
+  <!-- Begin of modal -->
   <div
     v-if="showopedit"
     class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-md"

@@ -25,7 +25,7 @@ const props = defineProps({
     class="group bg-surface rounded-lg border-2 border-border hover:border-primary p-2"
   >
     <div class="flex items-center justify-between">
-      <h2 class="font-bold">{{ name }}</h2>
+      <h2 class="text-primary font-bold">{{ name }}</h2>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -42,13 +42,13 @@ const props = defineProps({
       </svg>
     </div>
     <div class="flex gap-2">
-      <div v-for="operator in operators" :key="operator">
-        <p class="text-sm">{{ operator }}</p>
+      <div v-for="operator in operators" :key="operator.id">
+        <p class="text-sm">{{ operator.lname }} {{ operator.fname }}</p>
       </div>
     </div>
     <div class="flex gap-2">
       <div v-for="account in accounts" :key="account">
-        <p class="text-sm">{{ account }}</p>
+        <p class="text-sm">{{ account.name }}</p>
       </div>
     </div>
   </RouterLink>

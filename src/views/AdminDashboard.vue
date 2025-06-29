@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getteams, safeCall } from '@/api'
+import { getoperators, getteams, safeCall } from '@/api'
 import TeamAdd from '@/components/admin/TeamAdd.vue'
 import TeamCard from '@/components/admin/TeamCard.vue'
 import OperatorCard from '@/components/admin/OperatorCard.vue'
@@ -10,46 +10,55 @@ import AccountCard from '@/components/admin/AccountCard.vue'
 import AccountAdd from '@/components/admin/AccountAdd.vue'
 import Reconnect from '@/components/Reconnect.vue'
 const teams = ref([])
+const operators = ref([])
 const errormodal = ref(false)
 const handleerror = async (code) => {
-  if(code === 1003) {
+  if (code === 1003) {
     errormodal.value = true
   }
 }
-onMounted(async () => {
-  const [res, err] = await safeCall(getteams())
-  if(err) {
-    console.log("dash err: ", err)
+const loading = ref([true, true, true])
+const loadteams = async () => {
+  loading.value[0] = true
+  const [teamres, err] = await safeCall(getteams())
+  if (err) {
+    console.log('dash err: ', err)
     handleerror(err.code)
   } else {
-    teams.value = res.data.teams
-  console.log('dash teams: ', teams)
+    console.log('dash teamres: ', teamres)
+    teams.value = teamres.teams
   }
+  loading.value[0] = false
+}
+const loadoperators = async () => {
+  loading.value[1] = true
+  const [res, err] = await safeCall(getoperators())
+  if (err) {
+    console.log("operr: ", err)
+    handleerror(err)
+  } else {
+    console.log("dash opres: ", res)
+    operators.value = res
+  }
+  loading.value[1] = false
+}
+onMounted(async () => {
+  await loadteams()
+  await loadoperators()
 })
-// const teams = ref([
-//   { id: 1, name: 'Team A', operators: ['Alice', 'Bob'], accounts: ['Account1', 'Account2'] },
-//   { id: 2, name: 'Team B', operators: ['Charlie', 'David'], accounts: ['Account3', 'Account4'] },
-//   { id: 3, name: 'Team C', operators: ['Eve', 'Frank'], accounts: ['Account5', 'Account6'] },
-//   { id: 4, name: 'Team D', operators: ['Grace', 'Heidi'], accounts: ['Account7', 'Account8'] },
-//   { id: 5, name: 'Team E', operators: ['Ivan', 'Judy'], accounts: ['Account9', 'Account10'] },
-//   { id: 6, name: 'Team F', operators: ['Karl', 'Leo'], accounts: ['Account11', 'Account12'] },
-//   { id: 7, name: 'Team G', operators: ['Mallory', 'Nina'], accounts: ['Account13', 'Account14'] },
-//   { id: 8, name: 'Team H', operators: ['Oscar', 'Peggy'], accounts: ['Account15', 'Account16'] },
-//   { id: 9, name: 'Team I', operators: ['Quentin', 'Rupert'], accounts: ['Account17', 'Account18'] },
-//   { id: 10, name: 'Team J', operators: ['Sybil', 'Trent'], accounts: ['Account19', 'Account20'] },
+
+// const operators = ref([
+//   { id: 1, fname: 'Alice', lname: 'Smith', team: 'Team A', workat: 'day' },
+//   { id: 2, fname: 'Bob', lname: 'Johnson', team: 'Team A', workat: 'night' },
+//   { id: 3, fname: 'Charlie', lname: 'Brown', team: 'Team B', workat: 'day' },
+//   { id: 4, fname: 'David', lname: 'Williams', team: 'Team B', workat: 'night' },
+//   { id: 5, fname: 'Eve', lname: 'Jones', team: 'Team C', workat: 'day' },
+//   { id: 6, fname: 'Frank', lname: 'Garcia', team: 'Team C', workat: 'night' },
+//   { id: 7, fname: 'Grace', lname: 'Martinez', team: 'Team D', workat: 'day' },
+//   { id: 8, fname: 'Heidi', lname: 'Hernandez', team: 'Team D', workat: 'night' },
+//   { id: 9, fname: 'Ivan', lname: 'Lopez', team: 'Team E', workat: 'day' },
+//   { id: 10, fname: 'Judy', lname: 'Gonzalez', team: 'Team E', workat: 'night' },
 // ])
-const operators = ref([
-  { id: 1, fname: 'Alice', lname: 'Smith', team: 'Team A', workat: 'day' },
-  { id: 2, fname: 'Bob', lname: 'Johnson', team: 'Team A', workat: 'night' },
-  { id: 3, fname: 'Charlie', lname: 'Brown', team: 'Team B', workat: 'day' },
-  { id: 4, fname: 'David', lname: 'Williams', team: 'Team B', workat: 'night' },
-  { id: 5, fname: 'Eve', lname: 'Jones', team: 'Team C', workat: 'day' },
-  { id: 6, fname: 'Frank', lname: 'Garcia', team: 'Team C', workat: 'night' },
-  { id: 7, fname: 'Grace', lname: 'Martinez', team: 'Team D', workat: 'day' },
-  { id: 8, fname: 'Heidi', lname: 'Hernandez', team: 'Team D', workat: 'night' },
-  { id: 9, fname: 'Ivan', lname: 'Lopez', team: 'Team E', workat: 'day' },
-  { id: 10, fname: 'Judy', lname: 'Gonzalez', team: 'Team E', workat: 'night' },
-])
 const accounts = ref([
   { id: 1, name: 'Account1', team: 'Team A' },
   { id: 2, name: 'Account2', team: 'Team A' },
@@ -165,27 +174,52 @@ const showAccountAdd = ref(false)
       </button>
     </div>
   </div>
-  <div class="">
-    <div v-if="switcher === 1" class="grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      <TeamCard
-        v-for="team in teams"
-        :key="team.id"
-        :id="team.id"
-        :name="team.name"
-        :operators="team.operators"
-        :accounts="team.accounts"
-      />
+
+  <div>
+    <div v-if="switcher === 1">
+      <div v-if="loading[0]" class="animate-pulse w-[20%] mx-auto mt-[10em]">
+        <div
+          type="button"
+          class="bg-surface text-xl text-center p-2 border-2 border-border rounded-lg"
+        >
+          Chargement des équipes...
+        </div>
+      </div>
+
+      <div v-else class="grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <TeamCard
+          v-for="team in teams"
+          :key="team.id"
+          :id="team.id"
+          :name="team.name"
+          :operators="team.operators"
+          :accounts="team.accounts"
+        />
+      </div>
+
     </div>
-    <div v-if="switcher === 2" class="grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      <OperatorCard
-        v-for="operator in operators"
-        :key="operator.id"
-        :id="operator.id"
-        :fname="operator.fname"
-        :lname="operator.lname"
-        :team="operator.team"
-        :workat="operator.workat"
-      />
+
+
+    <div v-if="switcher === 2" >
+      <div v-if="loading[1]" class="animate-pulse flex items-center justify-center">
+        <div
+          type="button"
+          class="bg-surface text-xl text-center p-2 border-2 border-border rounded-lg"
+        >
+          Chargement des opérateurs...
+        </div>
+      </div>
+      <div v-else class="grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <OperatorCard
+          v-for="operator in operators"
+          :key="operator.id"
+          :id="operator.id"
+          :fname="operator.fname"
+          :lname="operator.lname"
+          :team="operator.team"
+          :workat="operator.work_at"
+        />
+      </div>
     </div>
     <div v-if="switcher === 3" class="grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <AccountCard
@@ -197,6 +231,7 @@ const showAccountAdd = ref(false)
       />
     </div>
   </div>
+
   <!-- modal -->
 
   <TeamAdd :showModal="showTeamAdd" @close="showTeamAdd = false" />

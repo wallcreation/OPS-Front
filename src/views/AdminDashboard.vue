@@ -11,7 +11,7 @@ const teams = ref([])
 onMounted(async () => {
   const [res, err] = safeCall(getteams())
   teams.value = res.data.teams
-  console.log('teams: ', teams)
+  console.log('dash teams: ', teams)
 })
 // const teams = ref([
 //   { id: 1, name: 'Team A', operators: ['Alice', 'Bob'], accounts: ['Account1', 'Account2'] },
@@ -55,7 +55,9 @@ const showOperatorAdd = ref(false)
 const showAccountAdd = ref(false)
 </script>
 <template>
-  <div class="flex items-center justify-between px-5 py-2 mt-2 mb-2 bg-surface/50 backdrop-blur-md rounded-lg">
+  <div
+    class="flex items-center justify-between px-5 py-2 mt-2 mb-2 bg-surface/50 backdrop-blur-md rounded-lg"
+  >
     <div class="flex items-center">
       <button
         class="hover:border-b-2 hover:border-primary"
@@ -184,7 +186,7 @@ const showAccountAdd = ref(false)
   </div>
   <!-- modal -->
 
-  <TeamAdd :showModal="showTeamAdd" @close="showTeamAdd = false"/>
-  <OperatorAdd :showModal="showOperatorAdd" @close="showOperatorAdd = false"/>
+  <TeamAdd :showModal="showTeamAdd" @close="showTeamAdd = false" />
+  <OperatorAdd :showModal="showOperatorAdd" @close="showOperatorAdd = false" />
   <AccountAdd :showModal="showAccountAdd" @close="showAccountAdd = false" />
 </template>

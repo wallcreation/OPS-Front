@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { getteams, safeCall } from '@/api'
 import TeamAdd from '@/components/admin/TeamAdd.vue'
 import TeamCard from '@/components/admin/TeamCard.vue'
@@ -7,11 +8,23 @@ import OperatorCard from '@/components/admin/OperatorCard.vue'
 import OperatorAdd from '@/components/admin/OperatorAdd.vue'
 import AccountCard from '@/components/admin/AccountCard.vue'
 import AccountAdd from '@/components/admin/AccountAdd.vue'
+import Reconnect from '@/components/Reconnect.vue'
 const teams = ref([])
+const errormodal = ref(false)
+const handleerror = async (code) => {
+  if(code === 1003) {
+    errormodal.value = true
+  }
+}
 onMounted(async () => {
-  const [res, err] = safeCall(getteams())
-  teams.value = res.data.teams
+  const [res, err] = await safeCall(getteams())
+  if(err) {
+    console.log("dash err: ", err)
+    handleerror(err.code)
+  } else {
+    teams.value = res.data.teams
   console.log('dash teams: ', teams)
+  }
 })
 // const teams = ref([
 //   { id: 1, name: 'Team A', operators: ['Alice', 'Bob'], accounts: ['Account1', 'Account2'] },
@@ -189,4 +202,6 @@ const showAccountAdd = ref(false)
   <TeamAdd :showModal="showTeamAdd" @close="showTeamAdd = false" />
   <OperatorAdd :showModal="showOperatorAdd" @close="showOperatorAdd = false" />
   <AccountAdd :showModal="showAccountAdd" @close="showAccountAdd = false" />
+
+  <Reconnect v-if="errormodal" />
 </template>

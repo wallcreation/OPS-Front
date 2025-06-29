@@ -42,13 +42,14 @@ const props = defineProps({
       </svg>
     </div>
     <div class="flex gap-2">
-      <div v-for="operator in operators" :key="operator.id">
-        <p class="text-sm">{{ operator.lname }} {{ operator.fname }}</p>
+      <div>
+        <p v-for="operator in operators" :key="operator.id" class="text-sm">
+          {{ operator.lname }} {{ operator.fname }}
+        </p>
       </div>
-    </div>
-    <div class="flex gap-2">
-      <div v-for="account in accounts" :key="account">
-        <p class="text-sm">{{ account.name }}</p>
+
+      <div>
+        <p v-for="account in accounts" :key="account" class="text-sm">{{ account.name }}</p>
       </div>
     </div>
   </RouterLink>

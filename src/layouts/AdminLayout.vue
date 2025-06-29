@@ -8,7 +8,7 @@ import Header from '@/components/admin/Header.vue'
     <header class="h-[10%] w-full bg-surface px-4 py-2 flex items-center justify-between text-text shadow-md">
       <Header />
     </header>
-    <main class="h-[90%] w-full overflow-auto px-5 text-text">
+    <main class="h-[90%] w-full overflow-auto px-1 text-text">
       <RouterView />
     </main>
   </div>

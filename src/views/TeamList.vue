@@ -1,67 +1,20 @@
 <script setup>
-import { ref } from 'vue'
-const teams = ref([
-  {
-    id: 1,
-    name: 'Team A',
-    operators: ['Alice', 'Bob'],
-    accounts: ['Account1', 'Account2'],
-  },
-  {
-    id: 2,
-    name: 'Team B',
-    operators: ['Charlie', 'David'],
-    accounts: ['Account3', 'Account4'],
-  },
-  {
-    id: 3,
-    name: 'Team C',
-    operators: ['Eve', 'Frank'],
-    accounts: ['Account5', 'Account6'],
-  },
-  {
-    id: 4,
-    name: 'Team D',
-    operators: ['Grace', 'Heidi'],
-    accounts: ['Account7', 'Account8'],
-  },
-  {
-    id: 5,
-    name: 'Team E',
-    operators: ['Ivan', 'Judy'],
-    accounts: ['Account9', 'Account10'],
-  },
-  {
-    id: 6,
-    name: 'Team F',
-    operators: ['Karl', 'Leo'],
-    accounts: ['Account11', 'Account12'],
-  },
-  {
-    id: 7,
-    name: 'Team G',
-    operators: ['Mallory', 'Nina'],
-    accounts: ['Account13', 'Account14'],
-  },
-  {
-    id: 8,
-    name: 'Team H',
-    operators: ['Oscar', 'Peggy'],
-    accounts: ['Account15', 'Account16'],
-  },
-  {
-    id: 9,
-    name: 'Team I',
-    operators: ['Quentin', 'Rupert'],
-    accounts: ['Account17', 'Account18'],
-  },
-  {
-    id: 10,
-    name: 'Team J',
-    operators: ['Sybil', 'Trent'],
-    accounts: ['Account19', 'Account20'],
-  },
-])
+import { onMounted, ref } from 'vue'
+import { getteams, safeCall } from '@/api'
+const loading = ref(true)
+const error = ref(true)
+const teams = ref([])
+const retrieveteams = async () => {
+  const [res,err] = safeCall(getteams())
+  if(err) {
+    error.value = true
+  } else {
+    teams.value = res.teams
+  }
+}
+onMounted(async () => {
+  
+})
 const showModal = ref(false)
 const teamipt = ref("")
 const addteam = async () => {
@@ -75,6 +28,7 @@ const addteam = async () => {
 }
 </script>
 <template>
+  <!-- root -->
   <div class="w-full p-2">
     <div class="flex gap-2 items-center justify-between">
       <h1 class="text-2xl">Listes des équipes</h1>
@@ -92,7 +46,9 @@ const addteam = async () => {
       </button>
     </div>
   </div>
+  <!-- List root -->
   <div class="grid gap-1 grid-cols-1 md:grid-cols-2">
+    <!-- List loop -->
     <div
       v-for="team in teams"
       class="w-full grid gap-2 grid-cols-4 text-left p-2 bg-surface rounded-lg border-2 border-border hover:border-primary-light active:border-primary-light"
@@ -101,7 +57,6 @@ const addteam = async () => {
       <div v-if"team.operators.length" class="">
         <p v-for="operator in team.operators">{{ operator }}</p>
       </div>
-      
       <div class="">
         <p v-for="account in team.accounts">{{ account }}</p>
       </div>

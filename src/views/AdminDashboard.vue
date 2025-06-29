@@ -177,7 +177,7 @@ const showAccountAdd = ref(false)
 
   <div>
     <div v-if="switcher === 1">
-      <div v-if="loading[0]" class="animate-pulse w-[20%] mx-auto mt-[10em]">
+      <div v-if="loading[0]" class="animate-pulse mt-[15em] md:w-[20%] mx-auto md:mt-[10em]">
         <div
           type="button"
           class="bg-surface text-xl text-center p-2 border-2 border-border rounded-lg"
@@ -196,10 +196,7 @@ const showAccountAdd = ref(false)
           :accounts="team.accounts"
         />
       </div>
-
     </div>
-
-
     <div v-if="switcher === 2" >
       <div v-if="loading[1]" class="animate-pulse flex items-center justify-center">
         <div

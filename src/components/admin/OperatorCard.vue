@@ -5,6 +5,7 @@ const props = defineProps({
   fname: String,
   lname: String,
   team: String,
+  team_id: Number,
   workat: String,
 })
 </script>

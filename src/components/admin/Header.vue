@@ -9,7 +9,7 @@ import { RouterLink } from 'vue-router'
       class="mx-1 hover:border-b-2 hover:border-primary-light"
       active-class="text-primary-light border-b-2 border-primary"
     >
-      <span class="md:hidden">
+      <span class="">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -34,7 +34,7 @@ import { RouterLink } from 'vue-router'
       class="mx-1 hover:border-b-2 hover:border-primary-light"
       active-class="text-primary-light border-b-2 border-primary"
     >
-      <span class="md:hidden">
+      <span class="">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -45,8 +45,9 @@ import { RouterLink } from 'vue-router'
           <path
             fill="currentColor"
             d="M16 11a4 4 0 1 0 0-8a4 4 0 0 0 0 8m-6-3.5a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0m19 0a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0M9.377 13a3.98 3.98 0 0 0-.877 2.5V23c0 1.235.298 2.4.827 3.427A5 5 0 0 1 2 22v-6.5A2.5 2.5 0 0 1 4.5 13zm13.296 13.427A7.5 7.5 0 0 0 23.5 23v-7.5c0-.946-.328-1.815-.877-2.5H27.5a2.5 2.5 0 0 1 2.5 2.5V22a5 5 0 0 1-7.327 4.427M12.5 13a2.5 2.5 0 0 0-2.5 2.5V23a6 6 0 0 0 12 0v-7.5a2.5 2.5 0 0 0-2.5-2.5z"
-          /></svg
-      ></span>
+          />
+        </svg>
+      </span>
       <span class="hidden md:inline">Equipes</span>
     </RouterLink>
     <RouterLink
@@ -54,7 +55,7 @@ import { RouterLink } from 'vue-router'
       class="mx-1 hover:border-b-2 hover:border-primary-light"
       active-class="text-primary-light border-b-2 border-primary"
     >
-      <span class="md:hidden">
+      <span class="">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -64,7 +65,7 @@ import { RouterLink } from 'vue-router'
         >
           <path
             fill="currentColor"
-            d="M12 12q-1.65 0-2.825-1.175T8 8t1.175-2.825T12 4t2.825 1.175T16 8t-1.175 2.825T12 12m-8 8v-2.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2V20z"
+            d="M17.755 14a2.25 2.25 0 0 1 2.248 2.25v.918a2.75 2.75 0 0 1-.512 1.598c-1.546 2.164-4.07 3.235-7.49 3.235c-3.422 0-5.945-1.072-7.487-3.236a2.75 2.75 0 0 1-.51-1.596v-.92A2.25 2.25 0 0 1 6.253 14zM12 2.005a5 5 0 1 1 0 10a5 5 0 0 1 0-10"
           />
         </svg>
       </span>
@@ -75,7 +76,7 @@ import { RouterLink } from 'vue-router'
       class="mx-1 hover:border-b-2 hover:border-primary-light"
       active-class="text-primary-light border-b-2 border-primary"
     >
-      <span class="md:hidden">
+      <span class="">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"

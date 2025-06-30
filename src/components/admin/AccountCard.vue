@@ -12,13 +12,17 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  team_id: {
+    type: Number,
+    required: true,
+  },
 })
 </script>
 <template>
   <div>
     <div class="bg-surface rounded-lg border-2 border-border hover:border-primary p-2">
       <div class="flex justify-between items-center">
-          <h2 class="font-bold">{{ name }}</h2>
+          <h2 class="text-primary font-bold">{{ name }}</h2>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -36,7 +40,7 @@ const props = defineProps({
       </div>
 
       <div class="flex gap-2">
-        <p>Team: {{ team }}</p>
+        <p>{{ team }}</p>
       </div>
     </div>
   </div>

@@ -17,18 +17,6 @@ const closetteamselector = async (name) => {
   teamipt.value = name
   teamsel.value = false
 }
-const teamlist = [
-  'Team 1',
-  'Team 2',
-  'Team 3',
-  'Team 4',
-  'Team 5',
-  'Team 6',
-  'Team 7',
-  'Team 8',
-  'Team 9',
-  'Team 10',
-]
 </script>
 <template>
   <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-md">

@@ -1,16 +1,19 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { getteams, safeCall } from '@/api'
+import { useAppStore } from '@/stores/app'
 import TeamAdd from '@/components/admin/TeamAdd.vue'
 import TeamCard from '@/components/admin/TeamCard.vue'
 import Reconnect from '@/components/Reconnect.vue'
 import Reload from '@/components/Reload.vue'
 // Variables
 const error = ref(false)
-const loading = ref(true)
+const loading = ref(false)
 const reload = ref(false)
-const teams = ref([])
+// const teams = ref([])
 const showTeamAdd = ref(false)
+const store = useAppStore()
+const teams = computed(() => store.teams)
 // Functions
 const foo = async () => {
   reload.value = false
@@ -38,7 +41,7 @@ const teamAdd = async (team) => {
   }
 }
 onMounted(async () => {
-  await foo()
+  // await foo()
 })
 </script>
 <template>

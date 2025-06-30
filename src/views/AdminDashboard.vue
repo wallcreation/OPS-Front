@@ -1,9 +1,9 @@
 <script setup>
+import { onMounted, ref } from 'vue'
 import { getdashboard, safeCall } from '@/api'
 import TeamAdd from '@/components/admin/TeamAdd.vue'
 import Reconnect from '@/components/Reconnect.vue'
 import Reload from '@/components/Reload.vue'
-import { onMounted, ref } from 'vue'
 const data = ref({
   teams: 0,
   operators: 0,

@@ -1,40 +1,72 @@
-// stores/app.js
 import { defineStore } from 'pinia'
-import { getteams, getoperators, getaccounts } from '@/api'
-import { safeCall } from '@/utils/apiSafeCall'
+import { ref } from 'vue'
 
-export const useAppStore = defineStore('app', {
-  state: () => ({
-    teams: [],
-    operators: [],
-    accounts: [],
-    loading: true,
-  }),
+export const useAppStore = defineStore('app', () => {
+  // 🔹 Équipes
+  const teams = ref([])
+  function setTeams(newTeams) {
+    teams.value = newTeams
+  }
+  function addTeam(team) {
+    teams.value.push(team)
+  }
+  function removeTeam(teamId) {
+    teams.value = teams.value.filter((t) => t.id !== teamId)
+  }
+  function updateTeam(updatedTeam) {
+    const index = teams.value.findIndex((t) => t.id === updatedTeam.id)
+    if (index !== -1) {
+      teams.value[index] = { ...teams.value[index], ...updatedTeam }
+    }
+  }
 
-  actions: {
-    async fetchAll() {
-      this.loading = true
-      const [t] = await safeCall(getteams())
-      const [o] = await safeCall(getoperators())
-      const [a] = await safeCall(getaccounts())
+  // 🔹 Opérateurs
+  const operators = ref([])
+  function setOperators(newOperators) {
+    operators.value = newOperators
+  }
+  function addOperator(operator) {
+    operators.value.push(operator)
+  }
+  function removeOperator(operatorId) {
+    operators.value = operators.value.filter((op) => op.id !== operatorId)
+  }
+  function updateOperator(updatedOperator) {
+    const index = operators.value.findIndex((op) => op.id === updatedOperator.id)
+    if (index !== -1) {
+      operators.value[index] = { ...operators.value[index], ...updatedOperator }
+    }
+  }
 
-      if (t) this.teams = t.teams
-      if (o) this.operators = o.operators
-      if (a) this.accounts = a.accounts
+  // 🔹 Comptes
+  const accounts = ref([])
+  function setAccounts(newAccounts) {
+    accounts.value = newAccounts
+  }
+  function addAccount(account) {
+    accounts.value.push(account)
+  }
+  function removeAccount(accountId) {
+    accounts.value = accounts.value.filter((acc) => acc.id !== accountId)
+  }
+  function updateAccount(updatedAccount) {
+    const index = accounts.value.findIndex((acc) => acc.id === updatedAccount.id)
+    if (index !== -1) {
+      accounts.value[index] = { ...accounts.value[index], ...updatedAccount }
+    }
+  }
 
-      this.loading = false
-    },
+  return {
+    // state
+    teams, operators, accounts,
 
-    removeTeam(id) {
-      this.teams = this.teams.filter(t => t.id !== id)
-    },
+    // teams
+    setTeams, addTeam, removeTeam, updateTeam,
 
-    removeOperator(id) {
-      this.operators = this.operators.filter(o => o.id !== id)
-    },
+    // operators
+    setOperators, addOperator, removeOperator, updateOperator,
 
-    removeAccount(id) {
-      this.accounts = this.accounts.filter(a => a.id !== id)
-    },
-  },
+    // accounts
+    setAccounts, addAccount, removeAccount, updateAccount,
+  }
 })

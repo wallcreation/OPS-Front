@@ -31,7 +31,10 @@ const addteam = async () => {
 </script>
 <template>
   <div class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-md">
-    <div class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border backdrop-blur-md">
+    <div v-if="loading" class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border backdrop-blur-md animate-bounce">
+      <h1>Ajout en cours, veuillez patienter...</h1>
+    </div>
+    <div v-else class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border backdrop-blur-md">
       <h1 class="text-xl font-bold">Ajouter une équipe</h1>
       <form action="" class="my-2">
         <input
@@ -53,7 +56,6 @@ const addteam = async () => {
       <div class="flex gap-2 justify-end mt-1">
         <button
           @click="addteam"
-          :disabled="loading"
           class="text-primary hover:border-b-2 hover:border-primary disabled:cursor-not-allowed disabled:opacity-50"
         >
           Valider

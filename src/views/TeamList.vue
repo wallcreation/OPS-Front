@@ -10,9 +10,6 @@ const error = ref(false)
 const loading = ref(true)
 const reload = ref(false)
 const teams = ref([])
-const removeteam = async (team_id) => {
-teams.value = teams.value.filter(team => team.id !== team_id)
-}
 const showTeamAdd = ref(false)
 // Functions
 const foo = async () => {
@@ -31,6 +28,9 @@ const foo = async () => {
     teams.value = res
   }
 }
+const removeteam = async (team_id) => {
+  teams.value = teams.value.filter((team) => team.id !== team_id)
+}
 const teamAdd = async (team) => {
   if (team) {
     showTeamAdd.value = false
@@ -47,7 +47,10 @@ onMounted(async () => {
       class="h-[10%] p-2 flex justify-between items-center border-1 border-border bg-surface rounded-lg"
     >
       <h1 class="text-xl font-bold text-primary">Liste des équipes</h1>
-      <button class="flex gap-1 hover:text-primary hover:border-b-2 hover:border-primary">
+      <button
+        @click="showTeamAdd = true"
+        class="flex gap-1 hover:text-primary hover:border-b-2 hover:border-primary"
+      >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 20">
           <path
             fill="currentColor"

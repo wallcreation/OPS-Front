@@ -5,7 +5,7 @@ import TeamCard from '@/components/admin/TeamCard.vue'
 import Reconnect from '@/components/Reconnect.vue'
 import Reload from '@/components/Reload.vue'
 const loading = ref(true)
-const error = ref(true)
+const error = ref(false)
 const reload = ref(false)
 const teams = ref([])
 const foo = async () => {

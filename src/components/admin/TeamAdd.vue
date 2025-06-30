@@ -1,22 +1,33 @@
 <script setup>
+import { createteam, safeCall } from '@/api'
 import { ref } from 'vue'
-const props = defineProps({
-    showModal: Boolean
-})
-const emit = defineEmits(['close'])
+const emit = defineEmits(['created', 'close'])
+const error = ref(false)
+const errormsg = ref('')
 const close = async () => {
-    emit('close')
+  emit('close')
 }
-const teamipt = ref("")
+const teamipt = ref('')
 const addteam = async () => {
-    console.log('Team name:')
+  if (teamipt.value.trim() === '') {
+    error.value = true
+    errormsg.value = 'Le champ ne peut être vide'
+    setTimeout(() => {
+      error.value = false
+    }, 3000)
+  } else {
+    const [res, err] = await safeCall(createteam({ name: teamipt.value }))
+    if (err) {
+      errormsg.value = err.message
+      console.log('create team err:', err)
+    } {
+      emit('created', res)
+    }
+  }
 }
 </script>
 <template>
-    <div
-    v-if="showModal"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-md"
-  >
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-md">
     <div class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border backdrop-blur-md">
       <h1 class="text-xl font-bold">Ajouter une équipe</h1>
       <form action="" class="my-2">
@@ -26,12 +37,20 @@ const addteam = async () => {
           id="tname"
           required
           placeholder="Nom de la nouvelle équipe"
-          :value="teamipt"
-          class="w-full border-b-2 border-border active:border-primary hover:border-primary-dark outline-none"
+          v-model="teamipt"
+          :class="
+            error
+              ? 'border-error active:border-error hover:border-error-dark'
+              : 'border-border active:border-primary hover:border-primary-dark'
+          "
+          class="w-full border-b-2 outline-none"
         />
       </form>
+      <p v-if="error" class="bg-error-dark rounded-lg text-center">{{ errormsg }}</p>
       <div class="flex gap-2 justify-end mt-1">
-        <button @click="addteam" class="text-primary hover:border-b-2 hover:border-primary">Valider</button>
+        <button @click="addteam" class="text-primary hover:border-b-2 hover:border-primary">
+          Valider
+        </button>
         <button @click="close" class="text-error hover:border-b-2 hover:border-error">
           Annuler
         </button>

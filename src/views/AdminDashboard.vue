@@ -1,5 +1,6 @@
 <script setup>
 import { getdashboard, safeCall } from '@/api'
+import TeamAdd from '@/components/admin/TeamAdd.vue'
 import Reconnect from '@/components/Reconnect.vue'
 import Reload from '@/components/Reload.vue'
 import { onMounted, ref } from 'vue'
@@ -11,20 +12,29 @@ const data = ref({
 const loading = ref(true)
 const error = ref(false)
 const reload = ref(false)
+const showTeamAdd = ref(false)
+const showOperatorAdd = ref(false)
+const showAccountAdd = ref(false)
 const foo = async () => {
   reload.value = false
   const [res, err] = await safeCall(getdashboard())
   if (err) {
-    console.log("err: ", err)
+    console.log('err: ', err)
     if (err.code === 1003) {
       error.value = true
     } else {
       reload.value = true
     }
   } else {
-    console.log("res :", res)
+    console.log('res :', res)
     data.value = res
     loading.value = false
+  }
+}
+const teamAdd = async (team) => {
+  if(team) {
+    showTeamAdd.value = false
+    team.value++
   }
 }
 onMounted(async () => {
@@ -32,8 +42,10 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="w-full h-full grid grid-cols-1 md:grid-cols-2 text-center"
-  :class="loading ? 'animate-pulse' : ''">
+  <div
+    class="w-full h-full grid grid-cols-1 md:grid-cols-2 text-center"
+    :class="loading ? 'animate-pulse' : ''"
+  >
     <div
       class="flex items-center justify-center m-2 bg bg-surface border-2 border-border rounded-lg"
     >
@@ -41,7 +53,7 @@ onMounted(async () => {
         <h1 class="text-primary text-5xl font-bold">
           {{ data.teams }}
         </h1>
-        <p>Equipes</p>
+        <p @click="showTeamAdd = true">Equipes</p>
       </div>
     </div>
     <div
@@ -69,4 +81,6 @@ onMounted(async () => {
   <Reconnect v-if="error" />
   <!-- Reload data modal -->
   <Reload :show="reload" @accept="foo()" @cancel="reload = false" />
+  <!-- Add team modal -->
+  <TeamAdd v-if="showTeamAdd" @close="showTeamAdd = false" />
 </template>

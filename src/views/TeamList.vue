@@ -1,13 +1,20 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { getteams, safeCall } from '@/api'
+import TeamAdd from '@/components/admin/TeamAdd.vue'
 import TeamCard from '@/components/admin/TeamCard.vue'
 import Reconnect from '@/components/Reconnect.vue'
 import Reload from '@/components/Reload.vue'
+// Variables
 const error = ref(false)
 const loading = ref(true)
 const reload = ref(false)
 const teams = ref([])
+const removeteam = async (team_id) => {
+teams.value = teams.value.filter(team => team.id !== team_id)
+}
+const showTeamAdd = ref(false)
+// Functions
 const foo = async () => {
   reload.value = false
   const [res, err] = await safeCall(getteams())
@@ -24,20 +31,15 @@ const foo = async () => {
     teams.value = res
   }
 }
+const teamAdd = async (team) => {
+  if (team) {
+    showTeamAdd.value = false
+    teams.value.push(team)
+  }
+}
 onMounted(async () => {
   await foo()
 })
-const showModal = ref(false)
-const teamipt = ref('')
-const addteam = async () => {
-  teams.value.push({
-    id: 20,
-    name: teamipt.value,
-    operators: [],
-    accounts: [],
-  })
-  showModal.value = false
-}
 </script>
 <template>
   <div class="w-full h-full p-1">
@@ -69,9 +71,14 @@ const addteam = async () => {
         :name="team.name"
         :operators="team.operators"
         :accounts="team.accounts"
+        @deleted="removeteam(team.id)"
       />
     </div>
   </div>
+  <!-- Reconnect modal -->
   <Reconnect v-if="error" />
+  <!-- Reload modal -->
   <Reload :show="reload" @accept="foo()" @cancel="reload = false" />
+  <!-- Add team modal -->
+  <TeamAdd v-if="showTeamAdd" @created="teamAdd" @close="showTeamAdd = false" />
 </template>

@@ -34,7 +34,7 @@ const foo = async () => {
 const teamAdd = async (team) => {
   if(team) {
     showTeamAdd.value = false
-    team.value++
+    team.value++ 
   }
 }
 onMounted(async () => {
@@ -82,5 +82,5 @@ onMounted(async () => {
   <!-- Reload data modal -->
   <Reload :show="reload" @accept="foo()" @cancel="reload = false" />
   <!-- Add team modal -->
-  <TeamAdd v-if="showTeamAdd" @close="showTeamAdd = false" />
+  <TeamAdd v-if="showTeamAdd" @created="teamAdd" @close="showTeamAdd = false" />
 </template>

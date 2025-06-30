@@ -154,8 +154,9 @@ const onlogin = async () => {
         </div>
         <button
           type="submit"
-          class="p-2 bg-[#2563EB] rounded-lg hover:bg-[#06B6D4]"
-          v-show="!disablelogin"
+          class="p-2 text-bg bg-primary rounded-lg hover:bg-primary-dark"
+          :class="disablelogin ? 'animate-pulse' : ''"
+          :disabled="disablelogin"
         >
           Se connecter
         </button>

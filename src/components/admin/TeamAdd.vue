@@ -32,7 +32,7 @@ const addteam = async () => {
 <template>
   <div class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-md">
     <div v-if="loading" class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border backdrop-blur-md animate-bounce">
-      <h1>Ajout en cours, veuillez patienter...</h1>
+      <h1 class="text-xl text-center">Ajout en cours, veuillez patienter...</h1>
     </div>
     <div v-else class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border backdrop-blur-md">
       <h1 class="text-xl font-bold">Ajouter une équipe</h1>
@@ -46,8 +46,8 @@ const addteam = async () => {
           v-model="teamipt"
           :class="
             error
-              ? 'border-error active:border-error hover:border-error-dark'
-              : 'border-border active:border-primary hover:border-primary-dark'
+              ? 'border-error focus:border-error hover:border-error-dark'
+              : 'border-border focus:border-primary hover:border-primary-dark'
           "
           class="w-full border-b-2 outline-none"
         />

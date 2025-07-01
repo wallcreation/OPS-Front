@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getErrorMessage, fetchAllAppData, login, safeCall } from '@/api'
-import { useAppStore } from '@/stores/app'
+import { getErrorMessage, fetchAllAppData, login, me, safeCall } from '@/api'
+import { saveProfile } from '@/utils/storage'
 const router = useRouter()
 const disablelogin = ref(false)
 const displayerror = ref(false)
@@ -10,7 +10,6 @@ const email = ref('')
 const errorMessage = ref('')
 const password = ref('')
 const showpassword = ref(false)
-const store = useAppStore()
 const onlogin = async () => {
   disablelogin.value = true
 
@@ -31,21 +30,10 @@ const onlogin = async () => {
       }, 5000)
     } else {
       localStorage.setItem('token', res.token)
-      // 🔁 Appelle les données globales après login
-      const [data, fetchErr] = await fetchAllAppData()
-      console.log('Résultat fetchAllAppData:', data, fetchErr)
-
-      if (fetchErr) {
-        console.error('Erreur chargement données :', fetchErr)
-        return
-      }
-      store.setTeams(data.teams)
-      store.setOperators(data.operators)
-      store.setAccounts(data.accounts)
-      if (res.profile.role === 'admin') {
-        router.push('/admin/dashboard')
-      }
+      saveProfile(res.profile)
+      console.log("res: ", res.profile)
     }
+    router.push('/loader')
   }
 
   disablelogin.value = false

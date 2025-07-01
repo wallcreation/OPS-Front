@@ -5,7 +5,7 @@ export * from './auth'
 export * from './error'
 export * from './operator'
 export * from './team'
-export * from './utils'
+export * from '../utils/storage'
 
 export function getdashboard() {
     return api.get("/admin/dashboard")

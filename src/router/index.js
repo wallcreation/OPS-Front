@@ -10,6 +10,7 @@ import LoginView from '@/views/LoginView.vue'
 import OperatorInfo from '@/views/OperatorInfo.vue'
 import OperatorList from '@/views/OperatorList.vue'
 import AccountList from '@/views/AccountList.vue'
+import StateLoader from '@/views/StateLoader.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +23,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView,
+    },
+    {
+      path: '/loader',
+      name: 'loader',
+      component: StateLoader,
     },
     {
       path: '/admin/',

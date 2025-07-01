@@ -1,3 +1,4 @@
+// stores/app.js
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
@@ -57,16 +58,17 @@ export const useAppStore = defineStore('app', () => {
   }
 
   return {
-    // state
+    // état
     teams, operators, accounts,
 
-    // teams
+    // setters
     setTeams, addTeam, removeTeam, updateTeam,
-
-    // operators
     setOperators, addOperator, removeOperator, updateOperator,
-
-    // accounts
     setAccounts, addAccount, removeAccount, updateAccount,
+  }
+}, {
+  persist: {
+    paths: ['teams', 'operators', 'accounts'],
+    storage: localStorage
   }
 })

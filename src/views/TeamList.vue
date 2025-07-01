@@ -15,21 +15,24 @@ const showTeamAdd = ref(false)
 const store = useAppStore()
 const teams = computed(() => store.teams)
 // Functions
+// const foo = async () => {
+//   reload.value = false
+//   const [res, err] = await safeCall(getteams())
+//   if (err) {
+//     console.log('err: ', err)
+//     if (err.code === 1003) {
+//       error.value = true
+//     } else {
+//       reload.value = true
+//     }
+//   } else {
+//     loading.value = false
+//     console.log('res: ', res)
+//     teams.value = res
+//   }
+// }
 const foo = async () => {
-  reload.value = false
-  const [res, err] = await safeCall(getteams())
-  if (err) {
-    console.log('err: ', err)
-    if (err.code === 1003) {
-      error.value = true
-    } else {
-      reload.value = true
-    }
-  } else {
-    loading.value = false
-    console.log('res: ', res)
-    teams.value = res
-  }
+  teams = computed(() => store.teams)
 }
 const removeteam = async (team_id) => {
   teams.value = teams.value.filter((team) => team.id !== team_id)

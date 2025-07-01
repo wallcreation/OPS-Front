@@ -8,24 +8,24 @@ const error = ref(false)
 const loading = ref(true)
 const operators = ref([])
 const reload = ref(false)
-const foo = async () => {
-  reload.value = false
-  const [res, err] = await safeCall(getoperators())
-  if (err) {
-    console.log('err: ', err)
-    if (err.code === 1003) {
-      error.value = true
-    } else {
-      reload.value = true
-    }
-  } else {
-    loading.value = false
-    console.log('res: ', res)
-    operators.value = res
-  }
-}
+// const foo = async () => {
+//   reload.value = false
+//   const [res, err] = await safeCall(getoperators())
+//   if (err) {
+//     console.log('err: ', err)
+//     if (err.code === 1003) {
+//       error.value = true
+//     } else {
+//       reload.value = true
+//     }
+//   } else {
+//     loading.value = false
+//     console.log('res: ', res)
+//     operators.value = res
+//   }
+// }
 onMounted(async () => {
-  await foo()
+  // await foo()
 })
 </script>
 <template>

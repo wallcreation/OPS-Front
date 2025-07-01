@@ -1,13 +1,15 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { getdashboard, safeCall } from '@/api'
+import { useAppStore } from '@/stores/app'
 import TeamAdd from '@/components/admin/TeamAdd.vue'
 import Reconnect from '@/components/Reconnect.vue'
 import Reload from '@/components/Reload.vue'
+const store = useAppStore()
 const data = ref({
-  teams: 0,
-  operators: 0,
-  accounts: 0,
+  teams: computed(() => store.teams),
+  operators: computed(() => store.operators),
+  accounts: computed(() => store.accounts),
 })
 const loading = ref(true)
 const error = ref(false)
@@ -26,19 +28,16 @@ const foo = async () => {
       reload.value = true
     }
   } else {
-    console.log('res :', res)
-    data.value = res
+    // Mise à jour du store Pinia
+    store.setTeams(res.teams)
+    store.setOperators(res.operators)
+    store.setAccounts(res.accounts)
+
     loading.value = false
   }
 }
-const teamAdd = async (team) => {
-  if(team) {
-    showTeamAdd.value = false
-    team.value++ 
-  }
-}
 onMounted(async () => {
-  await foo()
+  // await foo()
 })
 </script>
 <template>
@@ -51,7 +50,7 @@ onMounted(async () => {
     >
       <div>
         <h1 class="text-primary text-5xl font-bold">
-          {{ data.teams }}
+          {{ data.teams.length }}
         </h1>
         <p @click="showTeamAdd = true">Equipes</p>
       </div>
@@ -61,7 +60,7 @@ onMounted(async () => {
     >
       <div>
         <h1 class="text-primary text-5xl font-bold">
-          {{ data.operators }}
+          {{ data.operators.length }}
         </h1>
         <p>Opérateurs</p>
       </div>
@@ -71,7 +70,7 @@ onMounted(async () => {
     >
       <div>
         <h1 class="text-primary text-5xl font-bold">
-          {{ data.accounts }}
+          {{ data.accounts.length }}
         </h1>
         <p>Comptes</p>
       </div>

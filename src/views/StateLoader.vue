@@ -1,9 +1,9 @@
 <script setup>
-import { loadProfile } from '@/utils/storage'
-import { fetchAllAppData, safeCall } from '@/api'
-import { useAppStore } from '@/stores/app'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { fetchAllAppData, safeCall } from '@/api'
+import { loadProfile } from '@/utils/storage'
+import { useAppStore } from '@/stores/app'
 const error = ref(false)
 const loading = ref(true)
 const router = useRouter()

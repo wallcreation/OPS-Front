@@ -3,13 +3,17 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getErrorMessage, fetchAllAppData, login, me, safeCall } from '@/api'
 import { saveProfile } from '@/utils/storage'
+import { useAppStore } from '@/stores/app'
 const router = useRouter()
 const disablelogin = ref(false)
 const displayerror = ref(false)
 const email = ref('')
 const errorMessage = ref('')
+const loading = ref(false)
 const password = ref('')
 const showpassword = ref(false)
+const store = useAppStore()
+// Functions
 const onlogin = async () => {
   disablelogin.value = true
 
@@ -31,12 +35,31 @@ const onlogin = async () => {
     } else {
       localStorage.setItem('token', res.token)
       saveProfile(res.profile)
-      console.log("res: ", res.profile)
+      console.log('res: ', res.profile)
+      await foo(res.profile.role)
     }
-    router.push('/loader')
   }
-
   disablelogin.value = false
+}
+const foo = async (role) => {
+  error.value = false
+  const [data, fetchErr] = await fetchAllAppData()
+  console.log('Résultat fetchAllAppData:', data, fetchErr)
+
+  if (fetchErr) {
+    console.error('Erreur chargement données :', fetchErr)
+    error.value = true
+    setTimeout(async () => {
+      router.push('/login')
+    }, 3000)
+  }
+  store.setTeams(data.teams)
+  store.setOperators(data.operators)
+  store.setAccounts(data.accounts)
+  loading.value = false
+  if (profile.role === 'admin') {
+    router.push('/admin/dashboard')
+  }
 }
 </script>
 <template>

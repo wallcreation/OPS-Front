@@ -1,13 +1,15 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { getaccounts, safeCall } from '@/api'
+import { useAppStore } from '@/stores/app'
 import Reconnect from '@/components/Reconnect.vue'
 import Reload from '@/components/Reload.vue'
 import AccountCard from '@/components/admin/AccountCard.vue'
 const error = ref(false)
 const loading = ref(true)
-const accounts = ref([])
 const reload = ref(false)
+const stores = useAppStore()
+const account = computed(() => stores.accounts)
 const foo = async () => {
   reload.value = false
   const [res, err] = await safeCall(getaccounts())
@@ -22,6 +24,7 @@ const foo = async () => {
     loading.value = false
     console.log('res: ', res)
     accounts.value = res
+    stores.setAccounts(res)
   }
 }
 onMounted(async () => {

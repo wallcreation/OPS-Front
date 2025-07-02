@@ -13,6 +13,7 @@ const loading = ref(false)
 const password = ref('')
 const showpassword = ref(false)
 const store = useAppStore()
+const error = ref(false)
 // Functions
 const onlogin = async () => {
   disablelogin.value = true
@@ -57,7 +58,7 @@ const foo = async (role) => {
   store.setOperators(data.operators)
   store.setAccounts(data.accounts)
   loading.value = false
-  if (profile.role === 'admin') {
+  if (role === 'admin') {
     router.push('/admin/dashboard')
   }
 }

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { useAppStore } from '@/stores/app'
 const route = useRoute()
 const operatorid = route.params.id
 console.log('operator id', operatorid)

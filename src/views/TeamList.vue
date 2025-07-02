@@ -14,6 +14,7 @@ const reload = ref(false)
 const showTeamAdd = ref(false)
 const store = useAppStore()
 const teams = computed(() => store.teams)
+const operators = computed(() => stores.operators)
 // Functions
 const foo = async () => {
   reload.value = false
@@ -31,6 +32,12 @@ const foo = async () => {
     teams.value = res
     store.setTeams(res)
   }
+}
+const teamsoperators = async (team_id) => {
+  // const operators = computed(() => stores.operators)
+  const teamop = operators.value.filter(op => op.team_id === team_id)
+  console.log("teamop: ", teamop)
+  return teamop
 }
 // const foo = async () => {
 //   teams = computed(() => store.teams)
@@ -79,7 +86,7 @@ onMounted(async () => {
         :key="team.id"
         :id="team.id"
         :name="team.name"
-        :operators="team.operators"
+        :operators="teamsoperator(team.id)"
         :accounts="team.accounts"
         @deleted="removeteam(team.id)"
       />

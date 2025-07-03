@@ -24,11 +24,11 @@ const chooseTeam = (team) => {
       </button>
       <div
         v-for="team in teamlist"
-        :key="team"
+        :key="team.id"
         @click="chooseTeam(team)"
         class="p-1 text-center hover:border-b-2 hover:border-primary"
       >
-        {{ team }}
+        {{ team.name }}
       </div>
     </div>
   </div>

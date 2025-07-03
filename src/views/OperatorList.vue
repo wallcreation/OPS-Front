@@ -1,32 +1,36 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import OperatorCard from '@/components/admin/OperatorCard.vue'
-import Reconnect from '@/components/Reconnect.vue'
-import Reload from '@/components/Reload.vue'
 import { getoperators, safeCall } from '@/api'
 import { useAppStore } from '@/stores/app'
+import OperatorAdd from '@/components/admin/OperatorAdd.vue'
+import OperatorCard from '@/components/admin/OperatorCard.vue'
+import Reload from '@/components/Reload.vue'
 const error = ref(false)
 const loading = ref(false)
 const stores = useAppStore()
 const operators = computed(() => stores.operators)
 const reload = ref(false)
+const showOperatorAdd = ref(false)
 const foo = async () => {
-   reload.value = false
-   const [res, err] = await safeCall(getoperators())
-   if (err) {
-     console.log('err: ', err)
-     if (err.code === 1003) {
-       error.value = true
-     } else {
-       reload.value = true
-     }
+  reload.value = false
+  const [res, err] = await safeCall(getoperators())
+  if (err) {
+    console.log('err: ', err)
+    if (err.code === 1003) {
+      error.value = true
     } else {
-     loading.value = false
-     console.log('res: ', res)
-     operators.value = res
-     stores.setOperators(res)
-   }
- }
+      reload.value = true
+    }
+  } else {
+    loading.value = false
+    console.log('res: ', res)
+    operators.value = res
+    stores.setOperators(res)
+  }
+}
+const opcreated = async (op) => {
+  operators.value.push(op)
+}
 onMounted(async () => {
   // await foo()
 })
@@ -37,7 +41,10 @@ onMounted(async () => {
       class="h-[10%] p-2 flex justify-between items-center border-1 border-border bg-surface rounded-lg"
     >
       <h1 class="text-xl font-bold text-primary">Liste des opérateurs</h1>
-      <button class="flex gap-1 items-center   hover:text-primary hover:border-b-2 hover:border-primary">
+      <button
+        @click="showOperatorAdd = true"
+        class="flex gap-1 items-center hover:text-primary hover:border-b-2 hover:border-primary"
+      >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 28">
           <path
             fill="currentColor"
@@ -66,6 +73,6 @@ onMounted(async () => {
       />
     </div>
   </div>
-  <Reconnect v-if="error" />
+  <OperatorAdd v-if="showOperatorAdd" @created="opcreated" @close="showOperatorAdd = false" />
   <Reload :show="reload" @accept="foo()" @cancel="reload = false" />
 </template>

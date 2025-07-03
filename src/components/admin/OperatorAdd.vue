@@ -21,18 +21,17 @@ const fname = ref('')
 const email = ref('')
 const password = ref('')
 const contact = ref('')
+const shift = ref('jour') // "jour" par défaut
 
 // État pour afficher/masquer le sélecteur
 const teamsel = ref(false)
 
-// Quand une équipe est sélectionnée dans TeamSelector
 const closetteamselector = async (team) => {
   team_id.value = team.id
   teamipt.value = team.name
   teamsel.value = false
 }
 
-// Fonction de création (soumission du formulaire)
 const oncreate = async () => {
   if (
     !lname.value ||
@@ -52,10 +51,10 @@ const oncreate = async () => {
     email: email.value,
     password: password.value,
     phone: contact.value,
-    team_id: team_id.value,
+    team_id: team_id.value === 'jour' ? 1 : 0,
+    shift: shift.value, // inclure le shift dans les données envoyées
   }
 
-  // Envoie vers ton API ou traitement local ici
   const [res, err] = await safeCall(createOperator(data))
   if (err) {
   } else {
@@ -63,7 +62,6 @@ const oncreate = async () => {
     emit('created', res)
   }
 
-  // Après création : réinitialiser et fermer
   lname.value = ''
   fname.value = ''
   email.value = ''
@@ -71,11 +69,11 @@ const oncreate = async () => {
   contact.value = ''
   team_id.value = 0
   teamipt.value = ''
+  shift.value = 'jour'
 
   emit('close')
 }
 
-// Test de fonction addteam si c’est autre chose que oncreate
 const addteam = async () => {
   alert("Ajout d'une équipe (logique à compléter si besoin)")
 }
@@ -127,6 +125,13 @@ const addteam = async () => {
           class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none cursor-pointer"
           @click="teamsel = true"
         />
+        <select
+          v-model="shift"
+          class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
+        >
+          <option class="bg-surface border-2 border-border rounded active:bg-primary focus:bg-primary" value="jour">Jour</option>
+          <option class="bg-surface border-2 border-border rounded active:bg-primary focus:bg-primary" value="nuit">Nuit</option>
+        </select>
         <input
           type="text"
           name="contact"

@@ -130,14 +130,14 @@ const reload = async () => {
     class="fixed inset-0 backdrop-blur-md flex items-center justify-center"
   >
     <div
-      class="w-[30%] md:h-[20%] border-2 p-4 border-primary rounded-lg bg-surface grid gap-2 grid-cols-1 md:grid-cols-2 text-center"
+      class="border-2 p-4 border-primary rounded-lg bg-surface grid gap-2 grid-cols-1 md:grid-cols-2 text-center"
     >
       <h1 class="md:col-span-2 text-primary text-2xl">{{ profile.fname }} {{ profile.lname }}</h1>
       <p class="md:col-span-2 mb-2">Administrateur</p>
       <button
         :disabled="onreload"
         @click="reload"
-        class="mx-1 flex items-center justify-center gap-1 border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
+        class="mx-1 p-1 flex items-center justify-center gap-1 border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">
           <path
@@ -152,7 +152,7 @@ const reload = async () => {
       </button>
       <button
         @click="logout"
-        class="mx-1 flex items-center justify-center gap-1 border-2 border-error rounded-lg hover:bg-error-dark hover:border-error-dark transition"
+        class="mx-1 p-1 flex items-center justify-center gap-1 border-2 border-error rounded-lg hover:bg-error-dark hover:border-error-dark transition"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path

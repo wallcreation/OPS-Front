@@ -30,11 +30,11 @@ const addteam = async () => {
 }
 </script>
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-md">
+  <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
     <div v-if="loading" class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border backdrop-blur-md animate-bounce">
       <h1 class="text-xl text-center">Ajout en cours, veuillez patienter...</h1>
     </div>
-    <div v-else class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border backdrop-blur-md">
+    <div v-else class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border bg-surface">
       <h1 class="text-xl font-bold">Ajouter une équipe</h1>
       <form action="" class="my-2">
         <input

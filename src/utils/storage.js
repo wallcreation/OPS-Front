@@ -4,3 +4,7 @@ export const saveProfile = (profile) => {
 export const loadProfile = () => {
   return JSON.parse(localStorage.getItem('profile') || '{}')
 }
+
+export const clearProfile = () => {
+  return localStorage.clear()
+}

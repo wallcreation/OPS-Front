@@ -6,10 +6,10 @@ import Reconnect from '@/components/Reconnect.vue'
 import Reload from '@/components/Reload.vue'
 import AccountCard from '@/components/admin/AccountCard.vue'
 const error = ref(false)
-const loading = ref(true)
+const loading = ref(false)
 const reload = ref(false)
 const stores = useAppStore()
-const account = computed(() => stores.accounts)
+const accounts = computed(() => stores.accounts)
 const foo = async () => {
   reload.value = false
   const [res, err] = await safeCall(getaccounts())
@@ -28,7 +28,7 @@ const foo = async () => {
   }
 }
 onMounted(async () => {
-  await foo()
+  // await foo()
 })
 </script>
 <template>
@@ -57,7 +57,7 @@ onMounted(async () => {
         v-for="account in accounts"
         :id="account.id"
         :name="account.name"
-        :team="account.team"
+        :team="stores.getTeamById(account.team_id).name"
         :team_id="account.team_id"
       />
     </div>

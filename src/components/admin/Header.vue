@@ -1,9 +1,37 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { clearProfile, fetchAllAppData, loadProfile } from '@/api'
+import { useAppStore } from '@/stores/app'
+import { ref } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
+const profile = loadProfile()
+const initials = (profile?.fname?.[0] || '') + (profile?.lname?.[0] || '')
+const error = ref(false)
+const onreload = ref(false)
+const show = ref(false)
+const logout = async () => {
+  clearProfile()
+  const router = useRouter()
+  router.push('/login')
+}
+const reload = async () => {
+  onreload.value = true
+  const stores = useAppStore()
+  const [data, err] = await fetchAllAppData()
+  if (err) {
+    if (err.code === 1003) {
+      error.value = true
+    }
+  }
+  stores.setAccounts(data.accounts)
+  stores.setOperators(data.operators)
+  stores.setTeams(data.teams)
+  onreload.value = false
+  show = false
+}
 </script>
 <template>
   <h1 class="text-5xl font-bold text-primary">OPS</h1>
-  <nav>
+  <nav class="flex items-center">
     <RouterLink
       to="/admin/dashboard"
       class="mx-1 hover:border-b-2 hover:border-primary-light"
@@ -92,8 +120,52 @@ import { RouterLink } from 'vue-router'
       </span>
       <span class="hidden md:inline">Comptes</span>
     </RouterLink>
-    <RouterLink to="/admin/logout" class="mx-1 hover:border-b-2 hover:border-primary-light">
-      <span>Admin</span>
-    </RouterLink>
+    <button @click="show = !show" class="flex mx-1 hover:border-b-2 hover:border-primary-light">
+      <span class="font-bold text-lg text-primary">{{ initials }}</span>
+    </button>
   </nav>
+  <div
+    v-if="show"
+    @click="show = !show"
+    class="fixed inset-0 backdrop-blur-md flex items-center justify-center"
+  >
+    <div
+      class="w-[30%] md:h-[20%] border-2 p-4 border-primary rounded-lg bg-surface grid gap-2 grid-cols-1 md:grid-cols-2 text-center"
+    >
+      <h1 class="md:col-span-2 text-primary text-2xl">{{ profile.fname }} {{ profile.lname }}</h1>
+      <p class="md:col-span-2 mb-2">Administrateur</p>
+      <button
+        :disabled="onreload"
+        @click="reload"
+        class="mx-1 flex items-center justify-center gap-1 border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-width="2"
+            d="M13.1 12c-1.2 1.5-3 2.5-5.1 2.5c-3.6 0-6.5-2.9-6.5-6.5S4.4 1.5 8 1.5c2.2 0 4.1 1.1 5.3 2.7m.2-3.2v3c0 .3-.2.5-.5.5h-3"
+          />
+        </svg>
+        <span>Recharger</span>
+      </button>
+      <button
+        @click="logout"
+        class="mx-1 flex items-center justify-center gap-1 border-2 border-error rounded-lg hover:bg-error-dark hover:border-error-dark transition"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M20 12h-9.5m7.5 3l3-3l-3-3m-5-2V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5a2 2 0 0 0 2-2v-1"
+          />
+        </svg>
+        <span>Se déconnecter</span>
+      </button>
+    </div>
+  </div>
 </template>

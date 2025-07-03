@@ -6,7 +6,7 @@ import Reload from '@/components/Reload.vue'
 import { getoperators, safeCall } from '@/api'
 import { useAppStore } from '@/stores/app'
 const error = ref(false)
-const loading = ref(true)
+const loading = ref(false)
 const stores = useAppStore()
 const operators = computed(() => stores.operators)
 const reload = ref(false)
@@ -60,7 +60,7 @@ onMounted(async () => {
         :id="operator.id"
         :lname="operator.lname"
         :fname="operator.fname"
-        :team="operator.team"
+        :team="stores.getTeamById(operator.team_id).name"
         :team_id="operator.team_id"
         :workat="operator.workat"
       />

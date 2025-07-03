@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getErrorMessage, fetchAllAppData, login, me, safeCall } from '@/api'
+import { getErrorMessage, fetchAllAppData, login, safeCall } from '@/api'
 import { saveProfile } from '@/utils/storage'
 import { useAppStore } from '@/stores/app'
 const router = useRouter()
@@ -44,6 +44,7 @@ const onlogin = async () => {
 }
 const foo = async (role) => {
   error.value = false
+  loading.value = true
   const [data, fetchErr] = await fetchAllAppData()
   console.log('Résultat fetchAllAppData:', data, fetchErr)
 
@@ -67,7 +68,10 @@ const foo = async (role) => {
   <div
     class="h-screen w-screen bg-[url('/loginbg.jpg')] bg-cover bg-center flex items-center justify-center"
   >
-    <div class="bg-bg/50 backdrop-blur-md rounded-lg text-text p-10 text-center pb-5">
+    <div v-if="loading" class="bg-bg/50 backdrop-blur-md rounded-lg text-text p-10 text-center pb-5">
+      <h1 class="text-xl text-primary animate-bounce">Vous avez été connecté.<br/>Patientez pendant la récupération des données.</h1>
+    </div>
+    <div v-else class="bg-bg/50 backdrop-blur-md rounded-lg text-text p-10 text-center pb-5">
       <h1 class="text-4xl">OPS</h1>
       <div
         class="flex items-center justify-center gap-2 text-xs bg-error text-text p-1 rounded-lg my-2"

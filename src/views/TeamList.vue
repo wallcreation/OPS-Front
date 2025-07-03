@@ -4,7 +4,6 @@ import { getteams, safeCall } from '@/api'
 import { useAppStore } from '@/stores/app'
 import TeamAdd from '@/components/admin/TeamAdd.vue'
 import TeamCard from '@/components/admin/TeamCard.vue'
-import Reconnect from '@/components/Reconnect.vue'
 import Reload from '@/components/Reload.vue'
 // Variables
 const error = ref(false)
@@ -33,15 +32,6 @@ const foo = async () => {
     store.setTeams(res)
   }
 }
-const teamsoperators = async (team_id) => {
-  // const operators = computed(() => stores.operators)
-  const teamop = operators.value.filter(op => op.team_id === team_id)
-  console.log("teamop: ", teamop)
-  return teamop
-}
-// const foo = async () => {
-//   teams = computed(() => store.teams)
-// }
 const removeteam = async (team_id) => {
   teams.value = teams.value.filter((team) => team.id !== team_id)
 }
@@ -86,14 +76,12 @@ onMounted(async () => {
         :key="team.id"
         :id="team.id"
         :name="team.name"
-        :operators="teamsoperator(team.id)"
-        :accounts="team.accounts"
+        :operators="store.getOperatorsByTeamId(team.id)"
+        :accounts="store.getAccountsByTeamId(team.id)"
         @deleted="removeteam(team.id)"
       />
     </div>
   </div>
-  <!-- Reconnect modal -->
-  <Reconnect v-if="error" />
   <!-- Reload modal -->
   <Reload :show="reload" @accept="foo()" @cancel="reload = false" />
   <!-- Add team modal -->

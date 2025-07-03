@@ -11,7 +11,7 @@ const data = ref({
   operators: computed(() => store.operators),
   accounts: computed(() => store.accounts),
 })
-const loading = ref(true)
+const loading = ref(false)
 const error = ref(false)
 const reload = ref(false)
 const showTeamAdd = ref(false)
@@ -76,8 +76,6 @@ onMounted(async () => {
       </div>
     </div>
   </div>
-  <!-- Reconnect modal -->
-  <Reconnect v-if="error" />
   <!-- Reload data modal -->
   <Reload :show="reload" @accept="foo()" @cancel="reload = false" />
   <!-- Add team modal -->

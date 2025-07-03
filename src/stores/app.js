@@ -1,6 +1,6 @@
 // stores/app.js
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 export const useAppStore = defineStore('app', () => {
   // 🔹 Équipes
@@ -57,6 +57,20 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
+  // 🧠 Getters
+
+  // --- Équipes ---
+  const getTeamById = (id) => teams.value.find(t => t.id === id)
+  const getTeamByName = (name) => teams.value.find(t => t.name === name)
+
+  // --- Opérateurs ---
+  const getOperatorById = (id) => operators.value.find(op => op.id === id)
+  const getOperatorsByTeamId = (teamId) => operators.value.filter(op => op.team_id === teamId)
+
+  // --- Comptes ---
+ const getAccountById = (id) => accounts.value.find(acc => acc.id === id)
+ const getAccountsByTeamId = (teamId) => accounts.value.filter(acc => acc.team_id === teamId)
+
   return {
     // état
     teams, operators, accounts,
@@ -65,6 +79,14 @@ export const useAppStore = defineStore('app', () => {
     setTeams, addTeam, removeTeam, updateTeam,
     setOperators, addOperator, removeOperator, updateOperator,
     setAccounts, addAccount, removeAccount, updateAccount,
+
+    // getters
+    getTeamById,
+    getTeamByName,
+    getOperatorById,
+    getOperatorsByTeamId,
+    getAccountById,
+    getAccountsByTeamId,
   }
 }, {
   persist: {

@@ -1,5 +1,5 @@
 import api from './base'
-
+import { useSessionStore } from '@/stores/useSessionStore'
 export * from './account'
 export * from './auth'
 export * from './error'
@@ -17,6 +17,10 @@ export async function safeCall(promise) {
     return [data, null]
   } catch (err) {
     const code =  err.response?.data?.detail?.code || 0
+    if(code === 1003) {
+      const session = useSessionStore()
+      session.triggerSessionExpired()
+    }
     const message = err.response?.data?.detail?.message || "Erreur inconnue."
     return [null, { code, message }]
   }

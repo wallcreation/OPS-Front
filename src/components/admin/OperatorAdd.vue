@@ -21,7 +21,8 @@ const fname = ref('')
 const email = ref('')
 const password = ref('')
 const contact = ref('')
-const shift = ref('jour') // "jour" par défaut
+const shift = ref(1) // "jour" par défaut
+const shiftchooser = ref(false)
 
 // État pour afficher/masquer le sélecteur
 const teamsel = ref(false)
@@ -163,4 +164,11 @@ const addteam = async () => {
     @close="teamsel = false"
     @select="closetteamselector"
   />
+  <div v-if="shiftchooser" class="fixed inset-0 z-50 flex items-center justify-center">
+    <div>
+      <h2>Travaille de ?</div>
+      <button @click="shift = 1">Jour</button>
+      <button @click="shift = 0">Nuit</button>
+    </div>
+  </div>
 </template>

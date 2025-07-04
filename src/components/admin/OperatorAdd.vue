@@ -2,10 +2,11 @@
 import { computed, ref } from 'vue'
 import { useAppStore } from '@/stores/app'
 import TeamSelector from './TeamSelector.vue'
-import { createOperator, safeCall } from '@/api'
+import { createOperator, getErrorMessage, safeCall } from '@/api'
 
 const stores = useAppStore()
-const teamlist = computed(() => stores.teams)
+const loading = ref(false)
+const error = ref([false, ''])
 
 const emit = defineEmits(['created', 'close'])
 
@@ -14,70 +15,66 @@ const close = async () => {
 }
 
 // Champs du formulaire
-const team_id = ref(0)
-const teamipt = ref('')
 const lname = ref('')
 const fname = ref('')
 const email = ref('')
 const password = ref('')
-const contact = ref('')
-const shift = ref(1) // "jour" par défaut
-const shiftchooser = ref(false)
+const team = ref({ show: false, teamid: 0, textvalue: '', list: computed(() => stores.teams) })
+const workat = ref({ show: false, choice: 'Jour' })
 
-// État pour afficher/masquer le sélecteur
-const teamsel = ref(false)
-
+// Functions
 const closetteamselector = async (team) => {
-  team_id.value = team.id
-  teamipt.value = team.name
-  teamsel.value = false
+  team.value.teamid = team.id
+  team.value.textvalue = team.name
+  team.show = false
 }
 
 const oncreate = async () => {
+  loading.value = true
   if (
     !lname.value ||
     !fname.value ||
     !email.value ||
     !password.value ||
-    !contact.value ||
-    !team_id.value
+    !team.value.teamid
   ) {
     alert('Veuillez remplir tous les champs.')
+    loading.value = false
     return
   }
-
+  
   const data = {
     lname: lname.value,
     fname: fname.value,
     email: email.value,
     password: password.value,
-    phone: contact.value,
-    team_id: team_id.value === 'jour' ? 1 : 0,
-    shift: shift.value, // inclure le shift dans les données envoyées
+    team_id: team.value.teamid,
+    work_at: workat.value.choice, // inclure le work_at dans les données envoyées
   }
 
+  console.log('data :', data)
   const [res, err] = await safeCall(createOperator(data))
   if (err) {
+    loading.value = false
+    error.value = [true, err.message || getErrorMessage(err.code)]
   } else {
     console.log('op cre res: ', res)
     emit('created', res)
   }
-
+  
   lname.value = ''
   fname.value = ''
   email.value = ''
   password.value = ''
-  contact.value = ''
-  team_id.value = 0
-  teamipt.value = ''
-  shift.value = 'jour'
-
+  // contact.value = ''
+  team.value.teamid = 0
+  team.value.textvalue = ''
+  workat.value.choice = 'jour'
+  
+  loading.value = false
   emit('close')
 }
 
-const addteam = async () => {
-  alert("Ajout d'une équipe (logique à compléter si besoin)")
-}
 </script>
 
 <template>
@@ -116,37 +113,34 @@ const addteam = async () => {
           placeholder="Mot de passe"
           class="md:col-span-2 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
         />
-        <input
-          type="text"
-          name="team"
-          id="team"
-          :value="teamipt"
-          readonly
-          placeholder="Équipe"
-          class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none cursor-pointer"
-          @click="teamsel = true"
-        />
-        <select
-          v-model="shift"
-          class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
-        >
-          <option class="bg-surface border-2 border-border rounded active:bg-primary focus:bg-primary" value="jour">Jour</option>
-          <option class="bg-surface border-2 border-border rounded active:bg-primary focus:bg-primary" value="nuit">Nuit</option>
-        </select>
-        <input
-          type="text"
-          name="contact"
-          id="contact"
-          v-model="contact"
-          placeholder="Numéro de téléphone"
-          class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
-        />
+        <div class="md:col-span-2 grid grid-cols-3 gap-1 items-center">
+          <input
+            type="text"
+            name="team"
+            id="team"
+            :value="team.textvalue"
+            readonly
+            placeholder="Équipe"
+            class="col-span-2 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none cursor-pointer"
+            @click="team.show = true"
+          />
+          <input
+            type="text"
+            name="work_at"
+            id="work_at"
+            @click="workat.show = true"
+            :value="workat.choice"
+            placeholder="Horaire"
+            class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
+          />
+        </div>
         <div class="md:col-span-2 flex gap-2 items-center justify-end">
           <button
             type="submit"
             class="px-2 border-2 border-primary rounded-lg hover:border-primary-dark hover:motion-bg-out-primary-dark"
+            :class="loading ? 'animate-pulse' : ''"
           >
-            Valider
+            {{ loading ? 'Création...' : 'Valider'}}
           </button>
           <button
             @click="close"
@@ -158,17 +152,43 @@ const addteam = async () => {
       </form>
     </div>
   </div>
+  <!-- Error message -->
+  <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
+    <div class="p-4 flex flex-col gap-1.5 border-2 rounded-lg border-border bg-surface">
+      <h1 class="text-xl text-warning font-bold">{{ error[1] }}</h1>
+    </div>
+  </div>
+  <!-- Quick team selector -->
   <TeamSelector
-    :show="teamsel"
-    :teamlist="teamlist"
-    @close="teamsel = false"
+    :show="team.show"
+    :teamlist="team.list"
+    @close="team.show = false"
     @select="closetteamselector"
   />
-  <div v-if="shiftchooser" class="fixed inset-0 z-50 flex items-center justify-center">
-    <div>
-      <h2>Travaille de ?</div>
-      <button @click="shift = 1">Jour</button>
-      <button @click="shift = 0">Nuit</button>
+  <div
+    v-if="workat.show"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 transition"
+  >
+    <div class="flex flex-col gap-1.5 p-4 backdrop-blur-md border-2 border-border rounded-lg">
+      <h2 class="p-2 rounded-lg bg-primary-dark">Travaille de ?</h2>
+      <button
+        @click="
+          workat.choice = 'Jour'
+          workat.show = false
+        "
+        class="border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
+      >
+        Jour
+      </button>
+      <button
+        @click="
+          workat.choice = 'Nuit'
+          workat.show = false
+        "
+        class="border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
+      >
+        Nuit
+      </button>
     </div>
   </div>
 </template>

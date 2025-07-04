@@ -26,7 +26,7 @@ const chooseTeam = (team) => {
         v-for="team in teamlist"
         :key="team.id"
         @click="chooseTeam(team)"
-        class="p-1 text-center hover:border-b-2 hover:border-primary"
+        class="p-1 text-center hover:border-2 hover:border-primary hover:rounded-lg"
       >
         {{ team.name }}
       </div>

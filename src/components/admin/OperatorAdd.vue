@@ -31,18 +31,12 @@ const closetteamselector = async (team) => {
 
 const oncreate = async () => {
   loading.value = true
-  if (
-    !lname.value ||
-    !fname.value ||
-    !email.value ||
-    !password.value ||
-    !team.value.teamid
-  ) {
+  if (!lname.value || !fname.value || !email.value || !password.value || !team.value.teamid) {
     alert('Veuillez remplir tous les champs.')
     loading.value = false
     return
   }
-  
+
   const data = {
     lname: lname.value,
     fname: fname.value,
@@ -61,7 +55,7 @@ const oncreate = async () => {
     console.log('op cre res: ', res)
     emit('created', res)
   }
-  
+
   lname.value = ''
   fname.value = ''
   email.value = ''
@@ -70,11 +64,10 @@ const oncreate = async () => {
   team.value.teamid = 0
   team.value.textvalue = ''
   workat.value.choice = 'jour'
-  
+
   loading.value = false
   emit('close')
 }
-
 </script>
 
 <template>
@@ -140,7 +133,7 @@ const oncreate = async () => {
             class="px-2 border-2 border-primary rounded-lg hover:border-primary-dark hover:motion-bg-out-primary-dark"
             :class="loading ? 'animate-pulse' : ''"
           >
-            {{ loading ? 'Création...' : 'Valider'}}
+            {{ loading ? 'Création...' : 'Valider' }}
           </button>
           <button
             @click="close"
@@ -153,9 +146,15 @@ const oncreate = async () => {
     </div>
   </div>
   <!-- Error message -->
-  <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
+  <div v-if="error[0]" class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
     <div class="p-4 flex flex-col gap-1.5 border-2 rounded-lg border-border bg-surface">
       <h1 class="text-xl text-warning font-bold">{{ error[1] }}</h1>
+      <button
+        @click="error[0] = false"
+        class="mx-2 px-2 border-2 border-error rounded-lg hover:bg-error-dark hover:border-error-dark"
+      >
+        Fermer
+      </button>
     </div>
   </div>
   <!-- Quick team selector -->
@@ -165,6 +164,7 @@ const oncreate = async () => {
     @close="team.show = false"
     @select="closetteamselector"
   />
+  <!-- Quick workat chooser -->
   <div
     v-if="workat.show"
     class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 transition"

@@ -1,28 +1,36 @@
 <script setup>
-import TeamSelector from './TeamSelector.vue'
 import { ref } from 'vue'
+import { safeCall } from '@/api'
+import TeamSelector from './TeamSelector.vue'
 const props = defineProps({
   showModal: Boolean,
+  teams: Array,
 })
 const emit = defineEmits(['close'])
 const close = async () => {
   emit('close')
 }
-const teamipt = ref('')
+const team = ref({ show: false, teamid: 0, textvalue: '', list: props.teams })
+//mntconst teamipt = ref('')
+
 const addteam = async () => {
   console.log('Team name:')
 }
-const teamsel = ref(false)
+// const teamsel = ref(false)
 const closetteamselector = async (name) => {
-  teamipt.value = name
-  teamsel.value = false
+  team.value.show = false
+  team.value.teamid = team.id
+  team.value.textvalue = team.name
 }
 </script>
 <template>
-  <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-md">
+  <div
+    v-if="showModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-md"
+  >
     <div
       class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border"
-      :class="[teamsel ? 'bg-surface' : 'backdrop-blur-md']"
+      :class="[team.show ? 'bg-surface' : 'backdrop-blur-md']"
     >
       <h1 class="text-xl font-bold">Ajouter un compte</h1>
       <form action="" class="my-2 grid gap-2 grid-cols-1 md:grid-cols-2">
@@ -39,9 +47,9 @@ const closetteamselector = async (name) => {
           name="team"
           id="team"
           placeholder="Equipe"
-          :value="teamipt"
+          :value="team.textvalue"
           class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
-          @click="teamsel = true"
+          @click="team.show = true"
         />
       </form>
       <div class="flex gap-2 justify-end mt-1">
@@ -55,9 +63,9 @@ const closetteamselector = async (name) => {
     </div>
   </div>
   <TeamSelector
-    :show="teamsel"
-    :teamlist="teamlist"
-    @close="teamsel = false"
+    :show="team.show"
+    :teamlist="team.list"
+    @close="team.show = false"
     @select="closetteamselector"
   />
 </template>

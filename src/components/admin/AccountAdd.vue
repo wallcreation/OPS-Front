@@ -54,7 +54,7 @@ const closetteamselector = async (choosedteam) => {
           id="aname"
           required
           placeholder="Nom du compte"
-          :value="accountipt"
+          v-model="accountipt"
           class="col-span-3 md:col-span-2 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
         />
         <input
@@ -67,8 +67,8 @@ const closetteamselector = async (choosedteam) => {
           @click="team.show = true"
         />
       </form>
-      <div v-if="error[0]" class="w-full p-1 bg-error">
-        <p class="text-lg font-bold text-center">{{ error[1] }}</p>
+      <div v-if="error[0]" class="w-full rounded-lg bg-error">
+        <p class="text-lg text-center">{{ error[1] }}</p>
       </div>
       <div class="flex gap-2 items-center justify-end mt-1">
         <button

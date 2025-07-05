@@ -37,35 +37,53 @@ const router = createRouter({
           path: '/admin/dashboard',
           name: 'admin-dashboard',
           component: AdminDashboard,
+          meta: { requiresAuth: true }
         },
         {
           path: '/admin/teams',
           name: 'team-list',
           component: TeamList,
+          meta: { requiresAuth: true }
         },
         {
           path: '/admin/teams/:id',
           name: 'team-info',
           component: TeamInfo,
+          meta: { requiresAuth: true }
         },
         {
           path: '/admin/operators',
           name: 'operator-list',
-          component: OperatorList
+          component: OperatorList,
+          meta: { requiresAuth: true }
         },
         {
           path: '/admin/operators/:id',
           name: 'operator-info',
-          component: OperatorInfo
+          component: OperatorInfo,
+          meta: { requiresAuth: true }
         },
         {
           path: '/admin/accounts',
           name: 'account-list',
-          component: AccountList
+          component: AccountList,
+          meta: { requiresAuth: true }
         },
       ],
     },
   ],
 })
+
+// 👇 Global Navigation Guard
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = !!localStorage.getItem('token') // ou utilise ton store
+
+  if (to.meta.requiresAuth && !isLoggedIn) {
+    next({ name: 'login' }) // redirige vers login si non connecté
+  } else {
+    next()
+  }
+})
+
 
 export default router

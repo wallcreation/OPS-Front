@@ -8,10 +8,10 @@ const initials = (profile?.fname?.[0] || '') + (profile?.lname?.[0] || '')
 const error = ref(false)
 const onreload = ref(false)
 const show = ref(false)
+const router = useRouter()
 const logout = async () => {
   clearProfile()
-  const router = useRouter()
-  router.push('/login')
+  router.push({name:'login'})
 }
 const reload = async () => {
   onreload.value = true
@@ -30,7 +30,7 @@ const reload = async () => {
 }
 </script>
 <template>
-  <h1 class="text-5xl font-bold text-primary">OPS</h1>
+  <h1 class="text-5xl font-bold text-primary" @click="show = !show">OPS</h1>
   <nav class="flex items-center">
     <RouterLink
       to="/admin/dashboard"
@@ -121,9 +121,11 @@ const reload = async () => {
       <span class="hidden md:inline">Comptes</span>
     </RouterLink>
     <button @click="show = !show" class="flex mx-1 hover:border-b-2 hover:border-primary-light">
-      <span class="font-bold text-lg text-primary">{{ initials }}</span>
+      <span class="font-bold text-lg text-primary">{{ initials }} ...</span>
     </button>
   </nav>
+  
+  <!-- boite de dialogue de déconnexion -->
   <div
     v-if="show"
     @click="show = !show"
@@ -150,8 +152,7 @@ const reload = async () => {
         </svg>
         <span>Recharger</span>
       </button>
-      <button
-        @click="logout"
+      <button @click="logout()"
         class="mx-1 p-1 flex items-center justify-center gap-1 border-2 border-error rounded-lg hover:bg-error-dark hover:border-error-dark transition"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

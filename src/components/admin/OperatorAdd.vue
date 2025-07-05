@@ -23,10 +23,10 @@ const team = ref({ show: false, teamid: 0, textvalue: '', list: computed(() => s
 const workat = ref({ show: false, choice: 'Jour' })
 
 // Functions
-const closetteamselector = async (team) => {
-  team.value.teamid = team.id
-  team.value.textvalue = team.name
-  team.show = false
+const closetteamselector = async (choosedteam) => {
+  team.value.teamid = choosedteam.id
+  team.value.textvalue = choosedteam.name
+  team.value.show = false
 }
 
 const oncreate = async () => {
@@ -169,7 +169,7 @@ const oncreate = async () => {
   </div>
   <!-- Quick team selector -->
   <TeamSelector
-    :show="team.show"
+    v-if="team.show"
     :teamlist="team.list"
     @close="team.show = false"
     @select="closetteamselector"
@@ -183,7 +183,7 @@ const oncreate = async () => {
       <h2 class="p-2 rounded-lg bg-primary-dark">Travaille de ?</h2>
       <button
         @click="
-          workat.choice = 'Jour'
+          workat.choice = 'Jour';
           workat.show = false
         "
         class="border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
@@ -192,7 +192,7 @@ const oncreate = async () => {
       </button>
       <button
         @click="
-          workat.choice = 'Nuit'
+          workat.choice = 'Nuit';
           workat.show = false
         "
         class="border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"

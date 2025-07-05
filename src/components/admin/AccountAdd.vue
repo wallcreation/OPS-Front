@@ -3,7 +3,6 @@ import { ref } from 'vue'
 import { createaccount, safeCall } from '@/api'
 import TeamSelector from './TeamSelector.vue'
 const props = defineProps({
-  showModal: Boolean,
   teams: Array,
 })
 const emit = defineEmits(['close', 'created'])
@@ -36,15 +35,14 @@ const addaccount = async () => {
   loading.value = false
 }
 // const teamsel = ref(false)
-const closetteamselector = async (team) => {
+const closetteamselector = async (choosedteam) => {
   team.value.show = false
-  team.value.teamid = team.id
-  team.value.textvalue = team.name
+  team.value.teamid = choosedteam.id
+  team.value.textvalue = choosedteam.name
 }
 </script>
 <template>
   <div
-    v-if="showModal"
     class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md"
   >
     <div class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border bg-surface">
@@ -92,7 +90,7 @@ const closetteamselector = async (team) => {
   </div>
   <!-- Quick team selector -->
   <TeamSelector
-    :show="team.show"
+    v-if="team.show"
     :teamlist="team.list"
     @close="team.show = false"
     @select="closetteamselector"

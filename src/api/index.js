@@ -1,3 +1,4 @@
+import { clearProfile } from '../utils/storage'
 import api from './base'
 import { useSessionStore } from '@/stores/useSessionStore'
 export * from './account'
@@ -18,6 +19,7 @@ export async function safeCall(promise) {
   } catch (err) {
     const code =  err.response?.data?.detail?.code || 0
     if(code === 1003) {
+      clearProfile()
       const session = useSessionStore()
       session.triggerSessionExpired()
     }

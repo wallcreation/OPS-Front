@@ -1,7 +1,6 @@
 <!-- components/TeamSelector.vue -->
 <script setup>
 const props = defineProps({
-  show: Boolean,
   teamlist: Array,
 })
 const emit = defineEmits(['close', 'select'])
@@ -12,7 +11,7 @@ const chooseTeam = (team) => {
 </script>
 
 <template>
-  <div v-if="show" class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50">
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50">
     <div
       class="mx-5 px-5 py-2 max-w-lg grid gap-2 grid-cols-2 rounded-lg backdrop-blur-md border-1 border-border"
     >

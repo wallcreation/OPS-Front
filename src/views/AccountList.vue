@@ -2,12 +2,13 @@
 import { computed, onMounted, ref } from 'vue'
 import { getaccounts, safeCall } from '@/api'
 import { useAppStore } from '@/stores/app'
-import Reconnect from '@/components/Reconnect.vue'
 import Reload from '@/components/Reload.vue'
+import AccountAdd from '@/components/admin/AccountAdd.vue'
 import AccountCard from '@/components/admin/AccountCard.vue'
 const error = ref(false)
 const loading = ref(false)
 const reload = ref(false)
+const showAccountAdd = ref(false)
 const stores = useAppStore()
 const accounts = computed(() => stores.accounts)
 const foo = async () => {
@@ -38,6 +39,7 @@ onMounted(async () => {
     >
       <h1 class="text-xl font-bold text-primary">Liste des comptes</h1>
       <button
+        @click="showAccountAdd = true"
         class="flex gap-1 items-center hover:text-primary hover:border-b-2 hover:border-primary"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -62,6 +64,7 @@ onMounted(async () => {
       />
     </div>
   </div>
-  <Reconnect v-if="error" />
+  <AccountAdd v-if="showAccountAdd" :teams="stores.teams" @close="showAccountAdd = false"/>
+  <!-- Connection reload -->
   <Reload :show="reload" @accept="foo()" @cancel="reload = false" />
 </template>

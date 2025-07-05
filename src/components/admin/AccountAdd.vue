@@ -75,11 +75,11 @@ const closetteamselector = async (team) => {
       <div class="flex gap-2 items-center justify-end mt-1">
         <button
           @click="addaccount"
-          :disabled="loading"
           class="px-2 border-2 border-primary rounded-lg hover:border-primary-dark hover:bg-primary-dark"
           :class="loading ? 'animate-pulse' : ''"
+          :disabled="loading"
         >
-          Valider
+          {{ loading ? 'Créaton..' : 'Valider' }}
         </button>
         <button
           @click="emit('close')"

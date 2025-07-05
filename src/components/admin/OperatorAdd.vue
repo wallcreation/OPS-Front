@@ -1,8 +1,8 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { createOperator, getErrorMessage, safeCall } from '@/api'
 import { useAppStore } from '@/stores/app'
 import TeamSelector from './TeamSelector.vue'
-import { createOperator, getErrorMessage, safeCall } from '@/api'
 
 const stores = useAppStore()
 const loading = ref(false)
@@ -32,7 +32,10 @@ const closetteamselector = async (team) => {
 const oncreate = async () => {
   loading.value = true
   if (!lname.value || !fname.value || !email.value || !password.value || !team.value.teamid) {
-    alert('Veuillez remplir tous les champs.')
+    error.value = [true, 'Veuillez remplir tous les champs.']
+    setTimeout(() => {
+      error.value = [false, '']
+    }, 5000)
     loading.value = false
     return
   }
@@ -51,6 +54,10 @@ const oncreate = async () => {
   if (err) {
     loading.value = false
     error.value = [true, err.message || getErrorMessage(err.code)]
+    setTimeout(() => {
+      error.value = [false, '']
+    }, 5000)
+    return
   } else {
     console.log('op cre res: ', res)
     emit('created', res)
@@ -60,7 +67,6 @@ const oncreate = async () => {
   fname.value = ''
   email.value = ''
   password.value = ''
-  // contact.value = ''
   team.value.teamid = 0
   team.value.textvalue = ''
   workat.value.choice = 'jour'
@@ -127,11 +133,15 @@ const oncreate = async () => {
             class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
           />
         </div>
+        <div v-if="error[0]" class="w-full p-1 bg-error">
+          <p class="text-lg font-bold text-center">{{ error[1] }}</p>
+        </div>
         <div class="md:col-span-2 flex gap-2 items-center justify-end">
           <button
             type="submit"
             class="px-2 border-2 border-primary rounded-lg hover:border-primary-dark hover:motion-bg-out-primary-dark"
             :class="loading ? 'animate-pulse' : ''"
+            :disabled="loading"
           >
             {{ loading ? 'Création...' : 'Valider' }}
           </button>

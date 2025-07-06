@@ -11,8 +11,8 @@ const loading = ref(false)
 const reload = ref(false)
 // const teams = ref([])
 const showTeamAdd = ref(false)
-const store = useAppStore()
-const teams = computed(() => store.teams)
+const stores = useAppStore()
+const teams = computed(() => stores.teams)
 const operators = computed(() => stores.operators)
 // Functions
 const foo = async () => {
@@ -29,7 +29,7 @@ const foo = async () => {
     loading.value = false
     console.log('res: ', res)
     teams.value = res
-    store.setTeams(res)
+    stores.setTeams(res)
   }
 }
 const removeteam = async (team_id) => {
@@ -48,12 +48,12 @@ onMounted(async () => {
 <template>
   <div class="w-full h-full p-1">
     <div
-      class="h-[10%] p-2 flex justify-between items-center border-1 border-border bg-surface rounded-lg"
+      class="h-[10%]  px-2 py-1 flex justify-between items-center border-1 border-border bg-surface rounded-lg"
     >
       <h1 class="text-xl font-bold text-primary">Liste des équipes</h1>
       <button
         @click="showTeamAdd = true"
-        class="flex gap-1 hover:text-primary hover:border-b-2 hover:border-primary"
+        class="p-1 flex gap-1 hover:text-primary hover:border-2 hover:rounded-lg hover:border-primary"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 20">
           <path
@@ -76,9 +76,9 @@ onMounted(async () => {
         :key="team.id"
         :id="team.id"
         :name="team.name"
-        :operators="store.getOperatorsByTeamId(team.id)"
-        :accounts="store.getAccountsByTeamId(team.id)"
-        @deleted="removeteam(team.id)"
+        :operators="stores.getOperatorsByTeamId(team.id)"
+        :accounts="stores.getAccountsByTeamId(team.id)"
+        @deleted="() => removeteam(team.id)"
       />
     </div>
   </div>

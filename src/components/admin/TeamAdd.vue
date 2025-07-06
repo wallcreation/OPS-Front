@@ -56,11 +56,11 @@ const addteam = async () => {
       <div class="flex gap-2 justify-end mt-1">
         <button
           @click="addteam"
-          class="text-primary hover:border-b-2 hover:border-primary disabled:cursor-not-allowed disabled:opacity-50"
+          class="px-2 border-2 border-primary rounded-lg hover:border-primary-dark hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
         >
           Valider
         </button>
-        <button @click="close" class="text-error hover:border-b-2 hover:border-error">
+        <button @click="close" class="px-2 border-2 border-error rounded-lg hover:border-error-dark hover:bg-error-dark">
           Annuler
         </button>
       </div>

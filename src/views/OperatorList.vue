@@ -38,12 +38,12 @@ onMounted(async () => {
 <template>
   <div class="w-full h-full p-1">
     <div
-      class="h-[10%] p-2 flex justify-between items-center border-1 border-border bg-surface rounded-lg"
+      class="h-[10%]  px-2 py-1 flex justify-between items-center border-1 border-border bg-surface rounded-lg"
     >
       <h1 class="text-xl font-bold text-primary">Liste des opérateurs</h1>
       <button
         @click="showOperatorAdd = true"
-        class="flex gap-1 items-center hover:text-primary hover:border-b-2 hover:border-primary"
+        class="p-1 flex gap-1 items-center hover:text-primary hover:border-2 hover:rounded-lg hover:border-primary"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 28">
           <path

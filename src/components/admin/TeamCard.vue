@@ -70,27 +70,27 @@ const delteam = async () => {
   <!-- Delete modal -->
   <div
     v-if="showModal"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-md"
+    class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md"
   >
     <div
       v-if="deleting"
-      class="mx-5 p-3 max-w-lg w-full flex flex-col items-center justify-center rounded-lg border-1 border-border backdrop-blur-md animate-bounce"
+      class="mx-5 p-3 max-w-lg w-full flex flex-col items-center justify-center rounded-lg border-1 border-border bg-surface animate-bounce"
     >
       <h1 class="text-xl text-error text-center">Suppression en cours, veuillez patienter...</h1>
     </div>
     <div
       v-else
-      class="mx-5 p-3 max-w-lg w-full flex flex-col items-center justify-center rounded-lg border-1 border-border backdrop-blur-md"
+      class="mx-5 p-5 flex flex-col items-center justify-center rounded-lg border-1 bg-surface border-border"
     >
-      <h1 class="w-full text-error text-center text-xl font-bold">Suprimer {{ name }}</h1>
+      <h1 class="w-full mb-2 text-error text-center text-xl font-bold">Supprimer {{ name }}</h1>
       <!-- <p v-if="error" class="bg-error-dark rounded-lg text-center">{{ errormsg }}</p> -->
       <div class="flex gap-2 justify-end mt-1">
-        <button @click="delteam" class="text-error hover:border-b-2 hover:border-error">
+        <button @click="delteam" class="px-2 border-2 rounded-lg border-error hover:bg-error-dark hover:border-error-dark">
           Valider
         </button>
         <button
           @click="showModal = false"
-          class="text-primary hover:border-b-2 hover:border-primary"
+          class="px-2 border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
         >
           Annuler
         </button>

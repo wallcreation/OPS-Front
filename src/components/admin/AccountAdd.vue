@@ -11,8 +11,8 @@ const accountipt = ref('')
 const loading = ref(false)
 const error = ref([false, ''])
 const team = ref({ show: false, teamid: 0, textvalue: '', list: props.teams })
-//mntconst teamipt = ref('')
 
+// Functions
 const addaccount = async () => {
   loading.value = true
   if (!accountipt.value) {
@@ -26,15 +26,13 @@ const addaccount = async () => {
   const data = { name: accountipt.value, team_id: team.value.teamid }
   const [res, err] = await safeCall(createaccount(data))
   if (err) {
-    console.log('acc cre err: ', err)
     error.value = [true, err.message]
   } else {
-    console.log('acc cre res: ', res)
     emit('created', res)
   }
   loading.value = false
 }
-// const teamsel = ref(false)
+
 const closetteamselector = async (choosedteam) => {
   team.value.show = false
   team.value.teamid = choosedteam.id

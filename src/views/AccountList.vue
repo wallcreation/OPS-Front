@@ -28,6 +28,11 @@ const foo = async () => {
     stores.setAccounts(res)
   }
 }
+const accountAdd = async (acc) => {
+
+  accounts.value.push(acc)
+  showAccountAdd.value = false
+}
 onMounted(async () => {
   // await foo()
 })
@@ -35,7 +40,7 @@ onMounted(async () => {
 <template>
   <div class="w-full h-full p-1">
     <div
-      class="h-[10%] p-1 flex justify-between items-center border-1 border-border bg-surface rounded-lg"
+      class="h-[10%] px-2 py-1 flex justify-between items-center border-1 border-border bg-surface rounded-lg"
     >
       <h1 class="text-xl font-bold text-primary">Liste des comptes</h1>
       <button
@@ -64,7 +69,7 @@ onMounted(async () => {
       />
     </div>
   </div>
-  <AccountAdd v-if="showAccountAdd" :teams="stores.teams" @close="showAccountAdd = false"/>
+  <AccountAdd v-if="showAccountAdd" :teams="stores.teams"  @created="accountAdd" @close="showAccountAdd = false"/>
   <!-- Connection reload -->
   <Reload :show="reload" @accept="foo()" @cancel="reload = false" />
 </template>

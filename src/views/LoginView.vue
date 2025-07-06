@@ -70,9 +70,9 @@ const foo = async (role) => {
   >
     <div
       v-if="loading"
-      class="p-4 bg-bg/50 backdrop-blur-md rounded-lg text-text p-10 text-center pb-5"
+      class="p-4 m-5 bg-bg/50 backdrop-blur-md rounded-lg text-text text-center pb-5"
     >
-      <h1 class="m-5 text-xl text-primary animate-bounce">
+      <h1 class="text-xl text-primary animate-bounce">
         Vous avez été connecté.<br />Patientez pendant la récupération des données.
       </h1>
     </div>

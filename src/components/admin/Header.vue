@@ -121,7 +121,7 @@ const reload = async () => {
       <span class="hidden md:inline">Comptes</span>
     </RouterLink>
     <button @click="show = !show" class="flex mx-1 hover:border-b-2 hover:border-primary-light">
-      <span class="font-bold text-lg text-primary">{{ initials }} ...</span>
+      <span class="font-bold text-lg text-primary">{{ initials }}</span>
     </button>
   </nav>
 

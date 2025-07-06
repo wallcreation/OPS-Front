@@ -1,11 +1,7 @@
 <script setup>
 import { clearProfile } from '@/api'
 import { useRouter } from 'vue-router'
-import { ref, onMounted, watch } from 'vue'
-
-const props = defineProps({
-  show: Boolean,
-})
+import { onMounted } from 'vue'
 
 const emit = defineEmits(['close'])
 
@@ -17,18 +13,15 @@ const reconnect = () => {
   router.push('/login')
 }
 
-watch(() => props.show, (val) => {
-  if (val) {
-    setTimeout(() => {
-      reconnect()
-    }, 5000)
-  }
+onMounted( async () => {
+  setTimeout(() => {
+    reconnect
+  }, 5000);
 })
 </script>
 
 <template>
   <div
-    v-if="show"
     class="fixed inset-0 backdrop-blur-md flex items-center justify-center z-50 h-screen w-screen"
   >
     <div class="flex flex-col items-center justify-center border-2 border-border rounded-lg bg-surface text-text p-6 max-w-sm w-full text-center">

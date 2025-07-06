@@ -1,7 +1,11 @@
 <script setup>
-import { createteam, safeCall } from '@/api'
+import { createTeam, safeCall } from '@/api'
+import { useAppStore } from '@/stores/app'
+import { useErrorStore } from '@/stores/error'
 import { ref } from 'vue'
 const emit = defineEmits(['created', 'close'])
+const serror = useErrorStore()
+const stores = useAppStore()
 const error = ref(false)
 const errormsg = ref('')
 const loading = ref(false)
@@ -9,29 +13,24 @@ const close = async () => {
   emit('close')
 }
 const teamipt = ref('')
-const addteam = async () => {
-  loading.value = true
+const add_team = async () => {
   if (teamipt.value.trim() === '') {
     error.value = true
     errormsg.value = 'Le champ ne peut être vide'
     setTimeout(() => {
       error.value = false
     }, 3000)
-    loading.value = false
-  } else {
-    const [res, err] = await safeCall(createteam({ name: teamipt.value }))
-    if (err) {
-      errormsg.value = err.message
-      console.log('create team err:', err)
-    } else {
-      emit('created', res)
-    }
   }
+  stores.createTeamAPI({ name: teamipt.value })
+  emit('close')
 }
 </script>
 <template>
   <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
-    <div v-if="loading" class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border backdrop-blur-md animate-bounce">
+    <div
+      v-if="loading"
+      class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border backdrop-blur-md animate-bounce"
+    >
       <h1 class="text-xl text-center">Ajout en cours, veuillez patienter...</h1>
     </div>
     <div v-else class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border bg-surface">
@@ -55,12 +54,15 @@ const addteam = async () => {
       <p v-if="error" class="bg-error-dark rounded-lg text-center">{{ errormsg }}</p>
       <div class="flex gap-2 justify-end mt-1">
         <button
-          @click="addteam"
+          @click="add_team"
           class="px-2 border-2 border-primary rounded-lg hover:border-primary-dark hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
         >
           Valider
         </button>
-        <button @click="close" class="px-2 border-2 border-error rounded-lg hover:border-error-dark hover:bg-error-dark">
+        <button
+          @click="close"
+          class="px-2 border-2 border-error rounded-lg hover:border-error-dark hover:bg-error-dark"
+        >
           Annuler
         </button>
       </div>

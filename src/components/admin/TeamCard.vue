@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { deleteteam, safeCall } from '@/api'
+import { useAppStore } from '@/stores/app'
 const props = defineProps({
   id: {
     type: Number,
@@ -19,30 +19,27 @@ const props = defineProps({
     required: true,
   },
 })
-const emit = defineEmits(['deleted'])
+const stores = useAppStore()
 const deleting = ref(false)
-const showModal = ref(false)
 const delteam = async () => {
   deleting.value = true
-  const [res, err] = await safeCall(deleteteam(props.id))
-  if (err) {
-    console.log('delete team err:', err)
-    deleting.value = false
-  } else {
-    showModal.value = false
-    emit('deleted')
-  }
+  stores.deleteTeamAPI(props.id)
 }
 </script>
 <template>
-  <div
-    :to="{ name: 'team-info', params: { id: id } }"
-    class="group bg-surface rounded-lg border-2 border-border hover:border-primary p-2"
-  >
+  <div v-if="deleting" class="group bg-surface rounded-lg border-2 border-border hover:border-primary p-2">
+    <h2 class="flex items-center justify-between">
+      {{ name }}
+    </h2>
+    <p class="text-error underline animate-pulse">Suppression</p>
+  </div>
+  <div v-else class="group bg-surface rounded-lg border-2 border-border hover:border-primary p-2">
     <div class="flex items-center justify-between">
-      <h2 class="text-primary font-bold">{{ name }}</h2>
+      <RouterLink :to="{ name: 'team-info', params: { id: id } }" class="text-primary font-bold">
+        {{ name }}
+      </RouterLink>
       <svg
-        @click="showModal = true"
+        @click="delteam"
         xmlns="http://www.w3.org/2000/svg"
         width="20"
         height="20"
@@ -64,36 +61,6 @@ const delteam = async () => {
 
       <div>
         <p v-for="account in accounts" :key="account" class="text-sm">{{ account.name }}</p>
-      </div>
-    </div>
-  </div>
-  <!-- Delete modal -->
-  <div
-    v-if="showModal"
-    class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md"
-  >
-    <div
-      v-if="deleting"
-      class="mx-5 p-3 max-w-lg w-full flex flex-col items-center justify-center rounded-lg border-1 border-border bg-surface animate-bounce"
-    >
-      <h1 class="text-xl text-error text-center">Suppression en cours, veuillez patienter...</h1>
-    </div>
-    <div
-      v-else
-      class="mx-5 p-5 flex flex-col items-center justify-center rounded-lg border-1 bg-surface border-border"
-    >
-      <h1 class="w-full mb-2 text-error text-center text-xl font-bold">Supprimer {{ name }}</h1>
-      <!-- <p v-if="error" class="bg-error-dark rounded-lg text-center">{{ errormsg }}</p> -->
-      <div class="flex gap-2 justify-end mt-1">
-        <button @click="delteam" class="px-2 border-2 rounded-lg border-error hover:bg-error-dark hover:border-error-dark">
-          Valider
-        </button>
-        <button
-          @click="showModal = false"
-          class="px-2 border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
-        >
-          Annuler
-        </button>
       </div>
     </div>
   </div>

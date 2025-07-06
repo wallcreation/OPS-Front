@@ -1,3 +1,4 @@
+import { useErrorStore } from '@/stores/error'
 import { clearProfile } from '../utils/storage'
 import api from './base'
 import { useSessionStore } from '@/stores/useSessionStore'
@@ -11,6 +12,7 @@ export * from '../utils/storage'
 export function getdashboard() {
     return api.get("/admin/dashboard")
 }
+
 export async function safeCall(promise) {
   try {
     const response = await promise
@@ -24,9 +26,12 @@ export async function safeCall(promise) {
       session.triggerSessionExpired()
     }
     const message = err.response?.data?.detail?.message || "Erreur inconnue."
+    const error = useErrorStore()
+    error.triggerError(message)
     return [null, { code, message }]
   }
 }
+
 export async function fetchAllAppData() {
   const [teamsRes, teamsErr] = await safeCall(api.get('/admin/teams'))
   const [operatorsRes, operatorsErr] = await safeCall(api.get('/admin/operators'))

@@ -3,8 +3,6 @@ import { computed, onMounted, ref } from 'vue'
 import { getdashboard, safeCall } from '@/api'
 import { useAppStore } from '@/stores/app'
 import TeamAdd from '@/components/admin/TeamAdd.vue'
-import Reconnect from '@/components/Reconnect.vue'
-import Reload from '@/components/Reload.vue'
 const store = useAppStore()
 const data = ref({
   teams: computed(() => store.teams),
@@ -76,8 +74,6 @@ onMounted(async () => {
       </div>
     </div>
   </div>
-  <!-- Reload data modal -->
-  <Reload :show="reload" @accept="foo()" @cancel="reload = false" />
   <!-- Add team modal -->
   <TeamAdd v-if="showTeamAdd" @created="teamAdd" @close="showTeamAdd = false" />
 </template>

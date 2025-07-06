@@ -3,7 +3,10 @@ import { RouterView } from 'vue-router'
 import Header from '@/components/admin/Header.vue'
 import SessionExpired from '@/components/utils/SessionExpired.vue'
 import { useSessionStore } from '@/stores/useSessionStore'
+import { useErrorStore } from '@/stores/error'
+import ErrorModal from '@/components/utils/ErrorModal.vue'
 const session = useSessionStore()
+const error = useErrorStore()
 </script>
 
 <template>
@@ -17,5 +20,6 @@ const session = useSessionStore()
       <RouterView />
     </main>
   </div>
-  <SessionExpired :show="session.showExpiredModal" @close="session.hideSessionExpired" />
+  <ErrorModal v-if="error.showErrorModal" :error="error.error" @close="error.clearError"/>
+  <SessionExpired v-if="session.showExpiredModal" @close="session.hideSessionExpired" />
 </template>

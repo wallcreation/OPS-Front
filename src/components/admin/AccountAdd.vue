@@ -1,7 +1,8 @@
 <script setup>
 import { ref } from 'vue'
-import { createaccount, safeCall } from '@/api'
+import { createAccount, safeCall } from '@/api'
 import TeamSelector from './TeamSelector.vue'
+import { useAppStore } from '@/stores/app'
 const props = defineProps({
   teams: Array,
 })
@@ -10,27 +11,40 @@ const emit = defineEmits(['close', 'created'])
 const accountipt = ref('')
 const loading = ref(false)
 const error = ref([false, ''])
+const stores = useAppStore()
 const team = ref({ show: false, teamid: 0, textvalue: '', list: props.teams })
 
 // Functions
+// const addaccount = async () => {
+//   loading.value = true
+//   if (!accountipt.value) {
+//     error.value = [true, 'Le nom du compte ne peut être vide']
+//     setTimeout(() => {
+//       error.value = [false, '']
+//     }, 5000)
+//     loading.value = false
+//     return
+//   }
+//   const data = { name: accountipt.value, team_id: team.value.teamid }
+//   const [res, err] = await safeCall(createAccount(data))
+//   if (err) {
+//     error.value = [true, err.message]
+//   } else {
+//     emit('created', res)
+//   }
+//   loading.value = false
+// }
+
 const addaccount = async () => {
-  loading.value = true
   if (!accountipt.value) {
     error.value = [true, 'Le nom du compte ne peut être vide']
     setTimeout(() => {
       error.value = [false, '']
     }, 5000)
-    loading.value = false
     return
   }
-  const data = { name: accountipt.value, team_id: team.value.teamid }
-  const [res, err] = await safeCall(createaccount(data))
-  if (err) {
-    error.value = [true, err.message]
-  } else {
-    emit('created', res)
-  }
-  loading.value = false
+  stores.createAccountAPI({ name: accountipt.value, team_id: team.value.teamid })
+  emit('close')
 }
 
 const closetteamselector = async (choosedteam) => {
@@ -40,9 +54,7 @@ const closetteamselector = async (choosedteam) => {
 }
 </script>
 <template>
-  <div
-    class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md"
-  >
+  <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
     <div class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border bg-surface">
       <h1 class="text-xl text-center font-bold">Ajouter un compte</h1>
       <form action="" class="my-2 grid gap-2 grid-cols-1 md:grid-cols-3">

@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { getteams, safeCall } from '@/api'
+import { getTeams, safeCall } from '@/api'
 import { useAppStore } from '@/stores/app'
 import TeamAdd from '@/components/admin/TeamAdd.vue'
 import TeamCard from '@/components/admin/TeamCard.vue'
@@ -17,7 +17,7 @@ const operators = computed(() => stores.operators)
 // Functions
 const foo = async () => {
   reload.value = false
-  const [res, err] = await safeCall(getteams())
+  const [res, err] = await safeCall(getTeams())
   if (err) {
     console.log('err: ', err)
     if (err.code === 1003) {
@@ -31,9 +31,6 @@ const foo = async () => {
     teams.value = res
     stores.setTeams(res)
   }
-}
-const removeteam = async (team_id) => {
-  teams.value = teams.value.filter((team) => team.id !== team_id)
 }
 const teamAdd = async (team) => {
   if (team) {
@@ -78,12 +75,9 @@ onMounted(async () => {
         :name="team.name"
         :operators="stores.getOperatorsByTeamId(team.id)"
         :accounts="stores.getAccountsByTeamId(team.id)"
-        @deleted="() => removeteam(team.id)"
       />
     </div>
   </div>
-  <!-- Reload modal -->
-  <Reload :show="reload" @accept="foo()" @cancel="reload = false" />
   <!-- Add team modal -->
   <TeamAdd v-if="showTeamAdd" @created="teamAdd" @close="showTeamAdd = false" />
 </template>

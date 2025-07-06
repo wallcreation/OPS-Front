@@ -1,4 +1,5 @@
 <script setup>
+import { useAppStore } from '@/stores/app'
 import { ref } from 'vue'
 const props = defineProps({
   id: String,
@@ -8,20 +9,38 @@ const props = defineProps({
   team_id: Number,
   workat: String,
 })
+
+const deleting = ref(false)
+const stores = useAppStore()
+
+const deloperator = async () => {
+  stores.deleteOperatorAPI(props.id)
+  deleting = true
+}
 </script>
 <template>
-  <RouterLink
-    :to="{ name: 'operator-info', params: { id: id } }"
-    class="bg-surface rounded-lg border-2 border-border hover:border-primary-light p-2"
+  <div
+    v-if="deleting"
+    class="group bg-surface rounded-lg border-2 border-border hover:border-primary p-2"
   >
+    <h2 class="flex items-center justify-between">{{ lname }} {{ fname }}</h2>
+    <p class="text-error underline animate-pulse">Suppression</p>
+  </div>
+  <div v-else class="bg-surface rounded-lg border-2 border-border hover:border-primary-light p-2">
     <div class="flex items-center justify-between">
-      <h2 class="text-primary font-bold">{{ lname }} {{ fname }}</h2>
+      <RouterLink
+        :to="{ name: 'operator-info', params: { id: id } }"
+        class="text-primary font-bold"
+      >
+        {{ lname }} {{ fname }}
+      </RouterLink>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"
         height="20"
         viewBox="0 0 24 24"
         class="text-error"
+        @click="deloperator"
       >
         <path
           fill="currentColor"
@@ -59,5 +78,5 @@ const props = defineProps({
       </p>
       <p>{{ workat }}</p>
     </div>
-  </RouterLink>
+  </div>
 </template>

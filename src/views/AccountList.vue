@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { getaccounts, safeCall } from '@/api'
+import { getAccounts, safeCall } from '@/api'
 import { useAppStore } from '@/stores/app'
 import Reload from '@/components/Reload.vue'
 import AccountAdd from '@/components/admin/AccountAdd.vue'
@@ -13,7 +13,7 @@ const stores = useAppStore()
 const accounts = computed(() => stores.accounts)
 const foo = async () => {
   reload.value = false
-  const [res, err] = await safeCall(getaccounts())
+  const [res, err] = await safeCall(getAccounts())
   if (err) {
     console.log('err: ', err)
     if (err.code === 1003) {

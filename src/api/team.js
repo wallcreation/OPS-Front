@@ -1,12 +1,18 @@
 // api/team.js
 import api from './base'
 
-export function createteam(data) {
+export function createTeam(data) {
   return api.post('/admin/team', data)
 }
-export function deleteteam(id) {
+
+export function deleteTeam(id) {
   return api.delete(`/admin/team/${id}`)
 }
-export function getteams() {
+
+export function getTeams() {
   return api.get('/admin/teams')
+}
+
+export function updateTeam(data) {
+  return
 }

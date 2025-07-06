@@ -49,19 +49,21 @@ const oncreate = async () => {
     work_at: workat.value.choice, // inclure le work_at dans les données envoyées
   }
 
-  console.log('data :', data)
-  const [res, err] = await safeCall(createOperator(data))
-  if (err) {
-    loading.value = false
-    error.value = [true, err.message || getErrorMessage(err.code)]
-    setTimeout(() => {
-      error.value = [false, '']
-    }, 5000)
-    return
-  } else {
-    console.log('op cre res: ', res)
-    emit('created', res)
-  }
+  // console.log('data :', data)
+  // const [res, err] = await safeCall(createOperator(data))
+  // if (err) {
+  //   loading.value = false
+  //   error.value = [true, err.message || getErrorMessage(err.code)]
+  //   setTimeout(() => {
+  //     error.value = [false, '']
+  //   }, 5000)
+  //   return
+  // } else {
+  //   console.log('op cre res: ', res)
+  //   emit('created', res)
+  // }
+
+  stores.createOperatorAPI(data)
 
   lname.value = ''
   fname.value = ''

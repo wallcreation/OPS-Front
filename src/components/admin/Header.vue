@@ -11,7 +11,7 @@ const show = ref(false)
 const router = useRouter()
 const logout = async () => {
   clearProfile()
-  router.push({name:'login'})
+  router.push({ name: 'login' })
 }
 const reload = async () => {
   onreload.value = true
@@ -124,7 +124,7 @@ const reload = async () => {
       <span class="font-bold text-lg text-primary">{{ initials }} ...</span>
     </button>
   </nav>
-  
+
   <!-- boite de dialogue de déconnexion -->
   <div
     v-if="show"
@@ -150,9 +150,10 @@ const reload = async () => {
             d="M13.1 12c-1.2 1.5-3 2.5-5.1 2.5c-3.6 0-6.5-2.9-6.5-6.5S4.4 1.5 8 1.5c2.2 0 4.1 1.1 5.3 2.7m.2-3.2v3c0 .3-.2.5-.5.5h-3"
           />
         </svg>
-        <span>Recharger</span>
+        <span>{{ onreload ? 'Rechargement en cours...' : 'Recharger' }}</span>
       </button>
-      <button @click="logout()"
+      <button
+        @click="logout()"
         class="mx-1 p-1 flex items-center justify-center gap-1 border-2 border-error rounded-lg hover:bg-error-dark hover:border-error-dark transition"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

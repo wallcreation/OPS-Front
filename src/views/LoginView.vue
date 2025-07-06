@@ -68,8 +68,13 @@ const foo = async (role) => {
   <div
     class="h-screen w-screen bg-[url('/loginbg.jpg')] bg-cover bg-center flex items-center justify-center"
   >
-    <div v-if="loading" class="bg-bg/50 backdrop-blur-md rounded-lg text-text p-10 text-center pb-5">
-      <h1 class="text-xl text-primary animate-bounce">Vous avez été connecté.<br/>Patientez pendant la récupération des données.</h1>
+    <div
+      v-if="loading"
+      class="p-4 bg-bg/50 backdrop-blur-md rounded-lg text-text p-10 text-center pb-5"
+    >
+      <h1 class="m-5 text-xl text-primary animate-bounce">
+        Vous avez été connecté.<br />Patientez pendant la récupération des données.
+      </h1>
     </div>
     <div v-else class="bg-bg/50 backdrop-blur-md rounded-lg text-text p-10 text-center pb-5">
       <h1 class="text-4xl">OPS</h1>

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getErrorMessage, fetchAllAppData, login, safeCall } from '@/api'
+import { getErrorMessage, fetchAllAppData, login, safeCall, updateStore } from '@/api'
 import { saveProfile } from '@/utils/storage'
 import { useAppStore } from '@/stores/app'
 const router = useRouter()
@@ -9,10 +9,9 @@ const disablelogin = ref(false)
 const displayerror = ref(false)
 const email = ref('')
 const errorMessage = ref('')
-const loading = ref(false)
 const password = ref('')
 const showpassword = ref(false)
-const store = useAppStore()
+const stores = useAppStore()
 const error = ref(false)
 // Functions
 const onlogin = async () => {
@@ -37,46 +36,18 @@ const onlogin = async () => {
       localStorage.setItem('token', res.token)
       saveProfile(res.profile)
       console.log('res: ', res.profile)
-      await foo(res.profile.role)
+      updateStore(stores)
+      router.push(res.profile.role === 'admin' ? '/admin/dashboard/' : '')
     }
   }
   disablelogin.value = false
-}
-const foo = async (role) => {
-  error.value = false
-  loading.value = true
-  const [data, fetchErr] = await fetchAllAppData()
-  console.log('Résultat fetchAllAppData:', data, fetchErr)
-
-  if (fetchErr) {
-    console.error('Erreur chargement données :', fetchErr)
-    error.value = true
-    setTimeout(async () => {
-      router.push('/login')
-    }, 3000)
-  }
-  store.setTeams(data.teams)
-  store.setOperators(data.operators)
-  store.setAccounts(data.accounts)
-  loading.value = false
-  if (role === 'admin') {
-    router.push('/admin/dashboard')
-  }
 }
 </script>
 <template>
   <div
     class="h-screen w-screen bg-[url('/loginbg.jpg')] bg-cover bg-center flex items-center justify-center"
   >
-    <div
-      v-if="loading"
-      class="p-4 m-5 bg-bg/50 backdrop-blur-md rounded-lg text-text text-center pb-5"
-    >
-      <h1 class="text-xl text-primary animate-bounce">
-        Vous avez été connecté.<br />Patientez pendant la récupération des données.
-      </h1>
-    </div>
-    <div v-else class="bg-bg/50 backdrop-blur-md rounded-lg text-text p-10 text-center pb-5">
+    <div class="bg-bg/50 backdrop-blur-md rounded-lg text-text p-10 text-center pb-5">
       <h1 class="text-4xl">OPS</h1>
       <div
         class="flex items-center justify-center gap-2 text-xs bg-error text-text p-1 rounded-lg my-2"

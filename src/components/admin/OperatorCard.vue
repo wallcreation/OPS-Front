@@ -14,8 +14,8 @@ const deleting = ref(false)
 const stores = useAppStore()
 
 const deloperator = async () => {
-  stores.deleteOperatorAPI(props.id)
   deleting.value = true
+  stores.deleteOperatorAPI(props.id)
 }
 </script>
 <template>

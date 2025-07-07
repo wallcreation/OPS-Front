@@ -4,40 +4,13 @@ import { getTeams, safeCall } from '@/api'
 import { useAppStore } from '@/stores/app'
 import TeamAdd from '@/components/admin/TeamAdd.vue'
 import TeamCard from '@/components/admin/TeamCard.vue'
-import Reload from '@/components/Reload.vue'
 // Variables
-const error = ref(false)
 const loading = ref(false)
-const reload = ref(false)
 // const teams = ref([])
 const showTeamAdd = ref(false)
 const stores = useAppStore()
 const teams = computed(() => stores.teams)
-const operators = computed(() => stores.operators)
-// Functions
-const foo = async () => {
-  reload.value = false
-  const [res, err] = await safeCall(getTeams())
-  if (err) {
-    console.log('err: ', err)
-    if (err.code === 1003) {
-      error.value = true
-    } else {
-      reload.value = true
-    }
-  } else {
-    loading.value = false
-    console.log('res: ', res)
-    teams.value = res
-    stores.setTeams(res)
-  }
-}
-const teamAdd = async (team) => {
-  if (team) {
-    showTeamAdd.value = false
-    teams.value.push(team)
-  }
-}
+
 onMounted(async () => {
   // await foo()
 })
@@ -79,5 +52,5 @@ onMounted(async () => {
     </div>
   </div>
   <!-- Add team modal -->
-  <TeamAdd v-if="showTeamAdd" @created="teamAdd" @close="showTeamAdd = false" />
+  <TeamAdd v-if="showTeamAdd" @close="showTeamAdd = false" />
 </template>

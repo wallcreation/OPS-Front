@@ -56,3 +56,15 @@ export async function fetchAllAppData() {
     null
   ]
 }
+
+export const updateStore = async (stores) => {
+  const [data, fetchErr] = await fetchAllAppData()
+  if (fetchErr) {
+    console.error('Erreur lors du chargement des données :', fetchErr)
+    // Optionnel : afficher une alerte ou notifier l'utilisateur
+    return
+  }
+  stores.setTeams(data.teams)
+  stores.setOperators(data.operators)
+  stores.setAccounts(data.accounts)
+}

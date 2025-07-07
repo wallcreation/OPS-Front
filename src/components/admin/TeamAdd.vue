@@ -1,19 +1,13 @@
 <script setup>
-import { createTeam, safeCall } from '@/api'
 import { useAppStore } from '@/stores/app'
-import { useErrorStore } from '@/stores/error'
-import { useNotificationStore } from '@/stores/notification'
 import { ref } from 'vue'
 const emit = defineEmits(['created', 'close'])
-const serror = useErrorStore()
 const stores = useAppStore()
 const error = ref(false)
 const errormsg = ref('')
 const loading = ref(false)
-const close = async () => {
-  emit('close')
-}
 const teamipt = ref('')
+// Functions
 const add_team = async () => {
   if (teamipt.value.trim() === '') {
     error.value = true
@@ -23,8 +17,6 @@ const add_team = async () => {
     }, 3000)
   }
   stores.createTeamAPI({ name: teamipt.value })
-  const notification = useNotificationStore()
-  notification.notify('Création en cours...', 'info')
   emit('close')
 }
 </script>
@@ -63,7 +55,7 @@ const add_team = async () => {
           Valider
         </button>
         <button
-          @click="close"
+          @click="emit('close')"
           class="px-2 border-2 border-error rounded-lg hover:border-error-dark hover:bg-error-dark"
         >
           Annuler

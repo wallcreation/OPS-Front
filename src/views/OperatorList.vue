@@ -11,23 +11,7 @@ const stores = useAppStore()
 const operators = computed(() => stores.operators)
 const reload = ref(false)
 const showOperatorAdd = ref(false)
-const foo = async () => {
-  reload.value = false
-  const [res, err] = await safeCall(getOperators())
-  if (err) {
-    console.log('err: ', err)
-    if (err.code === 1003) {
-      error.value = true
-    } else {
-      reload.value = true
-    }
-  } else {
-    loading.value = false
-    console.log('res: ', res)
-    operators.value = res
-    stores.setOperators(res)
-  }
-}
+
 const opcreated = async (op) => {
   operators.value.push(op)
 }

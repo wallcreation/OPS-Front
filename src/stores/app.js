@@ -7,8 +7,11 @@ import {
   createAccount, deleteAccount, updateAccount,
   safeCall
 } from '@/api'
+import { useNotificationStore } from './notification'
 
 export const useAppStore = defineStore('app', () => {
+  // Notification
+  const notification = useNotificationStore()
   // 🔹 Équipes
   const teams = ref([])
 
@@ -17,14 +20,17 @@ export const useAppStore = defineStore('app', () => {
   }
   function addTeam(team) {
     teams.value.push(team)
+    notification.notify("Equipe crée", "success")
   }
   function removeTeam(teamId) {
     teams.value = teams.value.filter(t => t.id !== teamId)
+    notification.notify("Equipe supprimée", "success")
   }
   function updateTeamLocal(updatedTeam) {
     const index = teams.value.findIndex(t => t.id === updatedTeam.id)
     if (index !== -1) {
       teams.value[index] = { ...teams.value[index], ...updatedTeam }
+      notification.notify("Team mise à jour", "success")
     }
   }
   async function createTeamAPI(payload) {
@@ -48,14 +54,17 @@ export const useAppStore = defineStore('app', () => {
   }
   function addOperator(operator) {
     operators.value.push(operator)
+    notification.notify("Opérateur crée", "success")
   }
   function removeOperator(operatorId) {
     operators.value = operators.value.filter(op => op.id !== operatorId)
+    notification.notify("Opérateur supprimé", "success")
   }
   function updateOperatorLocal(updatedOperator) {
     const index = operators.value.findIndex(op => op.id === updatedOperator.id)
     if (index !== -1) {
       operators.value[index] = { ...operators.value[index], ...updatedOperator }
+      notification.notify("Opérateur modifié", "success")
     }
   }
   async function createOperatorAPI(payload) {
@@ -79,14 +88,17 @@ export const useAppStore = defineStore('app', () => {
   }
   function addAccount(account) {
     accounts.value.push(account)
+    notification.notify("Compte crée", "success")
   }
   function removeAccount(accountId) {
     accounts.value = accounts.value.filter(acc => acc.id !== accountId)
+    notification.notify("Compte supprimé", "success")
   }
   function updateAccountLocal(updatedAccount) {
     const index = accounts.value.findIndex(acc => acc.id === updatedAccount.id)
     if (index !== -1) {
       accounts.value[index] = { ...accounts.value[index], ...updatedAccount }
+      notification.notify("Compte modifié", "success")
     }
   }
   async function createAccountAPI(payload) {

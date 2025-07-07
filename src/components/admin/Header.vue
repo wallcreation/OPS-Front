@@ -23,9 +23,9 @@ const reload = async () => {
       error.value = true
     }
   }
-  stores.setAccounts(data.accounts)
-  stores.setOperators(data.operators)
   stores.setTeams(data.teams)
+  stores.setOperators(data.operators)
+  stores.setAccounts(data.accounts)
   show.value = false
 }
 </script>

@@ -52,6 +52,7 @@ const delteam = async () => {
         />
       </svg>
     </div>
+    
     <div class="flex gap-2">
       <div>
         <p v-for="operator in operators" :key="operator.id" class="text-sm">

@@ -2,6 +2,7 @@
 import { createTeam, safeCall } from '@/api'
 import { useAppStore } from '@/stores/app'
 import { useErrorStore } from '@/stores/error'
+import { useNotificationStore } from '@/stores/notification'
 import { ref } from 'vue'
 const emit = defineEmits(['created', 'close'])
 const serror = useErrorStore()
@@ -22,6 +23,8 @@ const add_team = async () => {
     }, 3000)
   }
   stores.createTeamAPI({ name: teamipt.value })
+  const notification = useNotificationStore()
+  notification.notify('Création en cours...', 'info')
   emit('close')
 }
 </script>

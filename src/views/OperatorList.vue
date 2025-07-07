@@ -1,23 +1,13 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
-import { getOperators, safeCall } from '@/api'
+import { computed, ref } from 'vue'
 import { useAppStore } from '@/stores/app'
 import OperatorAdd from '@/components/admin/OperatorAdd.vue'
 import OperatorCard from '@/components/admin/OperatorCard.vue'
-import Reload from '@/components/Reload.vue'
-const error = ref(false)
 const loading = ref(false)
 const stores = useAppStore()
 const operators = computed(() => stores.operators)
-const reload = ref(false)
 const showOperatorAdd = ref(false)
 
-const opcreated = async (op) => {
-  operators.value.push(op)
-}
-onMounted(async () => {
-  // await foo()
-})
 </script>
 <template>
   <div class="w-full h-full p-1">
@@ -58,5 +48,4 @@ onMounted(async () => {
     </div>
   </div>
   <OperatorAdd v-if="showOperatorAdd" @close="showOperatorAdd = false" />
-  <Reload :show="reload" @accept="foo()" @cancel="reload = false" />
 </template>

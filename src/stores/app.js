@@ -34,14 +34,17 @@ export const useAppStore = defineStore('app', () => {
     }
   }
   async function createTeamAPI(payload) {
+    notification.notify("Création de l'équipe", "info")
     const [res] = await safeCall(createTeam(payload))
     if (res) addTeam(res)
   }
   async function deleteTeamAPI(teamId) {
+    notification.notify("Suppression de l'équipe", "info")
     const [res] = await safeCall(deleteTeam(teamId))
     if (res) removeTeam(teamId)
   }
   async function editTeamAPI(updatedTeam) {
+    notification.notify("Modification de l'équipe", "info")
     const [res] = await safeCall(updateTeam(updatedTeam))
     if (res) updateTeamLocal(res)
   }
@@ -68,14 +71,17 @@ export const useAppStore = defineStore('app', () => {
     }
   }
   async function createOperatorAPI(payload) {
+    notification.notify("Création de l'opérateur", "info")
     const [res] = await safeCall(createOperator(payload))
     if (res) addOperator(res)
   }
   async function deleteOperatorAPI(operatorId) {
+    notification.notify("Suppression de l'opérateur", "info")
     const [res] = await safeCall(deleteOperator(operatorId))
     if (res) removeOperator(operatorId)
   }
   async function editOperatorAPI(updatedOperator) {
+    notification.notify("Modification de l'opérateur", "info")
     const [res] = await safeCall(updateOperator(updatedOperator))
     if (res) updateOperatorLocal(res)
   }
@@ -102,14 +108,17 @@ export const useAppStore = defineStore('app', () => {
     }
   }
   async function createAccountAPI(payload) {
+    notification.notify("Création du compte", "info")
     const [res] = await safeCall(createAccount(payload))
     if (res) addAccount(res)
   }
   async function deleteAccountAPI(accountId) {
+    notification.notify("Suppression du compte", "info")
     const [res] = await safeCall(deleteAccount(accountId))
     if (res) removeAccount(accountId)
   }
   async function editAccountAPI(updatedAccount) {
+    notification.notify("Modification du compte", "info")
     const [res] = await safeCall(updateAccount(updatedAccount))
     if (res) updateAccountLocal(res)
   }

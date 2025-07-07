@@ -1,38 +1,12 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { getAccounts, safeCall } from '@/api'
 import { useAppStore } from '@/stores/app'
-import Reload from '@/components/Reload.vue'
 import AccountAdd from '@/components/admin/AccountAdd.vue'
 import AccountCard from '@/components/admin/AccountCard.vue'
-const error = ref(false)
 const loading = ref(false)
-const reload = ref(false)
 const showAccountAdd = ref(false)
 const stores = useAppStore()
 const accounts = computed(() => stores.accounts)
-const foo = async () => {
-  reload.value = false
-  const [res, err] = await safeCall(getAccounts())
-  if (err) {
-    console.log('err: ', err)
-    if (err.code === 1003) {
-      error.value = true
-    } else {
-      reload.value = true
-    }
-  } else {
-    loading.value = false
-    console.log('res: ', res)
-    accounts.value = res
-    stores.setAccounts(res)
-  }
-}
-const accountAdd = async (acc) => {
-
-  accounts.value.push(acc)
-  showAccountAdd.value = false
-}
 onMounted(async () => {
   // await foo()
 })
@@ -69,7 +43,5 @@ onMounted(async () => {
       />
     </div>
   </div>
-  <AccountAdd v-if="showAccountAdd" :teams="stores.teams"  @created="accountAdd" @close="showAccountAdd = false"/>
-  <!-- Connection reload -->
-  <Reload :show="reload" @accept="foo()" @cancel="reload = false" />
+  <AccountAdd v-if="showAccountAdd" :teams="stores.teams"  @close="showAccountAdd = false"/>
 </template>

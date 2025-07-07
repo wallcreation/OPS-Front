@@ -21,11 +21,11 @@ const props = defineProps({
   },
 })
 
-const loading = ref(false)
+const deleting = ref(false)
 const stores = useAppStore()
 
 const delaccount = async () => {
-  loading.value = true
+  deleting.value = true
   stores.deleteAccountAPI(props.id)
 }
 </script>

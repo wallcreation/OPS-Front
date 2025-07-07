@@ -1,21 +1,22 @@
 <script setup>
 import { clearProfile, fetchAllAppData, loadProfile } from '@/api'
 import { useAppStore } from '@/stores/app'
+import { useNotificationStore } from '@/stores/notification'
 import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
+const error = ref(false)
+const notification = useNotificationStore()
 const profile = loadProfile()
 const initials = (profile?.fname?.[0] || '') + (profile?.lname?.[0] || '')
-const error = ref(false)
-const onreload = ref(false)
-const show = ref(false)
 const router = useRouter()
+const show = ref(false)
+const stores = useAppStore()
 const logout = async () => {
   clearProfile()
   router.push({ name: 'login' })
 }
 const reload = async () => {
-  onreload.value = true
-  const stores = useAppStore()
+  notification.notify("Rechargement des données", "info")
   const [data, err] = await fetchAllAppData()
   if (err) {
     if (err.code === 1003) {
@@ -25,8 +26,7 @@ const reload = async () => {
   stores.setAccounts(data.accounts)
   stores.setOperators(data.operators)
   stores.setTeams(data.teams)
-  onreload.value = false
-  show = false
+  show.value = false
 }
 </script>
 <template>
@@ -137,7 +137,6 @@ const reload = async () => {
       <h1 class="md:col-span-2 text-primary text-2xl">{{ profile.fname }} {{ profile.lname }}</h1>
       <p class="md:col-span-2 mb-2">Administrateur</p>
       <button
-        :disabled="onreload"
         @click="reload"
         class="mx-1 p-1 flex items-center justify-center gap-1 border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
       >
@@ -150,7 +149,7 @@ const reload = async () => {
             d="M13.1 12c-1.2 1.5-3 2.5-5.1 2.5c-3.6 0-6.5-2.9-6.5-6.5S4.4 1.5 8 1.5c2.2 0 4.1 1.1 5.3 2.7m.2-3.2v3c0 .3-.2.5-.5.5h-3"
           />
         </svg>
-        <span>{{ onreload ? 'Rechargement en cours...' : 'Recharger' }}</span>
+        <span>Recharger</span>
       </button>
       <button
         @click="logout()"

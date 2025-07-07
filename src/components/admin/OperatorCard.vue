@@ -15,7 +15,7 @@ const stores = useAppStore()
 
 const deloperator = async () => {
   stores.deleteOperatorAPI(props.id)
-  deleting = true
+  deleting.value = true
 }
 </script>
 <template>

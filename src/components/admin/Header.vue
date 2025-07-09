@@ -16,7 +16,7 @@ const logout = async () => {
   router.push({ name: 'login' })
 }
 const reload = async () => {
-  notification.notify("Rechargement des données", "info")
+  notification.notify('Rechargement des données', 'info')
   const [data, err] = await fetchAllAppData()
   if (err) {
     if (err.code === 1003) {
@@ -27,6 +27,14 @@ const reload = async () => {
   stores.setOperators(data.operators)
   stores.setAccounts(data.accounts)
   show.value = false
+}
+
+
+// Fonction pour basculer le mode sombre
+const toggleDarkMode = () => {
+  isDarkMode.value = !isDarkMode.value
+  document.documentElement.classList.toggle('dark')
+  localStorage.setItem('darkMode', isDarkMode.value)
 }
 </script>
 <template>
@@ -55,7 +63,7 @@ const reload = async () => {
           />
         </svg>
       </span>
-      <span class="hidden md:inline">Accueil</span>
+      <span class="hidden md:inline dark:text-white">Accueil</span>
     </RouterLink>
     <RouterLink
       to="/admin/teams/"
@@ -76,7 +84,7 @@ const reload = async () => {
           />
         </svg>
       </span>
-      <span class="hidden md:inline">Equipes</span>
+      <span class="hidden md:inline dark:text-white">Equipes</span>
     </RouterLink>
     <RouterLink
       to="/admin/operators"
@@ -97,7 +105,7 @@ const reload = async () => {
           />
         </svg>
       </span>
-      <span class="hidden md:inline">Opérateurs</span>
+      <span class="hidden md:inline dark:text-white">Opérateurs</span>
     </RouterLink>
     <RouterLink
       to="/admin/accounts"
@@ -118,10 +126,30 @@ const reload = async () => {
           />
         </svg>
       </span>
-      <span class="hidden md:inline">Comptes</span>
+      <span class="hidden md:inline dark:text-white">Comptes</span>
     </RouterLink>
     <button @click="show = !show" class="flex mx-1 hover:border-b-2 hover:border-primary-light">
       <span class="font-bold text-lg text-primary">{{ initials }}</span>
+    </button>
+
+    <!-- Toggle Dark Mode Button -->
+    <button
+      @click="toggleDarkMode"
+      class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
+    >
+      <svg
+        class="w-6 h-6 text-gray-600 dark:text-gray-300"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+        />
+      </svg>
     </button>
   </nav>
 

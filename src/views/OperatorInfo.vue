@@ -3,15 +3,10 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 const route = useRoute()
+const stores = useAppStore()
 const operatorid = route.params.id
 console.log('operator id', operatorid)
-const operator = ref({
-  lname: 'Smith',
-  fname: 'Smith',
-  email: 'exemple@email.com',
-  wortat: 'Jour',
-  team: 'Team A',
-})
+const operator = stores.getOperatorById(operatorid)
 const passtype = ref('password')
 const showopedit = ref(false)
 const showstatadd = ref(false) // ce bool déclenche le modal

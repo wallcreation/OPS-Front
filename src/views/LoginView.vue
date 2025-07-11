@@ -161,7 +161,7 @@ const onlogin = async () => {
           :class="disablelogin ? 'animate-pulse' : ''"
           :disabled="disablelogin"
         >
-          Se connecter
+          {{ disablelogin ? 'Connexion...' : 'Se connecter'}}
         </button>
       </form>
     </div>

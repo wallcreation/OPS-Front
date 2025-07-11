@@ -1,6 +1,6 @@
 <script setup>
 import dayjs from 'dayjs'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 import MonthSelector from '@/components/utils/MonthSelector.vue'
@@ -16,16 +16,18 @@ const stats = ref({})
 const selectedMonth = ref(dayjs().format('YYYY-MM'))
 const monthChanged = async (month) => {
   selectedMonth.value = month
-  console.log('Selected month:', selectedMonth.value)
-  const [res, err] = await safeCall(getOperatorStats({
+  const data = {
     operator_id: operatorid,
-    month: selectedMonth.value
-  }))
+    date: selectedMonth.value,
+  }
+  console.log('Fetching stats for:', data)
+  const [res, err] = await safeCall(getOperatorStats(data))
+  console.log('Selected month:', selectedMonth.value)
   if (err) {
     console.error('Error fetching stats:', err)
     return
   }
-  stats.value = res.data
+  stats.value = res
   console.log('Fetched stats:', stats.value)
 }
 // Modal states
@@ -42,10 +44,16 @@ const addPenality = () => {
   console.log('Ajouter stat !')
   showpenality.value = false
 }
+onMounted(() => {
+  monthChanged(selectedMonth.value)
+})
 </script>
 <template>
+  <!-- Root -->
   <div class="grid grid-cols-1 gap-2 md:grid-cols-4 mt-2">
+    <!-- User space, info, edit and stat/penalty summary -->
     <div class="md:col-span-2 md:row-span-3 p-2 bg-surface border-2 border-border rounded-lg">
+      <!-- User name and edit button -->
       <div class="flex justify-between">
         <h1 class="text-5xl">{{ operator.fname }} {{ operator.lname }}</h1>
         <button class="active:text-primary hover:text-primary" @click="showopedit = true">
@@ -75,10 +83,7 @@ const addPenality = () => {
           </svg>
         </button>
       </div>
-      <div class="overflow-x-auto">
-        Stat summary here
-        Stat summary here
-      </div>
+      <div class="overflow-x-auto">Stat summary here Stat summary here</div>
     </div>
     <div class="md:row-span-2 bg-surface p-2 border-2 border-border rounded-lg">
       <div class="flex justify-between">
@@ -95,12 +100,17 @@ const addPenality = () => {
     </div>
     <MonthSelector @update:month="monthChanged" class="col-span-2 col-start-3" />
     <div class="p-2 md:col-span-2 bg-surface border-2 border-border rounded-lg">
-        <h2 class="text-xl font-bold">Détail des Statistiques</h2>
-        <table>
-        </table>
+      <h2 class="text-xl font-bold">Détail des Statistiques</h2>
+      <div v-if="stats" v-for="(stat, date) in stats" :key="date">
+        <h2>{{ date }}</h2>
+        <div v-for="item in stat" :key="item.account_id">
+          Entry: {{ item.entry_total }} | Stop: {{ item.stop_total }}
+        </div>
+      </div>
+      <div v-else>No stats</div>
     </div>
     <div class="p-2 md:col-span-2 bg-surface border-2 border-border rounded-lg">
-        <h2 class="text-xl font-bold">Diagramme des Statistiques</h2>
+      <h2 class="text-xl font-bold">Diagramme des Statistiques</h2>
     </div>
   </div>
   <!-- Begin of modal -->

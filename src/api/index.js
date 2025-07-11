@@ -7,6 +7,7 @@ export * from './account'
 export * from './auth'
 export * from './error'
 export * from './operator'
+export * from './stat'
 export * from './team'
 export * from '../utils/storage'
 

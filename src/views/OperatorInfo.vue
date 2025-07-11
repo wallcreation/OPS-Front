@@ -1,15 +1,38 @@
 <script setup>
+import dayjs from 'dayjs'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
+import MonthSelector from '@/components/utils/MonthSelector.vue'
+import { getOperatorStats, safeCall } from '@/api'
+// Composables
 const route = useRoute()
 const stores = useAppStore()
 const operatorid = route.params.id
-console.log('operator id', operatorid)
 const operator = stores.getOperatorById(operatorid)
+const team = stores.getTeamById(operator.team_id)
+// State management
+const stats = ref({})
+const selectedMonth = ref(dayjs().format('YYYY-MM'))
+const monthChanged = async (month) => {
+  selectedMonth.value = month
+  console.log('Selected month:', selectedMonth.value)
+  const [res, err] = await safeCall(getOperatorStats({
+    operator_id: operatorid,
+    month: selectedMonth.value
+  }))
+  if (err) {
+    console.error('Error fetching stats:', err)
+    return
+  }
+  stats.value = res.data
+  console.log('Fetched stats:', stats.value)
+}
+// Modal states
 const passtype = ref('password')
 const showopedit = ref(false)
 const showstatadd = ref(false) // ce bool déclenche le modal
+// Functions
 const addStat = () => {
   console.log('Ajouter stat !')
   showstatadd.value = false
@@ -22,7 +45,7 @@ const addPenality = () => {
 </script>
 <template>
   <div class="grid grid-cols-1 gap-2 md:grid-cols-4 mt-2">
-    <div class="md:col-span-2 p-2 bg-surface border-2 border-border rounded-lg">
+    <div class="md:col-span-2 md:row-span-3 p-2 bg-surface border-2 border-border rounded-lg">
       <div class="flex justify-between">
         <h1 class="text-5xl">{{ operator.fname }} {{ operator.lname }}</h1>
         <button class="active:text-primary hover:text-primary" @click="showopedit = true">
@@ -34,12 +57,13 @@ const addPenality = () => {
           </svg>
         </button>
       </div>
-      <div class="flex gap-2">
+      <div class="flex gap-1 px-1">
         <p>{{ operator.email }}</p>
-        <p>{{ operator.team }}</p>
+        <p class="text-primary">●</p>
+        <p>{{ team.name }}</p>
       </div>
     </div>
-    <div class="bg-surface p-2 border-2 border-border rounded-lg">
+    <div class="md:row-span-2 bg-surface p-2 border-2 border-border rounded-lg">
       <div class="flex justify-between">
         <h1 class="text-primary font-bold">Statistiques</h1>
         <button class="active:text-primary hover:text-primary" @click="showstatadd = true">
@@ -51,8 +75,12 @@ const addPenality = () => {
           </svg>
         </button>
       </div>
+      <div class="overflow-x-auto">
+        Stat summary here
+        Stat summary here
+      </div>
     </div>
-    <div class="bg-surface p-2 border-2 border-border rounded-lg">
+    <div class="md:row-span-2 bg-surface p-2 border-2 border-border rounded-lg">
       <div class="flex justify-between">
         <h1 class="text-error font-bold">Pénalités</h1>
         <button class="active:text-error hover:text-error" @click="showpenality = true">
@@ -65,6 +93,7 @@ const addPenality = () => {
         </button>
       </div>
     </div>
+    <MonthSelector @update:month="monthChanged" class="col-span-2 col-start-3" />
     <div class="p-2 md:col-span-2 bg-surface border-2 border-border rounded-lg">
         <h2 class="text-xl font-bold">Détail des Statistiques</h2>
         <table>

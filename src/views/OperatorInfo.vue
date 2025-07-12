@@ -1,26 +1,32 @@
 <script setup>
+// Importation des dépendances
 import dayjs from 'dayjs'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 import MonthSelector from '@/components/utils/MonthSelector.vue'
 import { getOperatorStats, safeCall } from '@/api'
-// Composables
+import StatDisplay from '@/components/admin/StatDisplay.vue'
+
+// Récupération des informations de la route et du store
 const route = useRoute()
 const stores = useAppStore()
-const operatorid = route.params.id
-const operator = stores.getOperatorById(operatorid)
-const team = stores.getTeamById(operator.team_id)
-// State management
-const stats = ref({})
-const selectedMonth = ref(dayjs().format('YYYY-MM'))
+const operatorid = route.params.id // ID de l'opérateur depuis l'URL
+const operator = stores.getOperatorById(operatorid) // Données de l'opérateur
+const team = stores.getTeamById(operator.team_id) // Données de l'équipe de l'opérateur
+
+// Gestion des états réactifs
+const stats = ref({}) // Stocke les statistiques récupérées
+const selectedMonth = ref(dayjs().format('YYYY-MM')) // Mois sélectionné (par défaut : mois courant)
+
+// Fonction appelée lors du changement de mois
 const monthChanged = async (month) => {
   selectedMonth.value = month
   const data = {
     operator_id: operatorid,
     date: selectedMonth.value,
   }
-  console.log('Fetching stats for:', data)
+  // Appel API sécurisé pour récupérer les stats
   const [res, err] = await safeCall(getOperatorStats(data))
   console.log('Selected month:', selectedMonth.value)
   if (err) {
@@ -28,92 +34,118 @@ const monthChanged = async (month) => {
     return
   }
   stats.value = res
-  console.log('Fetched stats:', stats.value)
 }
-// Modal states
-const passtype = ref('password')
-const showopedit = ref(false)
-const showstatadd = ref(false) // ce bool déclenche le modal
-// Functions
+
+// Etats pour la gestion des modales et du type de champ mot de passe
+const passtype = ref('password') // Type du champ mot de passe (text/password)
+const showopedit = ref(false) // Affichage du modal d'édition opérateur
+const showstatadd = ref(false) // Affichage du modal d'ajout de stat
+const showpenality = ref(false) // Affichage du modal d'ajout de pénalité
+
+// Fonction pour ajouter une stat (ferme la modale)
 const addStat = () => {
   console.log('Ajouter stat !')
   showstatadd.value = false
 }
-const showpenality = ref(false) // ce bool déclenche le modal
+
+// Fonction pour ajouter une pénalité (ferme la modale)
 const addPenality = () => {
   console.log('Ajouter stat !')
   showpenality.value = false
 }
+
+// Au montage du composant, on charge les stats du mois courant
 onMounted(() => {
   monthChanged(selectedMonth.value)
 })
 </script>
 <template>
-  <!-- Root -->
-  <div class="grid grid-cols-1 gap-2 md:grid-cols-4 mt-2">
-    <!-- User space, info, edit and stat/penalty summary -->
-    <div class="md:col-span-2 md:row-span-3 p-2 bg-surface border-2 border-border rounded-lg">
-      <!-- User name and edit button -->
-      <div class="flex justify-between">
-        <h1 class="text-5xl">{{ operator.fname }} {{ operator.lname }}</h1>
-        <button class="active:text-primary hover:text-primary" @click="showopedit = true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M3 17.46v3.04c0 .28.22.5.5.5h3.04c.13 0 .26-.05.35-.15L17.81 9.94l-3.75-3.75L3.15 17.1q-.15.15-.15.36M20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z"
-            />
-          </svg>
-        </button>
-      </div>
-      <div class="flex gap-1 px-1">
-        <p>{{ operator.email }}</p>
-        <p class="text-primary">●</p>
-        <p>{{ team.name }}</p>
-      </div>
-    </div>
-    <div class="md:row-span-2 bg-surface p-2 border-2 border-border rounded-lg">
-      <div class="flex justify-between">
-        <h1 class="text-primary font-bold">Statistiques</h1>
-        <button class="active:text-primary hover:text-primary" @click="showstatadd = true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z"
-            />
-          </svg>
-        </button>
-      </div>
-      <div class="overflow-x-auto">Stat summary here Stat summary here</div>
-    </div>
-    <div class="md:row-span-2 bg-surface p-2 border-2 border-border rounded-lg">
-      <div class="flex justify-between">
-        <h1 class="text-error font-bold">Pénalités</h1>
-        <button class="active:text-error hover:text-error" @click="showpenality = true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z"
-            />
-          </svg>
-        </button>
-      </div>
-    </div>
-    <MonthSelector @update:month="monthChanged" class="col-span-2 col-start-3" />
-    <div class="p-2 md:col-span-2 bg-surface border-2 border-border rounded-lg">
-      <h2 class="text-xl font-bold">Détail des Statistiques</h2>
-      <div v-if="stats" v-for="(stat, date) in stats" :key="date">
-        <h2>{{ date }}</h2>
-        <div v-for="item in stat" :key="item.account_id">
-          Entry: {{ item.entry_total }} | Stop: {{ item.stop_total }}
+  <!-- Grille principale de la page -->
+  <div class="w-full h-full flex flex-col py-1">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-1 pb-1">
+      <!-- Espace utilisateur : infos, bouton édition, résumé stats/pénalités -->
+      <div class="col-span-2 p-2 bg-surface border-2 border-border rounded-lg">
+        <!-- Nom de l'utilisateur et bouton d'édition -->
+        <div class="flex justify-between">
+          <h1 class="text-5xl">{{ operator.fname }} {{ operator.lname }}</h1>
+          <!-- Bouton pour ouvrir la modale d'édition -->
+          <button class="active:text-primary hover:text-primary" @click="showopedit = true">
+            <!-- Icône crayon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M3 17.46v3.04c0 .28.22.5.5.5h3.04c.13 0 .26-.05.35-.15L17.81 9.94l-3.75-3.75L3.15 17.1q-.15.15-.15.36M20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z"
+              />
+            </svg>
+          </button>
+        </div>
+        <!-- Email et équipe -->
+        <div class="flex gap-1 px-1">
+          <p>{{ operator.email }}</p>
+          <p class="text-primary">●</p>
+          <p>{{ team.name }}</p>
         </div>
       </div>
-      <div v-else>No stats</div>
+      <!-- Bloc statistiques résumé -->
+      <div class="grid grid-cols-3 bg-surface p-2 border-2 border-border rounded-lg">
+        <h1 class="col-span-2 text-primary font-bold">Statistiques</h1>
+        <!-- Bouton pour ouvrir la modale d'ajout de stat -->
+        <button
+          class="justify-self-end active:text-primary hover:text-primary"
+          @click="showstatadd = true"
+        >
+          <!-- Icône + -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path
+              fill="currentColor"
+              d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z"
+            />
+          </svg>
+        </button>
+        <!-- Résumé des stats (à compléter) -->
+        <div class="col-span-3">Stat summary here Stat summary here</div>
+      </div>
+      <!-- Bloc pénalités résumé -->
+      <div class="grid grid-cols-3 bg-surface p-2 border-2 border-border rounded-lg">
+        <h1 class="col-span-2 text-error font-bold">Pénalités</h1>
+        <!-- Bouton pour ouvrir la modale d'ajout de pénalité -->
+        <button
+          class="justify-self-end active:text-error hover:text-error"
+          @click="showpenality = true"
+        >
+          <!-- Icône + -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path
+              fill="currentColor"
+              d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z"
+            />
+          </svg>
+        </button>
+        <div class="col-span-3">Penalty summary here Stat summary here</div>
+      </div>
+      <div class="col-span-2 md:col-span-4">
+        <MonthSelector @update:month="monthChanged" class="" />
+      </div>
     </div>
-    <div class="p-2 md:col-span-2 bg-surface border-2 border-border rounded-lg">
-      <h2 class="text-xl font-bold">Diagramme des Statistiques</h2>
+    <div class="w-full flex-grow overflow-hidden flex gap-1">
+      <!-- Sélecteur de mois pour filtrer les stats -->
+      <!-- Détail des statistiques -->
+      <div
+        class="w-[50%] p-2 overflow-y-auto md:col-span-2 bg-surface border-2 border-border rounded-lg"
+      >
+        <h2 class="text-xl font-bold">
+          <span class="hidden sm:inline">Détail des</span> 
+          Statistiques</h2>
+        <!-- Affichage des stats par date -->
+        <StatDisplay :stats="stats" :stores="stores" />
+      </div>
+      <!-- Bloc pour le diagramme (à compléter) -->
+      <div class="w-[50%] p-2 md:col-span-2 bg-surface border-2 border-border rounded-lg">
+        <h2 class="text-xl font-bold">Diagramme des Statistiques</h2>
+      </div>
     </div>
   </div>
-  <!-- Begin of modal -->
+  <!-- Modale d'édition de l'opérateur -->
   <div
     v-if="showopedit"
     class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-md"
@@ -121,6 +153,7 @@ onMounted(() => {
     <div class="p-4 items-center justify-between bg-surface border-2 border-border rounded-lg">
       <h2>Modifier l'opérateur</h2>
       <form action="" class="mx-1 grid gap-2 grid-cols-1 md:grid-cols-2">
+        <!-- Champs de saisie pour chaque info opérateur -->
         <input
           type="text"
           name="lname"
@@ -149,6 +182,7 @@ onMounted(() => {
           placeholder="Adresse mail"
           class="border-b-2 border-border outline-none focus:border-primary hover:border-border"
         />
+        <!-- Champ mot de passe avec bouton pour afficher/masquer -->
         <div
           class="flex justify-between border-b-2 border-border focus-within:border-primary hover:border-primary"
         >
@@ -159,7 +193,9 @@ onMounted(() => {
             placeholder="Mot de passe"
             class="bg-transparent outline-none"
           />
+          <!-- Bouton pour afficher/masquer le mot de passe -->
           <button v-if="passtype === 'password'" @click="passtype = 'text'">
+            <!-- Icône oeil barré -->
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
               <path
                 fill="currentColor"
@@ -168,6 +204,7 @@ onMounted(() => {
             </svg>
           </button>
           <button v-else @click="passtype = 'password'">
+            <!-- Icône oeil ouvert -->
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
               <g fill="none" stroke="currentColor" stroke-width="1.5">
                 <path
@@ -180,6 +217,7 @@ onMounted(() => {
           </button>
         </div>
       </form>
+      <!-- Boutons de validation/annulation -->
       <div class="mt-1 flex gap-2 justify-end">
         <button
           class="text-primary active:border-b-2 active:border-primary hover:border-b-2 hover:border-primary"
@@ -195,6 +233,7 @@ onMounted(() => {
       </div>
     </div>
   </div>
+  <!-- Modale d'ajout de stat -->
   <div
     v-if="showstatadd"
     class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-sm"
@@ -202,18 +241,21 @@ onMounted(() => {
     <div class="w-full max-w-lg mx-4 bg-surface border border-border rounded-xl p-4">
       <h2 class="text-xl font-bold text-text mb-4">Ajouter une stat</h2>
       <form class="grid gap-3">
+        <!-- Champ montant -->
         <input
           type="number"
           placeholder="Montant"
           class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none bg-transparent px-2 py-1"
         />
         <div class="flex justify-end gap-3 mt-2">
+          <!-- Bouton pour ajouter la stat -->
           <button
             class="text-primary hover:border-b-2 hover:border-primary-light"
             @click.prevent="addStat"
           >
             Ajouter
           </button>
+          <!-- Bouton pour fermer la modale -->
           <button
             class="text-error hover:border-b-2 hover:border-error"
             @click="showstatadd = false"
@@ -224,6 +266,7 @@ onMounted(() => {
       </form>
     </div>
   </div>
+  <!-- Modale d'ajout de pénalité -->
   <div
     v-if="showpenality"
     class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-sm"
@@ -231,23 +274,27 @@ onMounted(() => {
     <div class="w-full max-w-lg mx-4 bg-surface border border-border rounded-xl p-4">
       <h2 class="text-xl font-bold text-text mb-4">Ajouter une pénalité</h2>
       <form class="grid gap-3">
+        <!-- Champ raison -->
         <input
           type="text"
           placeholder="Raison"
           class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none bg-transparent px-2 py-1"
         />
+        <!-- Champ montant -->
         <input
           type="number"
           placeholder="Montant"
           class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none bg-transparent px-2 py-1"
         />
         <div class="flex justify-end gap-3 mt-2">
+          <!-- Bouton pour ajouter la pénalité -->
           <button
             class="text-primary hover:border-b-2 hover:border-primary-light"
             @click.prevent="addPenality"
           >
             Ajouter
           </button>
+          <!-- Bouton pour fermer la modale -->
           <button
             class="text-error hover:border-b-2 hover:border-error"
             @click="showpenality = false"

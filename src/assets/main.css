@@ -1,34 +1,39 @@
+/* Importation de Tailwind CSS et du plugin motion */
 @import 'tailwindcss';
 @plugin "tailwindcss-motion";
 
+/* Définition des couleurs et variables de thème personnalisées */
 @theme {
-  --color-primary: oklch(0.72 0.18 230);        /* #0EA5E9 */
-  --color-primary-light: oklch(0.80 0.17 230);  /* #38BDF8 */
-  --color-primary-dark: oklch(0.60 0.16 230);   /* #0369A1 */
+  --color-primary: oklch(0.72 0.18 230);        /* Bleu principal */
+  --color-primary-light: oklch(0.80 0.17 230);  /* Bleu clair */
+  --color-primary-dark: oklch(0.60 0.16 230);   /* Bleu foncé */
 
-  --color-bg: oklch(0.18 0.01 260);             /* #0F172A */
-  --color-surface: oklch(0.26 0.01 260);        /* #1E293B */
-  --color-border: oklch(0.35 0.02 260);         /* #334155 */
+  --color-bg: oklch(0.18 0.01 260);             /* Couleur de fond principale */
+  --color-surface: oklch(0.26 0.01 260);        /* Surface (cartes, panels) */
+  --color-border: oklch(0.35 0.02 260);         /* Bordures */
 
-  --color-text: oklch(0.95 0.01 260);           /* #F1F5F9 */
-  --color-muted: oklch(0.72 0.03 260);          /* #94A3B8 */
+  --color-text: oklch(0.95 0.01 260);           /* Texte principal */
+  --color-muted: oklch(0.72 0.03 260);          /* Texte secondaire/muet */
 
-  --color-warning: oklch(0.89 0.19 95);         /* #FACC15 */
-  --color-warning-dark: oklch(0.69 0.18 85);    /* #CA8A04 */
+  --color-warning: oklch(0.89 0.19 95);         /* Jaune d'avertissement */
+  --color-warning-dark: oklch(0.69 0.18 85);    /* Jaune foncé */
 
-  --color-error: oklch(0.67 0.23 30);           /* #EF4444 */
-  --color-error-dark: oklch(0.48 0.24 30);      /* #991B1B */
+  --color-error: oklch(0.67 0.23 30);           /* Rouge d'erreur */
+  --color-error-dark: oklch(0.48 0.24 30);      /* Rouge foncé */
 
-  --shadow-soft: 0 4px 6px rgba(14, 165, 233, 0.15);
-  --shadow-deep: 0 8px 24px rgba(14, 165, 233, 0.25);
+  --shadow-soft: 0 4px 6px rgba(14, 165, 233, 0.15); /* Ombre douce */
+  --shadow-deep: 0 8px 24px rgba(14, 165, 233, 0.25); /* Ombre profonde */
 }
 
+/* Style général du body : fond, hauteur, marges */
 body {
   background-color: #0f1216; /* Couleur de fond */
   height: 100vh;
   margin: 0;
   padding: 0;
 }
+
+/* Personnalisation de la scrollbar pour tous les navigateurs Webkit */
 ::-webkit-scrollbar {
   width: 8px;
   height: 9px; /* important si scroll horizontal */
@@ -41,13 +46,13 @@ body {
 
 /* Barre de scroll */
 ::-webkit-scrollbar-thumb {
-  background-color: #888888; /* violet */
+  background-color: #888888; /* gris par défaut */
   border-radius: 5px;
   border: 2px solid transparent;
   background-clip: content-box;
 }
 
-/* Hover */
+/* Hover sur la barre de scroll */
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #3B91F9; /* plus foncé */
+  background-color: #3B91F9; /* bleu plus foncé au survol */
 }

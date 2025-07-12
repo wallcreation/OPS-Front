@@ -1,38 +1,47 @@
 <script setup>
+// Importation des fonctions et hooks nécessaires
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getErrorMessage, fetchAllAppData, login, safeCall, updateStore } from '@/api'
 import { saveProfile } from '@/utils/storage'
 import { useAppStore } from '@/stores/app'
-const router = useRouter()
-const disablelogin = ref(false)
-const displayerror = ref(false)
-const email = ref('')
-const errorMessage = ref('')
-const password = ref('')
-const showpassword = ref(false)
-const stores = useAppStore()
-const error = ref(false)
-// Functions
-const onlogin = async () => {
-  disablelogin.value = true
 
+// Initialisation du router pour la navigation
+const router = useRouter()
+
+// Déclaration des variables réactives pour la gestion du formulaire et des états
+const disablelogin = ref(false) // Désactive le bouton pendant la connexion
+const displayerror = ref(false) // Affiche ou masque le message d'erreur
+const email = ref('') // Email saisi par l'utilisateur
+const errorMessage = ref('') // Message d'erreur à afficher
+const password = ref('') // Mot de passe saisi
+const showpassword = ref(false) // Affiche ou masque le mot de passe
+const stores = useAppStore() // Accès au store global
+const error = ref(false) // Etat d'erreur général (non utilisé ici)
+
+// Fonction appelée lors de la soumission du formulaire de connexion
+const onlogin = async () => {
+  disablelogin.value = true // Désactive le bouton
+
+  // Vérifie que les champs sont remplis
   if (!email.value || !password.value) {
     displayerror.value = true
     setTimeout(() => {
       displayerror.value = false
     }, 5000)
   } else {
+    // Appel API pour tenter la connexion
     const [res, err] = await safeCall(login({ email: email.value, password: password.value }))
 
     if (err) {
-      // Optionnel : afficher un message plus précis
+      // Affiche un message d'erreur si la connexion échoue
       errorMessage.value = getErrorMessage(err.code) || err.message
       displayerror.value = true
       setTimeout(() => {
         displayerror.value = false
       }, 5000)
     } else {
+      // Si succès : stocke le token, le profil, met à jour le store et redirige
       localStorage.setItem('token', res.token)
       saveProfile(res.profile)
       console.log('res: ', res.profile)
@@ -40,15 +49,18 @@ const onlogin = async () => {
       router.push(res.profile.role === 'admin' ? '/admin/dashboard/' : '')
     }
   }
-  disablelogin.value = false
+  disablelogin.value = false // Réactive le bouton
 }
 </script>
 <template>
+  <!-- Fond de la page de login avec image et effet de flou -->
   <div
     class="h-screen w-screen bg-[url('/loginbg.jpg')] bg-cover bg-center flex items-center justify-center"
   >
+    <!-- Boîte centrale du formulaire -->
     <div class="bg-bg/50 backdrop-blur-md rounded-lg text-text p-10 text-center pb-5">
       <h1 class="text-4xl">OPS</h1>
+      <!-- Message d'erreur affiché si besoin -->
       <div
         class="flex items-center justify-center gap-2 text-xs bg-error text-text p-1 rounded-lg my-2"
         v-show="displayerror"
@@ -61,7 +73,9 @@ const onlogin = async () => {
         </svg>
         <p>{{ errorMessage }}</p>
       </div>
+      <!-- Formulaire de connexion -->
       <form @submit.prevent="onlogin">
+        <!-- Champ email avec icône -->
         <div
           class="flex items-center gap-2 my-5 border-b-2 border-border focus-within:border-primary"
         >
@@ -110,6 +124,7 @@ const onlogin = async () => {
             v-model="email"
           />
         </div>
+        <!-- Champ mot de passe avec icône pour afficher/masquer -->
         <div
           class="flex items-center gap-2 my-5 border-b-2 border-border focus-within:border-primary"
         >
@@ -155,6 +170,7 @@ const onlogin = async () => {
             v-model="password"
           />
         </div>
+        <!-- Bouton de connexion, désactivé pendant le chargement -->
         <button
           type="submit"
           class="p-2 text-bg bg-primary rounded-lg hover:bg-primary-dark"
@@ -168,4 +184,6 @@ const onlogin = async () => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* Aucun style additionnel ici, tout est géré par Tailwind */
+</style>

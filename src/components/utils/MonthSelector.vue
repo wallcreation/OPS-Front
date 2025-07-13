@@ -42,11 +42,11 @@ const nextLabel = computed(() => {
 
 <template>
   <div
-    class="p-1 flex items-center justify-between gap-2 bg-surface border-2 border-border rounded-lg"
+    class="p-1 flex items-center justify-between   bg-surface border-2 border-border rounded-lg"
   >
     <button
       @click="prevMonth"
-      class="px-3 py-1 rounded-lg border-2 border-primary hover:bg-primary-dark transition text-text flex items-center gap-1"
+      class="px-2 py-1 rounded-lg border-2 border-primary hover:bg-primary-dark transition text-text flex items-center gap-1"
     >
       ←
       <span class="hidden sm:inline capitalize">{{ prevLabel.full }}</span>
@@ -55,7 +55,7 @@ const nextLabel = computed(() => {
     <span class="text-lg font-semibold text-text capitalize">{{ formattedMonth }}</span>
     <button
       @click="nextMonth"
-      class="px-3 py-1 rounded-lg border-2 border-primary hover:bg-primary-dark transition text-text flex items-center gap-1"
+      class="px-2 py-1 rounded-lg border-2 border-primary hover:bg-primary-dark transition text-text flex items-center gap-1"
     >
       <span class="hidden sm:inline capitalize">{{ nextLabel.full }}</span>
       <span class="inline sm:hidden capitalize">{{ nextLabel.short }}</span>

@@ -29,20 +29,20 @@ function closeModal() {
 </script>
 
 <template>
-  <div v-if="penalties" class="space-y-3">
+  <div v-if="penalties" class="grid lg:grid-cols-2 space-y-3">
     <div v-for="(penaltyList, date) in penalties" :key="date">
       <h2 class="text-xl font-semibold text-muted mb-1">
         {{ new Date(date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long' }) }}
       </h2>
 
-      <div class="grid md:grid-cols-2 gap-2 mb-1">
+      <div class="flex gap-2 mb-1">
         <div
           v-for="penalty in penaltyList"
           :key="penalty.id"
           class="bg-surface border border-border rounded-lg p-2 shadow-sm"
         >
           <div class="flex justify-between items-center">
-            <p class="text-text font-medium">
+            <p v-if="penalty.operator_id" class="text-text font-medium">
               {{ stores.getOperatorById(penalty.operator_id)?.fname || 'Inconnu' }}
             </p>
             <button

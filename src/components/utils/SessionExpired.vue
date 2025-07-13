@@ -13,7 +13,7 @@ const reconnect = () => {
   router.push('/login')
 }
 
-onMounted( async () => {
+onMounted( () => {
   setTimeout(() => {
     reconnect
   }, 5000);

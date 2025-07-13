@@ -23,7 +23,7 @@ const selectedMonth = ref(dayjs().format('YYYY-MM'))
 const showedit = ref(false)
 
 // Onglet actif pour les opérateurs, par défaut le premier
-const activeOperatorId = ref(operatorIds[0] || null)
+const activeOperatorId = ref(operatorIds[0] || teamOperators[0]?.id)
 
 const monthChanged = async (month) => {
   selectedMonth.value = month
@@ -56,7 +56,7 @@ onMounted(async () => {
   <div class="w-full h-full flex flex-col py-1">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-1 pb-1">
       <section
-        class="md:col-span-2 p-2 flex gap-2 justify-between bg-surface rounded-lg border-2 border-border"
+        class="col-span-2 p-2 flex gap-2 justify-between bg-surface rounded-lg border-2 border-border"
       >
         <h1 class="text-5xl text-primary">{{ team.name }}</h1>
         <button @click="showedit = true" class="active:text-primary hover:text-primary">
@@ -69,15 +69,15 @@ onMounted(async () => {
           </svg>
         </button>
       </section>
-      <section class="p-2 bg-surface rounded-lg border-2 border-border">
+      <section class="hidden sm:block p-2 bg-surface rounded-lg border-2 border-border">
         <h2 class="text-primary font-bold underline">Opérateurs</h2>
         <div class="flex flex-wrap gap-1">
           <p v-for="operator in teamOperators" :key="operator.id">
-            {{ operator.fname }} {{ operator.lname }}
+            {{ operator.fname }} <span class="hidden sm:inline">{{ operator.lname }}</span>
           </p>
         </div>
       </section>
-      <section class="p-2 bg-surface rounded-lg border-2 border-border">
+      <section class="hidden sm:block p-2 bg-surface rounded-lg border-2 border-border">
         <h2 class="text-primary font-bold underline">Comptes</h2>
         <div class="flex flex-wrap gap-1">
           <p v-for="account in teamAccounts" :key="account.id">
@@ -85,44 +85,55 @@ onMounted(async () => {
           </p>
         </div>
       </section>
-      <MonthSelector :modelValue="selectedMonth" @update:month="monthChanged" />
-    </div>
-    <div class="flex-grow md:col-span-4 p-2 bg-surface border-2 border-border rounded-lg">
       <!-- Onglets des opérateurs -->
-      <div class="grow flex gap-2 mt-4 border-b border-border">
+      <section class="col-span-2 flex gap-1">
         <button
           v-for="operator in teamOperators"
           :key="operator.id"
           @click="activeOperatorId = operator.id"
           :class="[
-            'px-3 py-1 rounded-t-lg',
+            'w-[50%] px-2 py-1 rounded-lg',
             activeOperatorId === operator.id
-              ? 'bg-primary text-white'
-              : 'bg-surface text-muted hover:bg-surface-light',
+              ? 'border-2 border-primary text-white'
+              : 'border-2 border-border text-muted hover:bg-surface-light',
           ]"
         >
-          {{ operator.fname }} {{ operator.lname }}
+          {{ operator.fname }} <span class="hidden sm:inline">{{ operator.lname }}</span>
         </button>
-      </div>
-
+      </section>
+      <MonthSelector :modelValue="selectedMonth" @update:month="monthChanged" class="col-span-2" />
+    </div>
+    <div
+      class="h-full overflow-hidden flex-grow md:col-span-4 sm:flex sm:gap-1 space-y-1 sm:space-y-0"
+    >
       <!-- Contenu onglet actif -->
-      <div class="mt-1 flex gap-1">
-        <section class="w-[50%]">
-          <h3 class="text-primary font-semibold">
-            Statistiques de {{ stores.getOperatorById(activeOperatorId)?.fname }}
+      <section
+        class="w-full sm:w-[50%] h-[50%] sm:h-full p-2 overflow-y-auto border-2 border-border rounded-lg"
+      >
+        <h3 class="font-bold text-xl">
+          Statistiques
+          <span class="hidden sm:inline">
+            de
+            {{ stores.getOperatorById(activeOperatorId)?.fname }}
             {{ stores.getOperatorById(activeOperatorId)?.lname }}
-          </h3>
-          <StatDisplay :stats="stats[activeOperatorId]" :stores="stores" />
-        </section>
+          </span>
+        </h3>
+        <StatDisplay :stats="stats[activeOperatorId]" :stores="stores" />
+      </section>
 
-        <section class="w-[50%]">
-          <h3 class="text-primary font-semibold">
-            Pénalités de {{ stores.getOperatorById(activeOperatorId)?.fname }}
+      <section
+        class="w-full sm:w-[50%] h-[50%] sm:h-full overflow-y-auto p-2 border-2 border-border rounded-lg"
+      >
+        <h3 class="font-semibold text-xl">
+          Pénalités
+          <span class="hidden sm:inline">
+            de
+            {{ stores.getOperatorById(activeOperatorId)?.fname }}
             {{ stores.getOperatorById(activeOperatorId)?.lname }}
-          </h3>
-          <PenaltyDisplay :penalties="penalties[activeOperatorId]" :stores="stores" />
-        </section>
-      </div>
+          </span>
+        </h3>
+        <PenaltyDisplay :penalties="penalties[activeOperatorId]" :stores="stores" />
+      </section>
     </div>
   </div>
 

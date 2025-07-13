@@ -14,6 +14,16 @@ const close = async () => {
   emit('close')
 }
 
+const step = ref(1)
+
+const nextStep = () => {
+  if (step.value < 3) step.value++
+}
+
+const prevStep = () => {
+  if (step.value > 1) step.value--
+}
+
 // Champs du formulaire
 const lname = ref('')
 const fname = ref('')
@@ -49,20 +59,6 @@ const oncreate = async () => {
     work_at: workat.value.choice, // inclure le work_at dans les données envoyées
   }
 
-  // console.log('data :', data)
-  // const [res, err] = await safeCall(createOperator(data))
-  // if (err) {
-  //   loading.value = false
-  //   error.value = [true, err.message || getErrorMessage(err.code)]
-  //   setTimeout(() => {
-  //     error.value = [false, '']
-  //   }, 5000)
-  //   return
-  // } else {
-  //   console.log('op cre res: ', res)
-  //   emit('created', res)
-  // }
-
   stores.createOperatorAPI(data)
 
   lname.value = ''
@@ -79,81 +75,118 @@ const oncreate = async () => {
 </script>
 
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md transition">
+  <div @click="emit('close')" class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md transition">
     <div class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border bg-surface">
       <h1 class="text-center text-xl font-bold">Ajouter un opérateur</h1>
 
-      <form class="my-2 grid gap-2 grid-cols-1 md:grid-cols-2" @submit.prevent="oncreate">
-        <input
-          type="text"
-          name="lname"
-          id="lname"
-          v-model="lname"
-          required
-          placeholder="Nom"
-          class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
-        />
-        <input
-          type="text"
-          id="fname"
-          v-model="fname"
-          placeholder="Prénom"
-          class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
-        />
-        <input
-          type="email"
-          id="email"
-          v-model="email"
-          placeholder="Adresse mail"
-          class="md:col-span-2 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
-        />
-        <input
-          type="password"
-          id="password"
-          v-model="password"
-          placeholder="Mot de passe"
-          class="md:col-span-2 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
-        />
-        <div class="md:col-span-2 grid grid-cols-3 gap-1 items-center">
-          <input
-            type="text"
-            name="team"
-            id="team"
-            :value="team.textvalue"
-            readonly
-            placeholder="Équipe"
-            class="col-span-2 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none cursor-pointer"
-            @click="team.show = true"
-          />
-          <input
-            type="text"
-            name="work_at"
-            id="work_at"
-            @click="workat.show = true"
-            :value="workat.choice"
-            placeholder="Horaire"
-            class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
-          />
-        </div>
-        <div v-if="error[0]" class="w-full p-1 bg-error">
-          <p class="text-lg font-bold text-center">{{ error[1] }}</p>
-        </div>
-        <div class="md:col-span-2 flex gap-2 items-center justify-end">
-          <button
-            type="submit"
-            class="px-2 border-2 border-primary rounded-lg hover:border-primary-dark hover:motion-bg-out-primary-dark"
-            :class="loading ? 'animate-pulse' : ''"
-            :disabled="loading"
-          >
-            {{ loading ? 'Création...' : 'Valider' }}
-          </button>
-          <button
-            @click="close"
-            class="px-2 border-2 border-error rounded-lg hover:bg-error-dark hover:border-error-dark transition"
-          >
-            Annuler
-          </button>
-        </div>
+      <form @submit.prevent="oncreate">
+        <transition name="fade" mode="out-in">
+          <div :key="step" class="space-y-4">
+            <!-- ÉTAPE 1 -->
+            <div v-if="step === 1" class="space-y-2">
+              <h2 class="text-lg font-semibold text-primary-dark">Identifiants</h2>
+              <input
+                type="email"
+                id="email"
+                v-model="email"
+                placeholder="Adresse mail"
+                class="w-full border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
+              />
+              <input
+                type="password"
+                id="password"
+                v-model="password"
+                placeholder="Mot de passe"
+                class="w-full border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
+              />
+            </div>
+
+            <!-- ÉTAPE 2 -->
+            <div v-else-if="step === 2" class="space-y-2">
+              <h2 class="text-lg font-semibold text-primary-dark">Informations personnelles</h2>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <input
+                  type="text"
+                  id="lname"
+                  v-model="lname"
+                  placeholder="Nom"
+                  class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
+                />
+                <input
+                  type="text"
+                  id="fname"
+                  v-model="fname"
+                  placeholder="Prénom"
+                  class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
+                />
+              </div>
+            </div>
+
+            <!-- ÉTAPE 3 -->
+            <div v-else-if="step === 3" class="space-y-2">
+              <h2 class="text-lg font-semibold text-primary-dark">Poste</h2>
+              <div class="grid grid-cols-3 gap-2 items-center">
+                <input
+                  type="text"
+                  name="team"
+                  id="team"
+                  :value="team.textvalue"
+                  readonly
+                  placeholder="Équipe"
+                  class="col-span-2 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none cursor-pointer"
+                  @click="team.show = true"
+                />
+                <input
+                  type="text"
+                  name="work_at"
+                  id="work_at"
+                  @click="workat.show = true"
+                  :value="workat.choice"
+                  placeholder="Horaire"
+                  class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none cursor-pointer"
+                />
+              </div>
+            </div>
+
+            <!-- Message d'erreur -->
+            <div v-if="error[0]" class="w-full p-1 bg-error text-center font-semibold text-text">
+              {{ error[1] }}
+            </div>
+
+            <!-- BOUTONS DE CONTRÔLE -->
+            <div class="flex justify-between items-center pt-2">
+              <button
+                v-if="step > 1"
+                type="button"
+                @click="prevStep"
+                class="px-2 py-1 border-2 border-muted rounded-lg hover:border-primary-dark text-text"
+              >
+                Retour
+              </button>
+
+              <div class="flex gap-2 ml-auto">
+                <button
+                  v-if="step < 3"
+                  type="button"
+                  @click="nextStep"
+                  class="px-2 py-1 border-2 border-primary rounded-lg hover:border-primary-dark text-text"
+                >
+                  Suivant
+                </button>
+
+                <button
+                  v-else
+                  type="submit"
+                  :disabled="loading"
+                  class="px-2 py-1 border-2 border-primary rounded-lg hover:border-primary-dark text-text"
+                  :class="loading ? 'animate-pulse' : ''"
+                >
+                  {{ loading ? 'Création...' : 'Valider' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </transition>
       </form>
     </div>
   </div>

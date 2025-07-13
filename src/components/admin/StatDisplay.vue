@@ -31,7 +31,7 @@ function closeModal() {
 <template>
   <div v-if="stats" class="space-y-3">
     <div v-for="(stat, date) in stats" :key="date">
-      <h2 class="text-xl font-semibold text-primary mb-1">
+      <h2 class="text-xl font-semibold text-muted mb-1">
         {{ new Date(date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long' }) }}
       </h2>
 
@@ -46,21 +46,23 @@ function closeModal() {
               {{ stores.getAccountById(item.account_id).name }}
             </p>
             <button
-              class="text-primary hover:text-primary-dark"
+              class="text-muted hover:text-primary-dark"
               @click="openModal(item, date)"
               title="Voir les détails"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24">
                 <path
                   fill="currentColor"
-                  fill-rule="evenodd"
-                  d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10M11 8a1 1 0 0 0 1 1h.008a1 1 0 1 0 0-2H12a1 1 0 0 0-1 1m1 9a1 1 0 0 0 1-1v-5a1 1 0 1 0-2 0v5a1 1 0 0 0 1 1"
-                  clip-rule="evenodd"
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 
+                  10-10S17.52 2 12 2zm0 18c-4.41 
+                  0-8-3.59-8-8s3.59-8 8-8 8 3.59 
+                  8 8-3.59 8-8 8zm1-13h-2v2h2V7zm0 
+                  4h-2v6h2v-6z"
                 />
               </svg>
             </button>
           </div>
-          <div class="md:flex md:gap-2">
+          <div class="flex gap-2">
             <p class="flex items-center gap-0.5 text-text">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                 <g
@@ -77,7 +79,7 @@ function closeModal() {
                 </g>
               </svg>
               Entrant:
-              <span class="font-semibold text-primary">{{ item.entry_total }}</span>
+              <span class="font-semibold">{{ item.entry_total }}</span>
             </p>
             <p class="flex items-center gap-0.5 text-text">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

@@ -1,79 +1,86 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
-import { getdashboard, safeCall } from '@/api'
+import { computed, ref, onMounted } from 'vue'
 import { useAppStore } from '@/stores/app'
-import TeamAdd from '@/components/admin/TeamAdd.vue'
+
 const store = useAppStore()
 const data = ref({
   teams: computed(() => store.teams),
   operators: computed(() => store.operators),
   accounts: computed(() => store.accounts),
 })
-const loading = ref(false)
-const error = ref(false)
-const reload = ref(false)
-const showTeamAdd = ref(false)
-const showOperatorAdd = ref(false)
-const showAccountAdd = ref(false)
-const foo = async () => {
-  reload.value = false
-  const [res, err] = await safeCall(getdashboard())
-  if (err) {
-    console.log('err: ', err)
-    if (err.code === 1003) {
-      error.value = true
-    } else {
-      reload.value = true
-    }
-  } else {
-    // Mise à jour du store Pinia
-    store.setTeams(res.teams)
-    store.setOperators(res.operators)
-    store.setAccounts(res.accounts)
 
-    loading.value = false
-  }
+// Toutes les cartes possibles
+const cards = [
+  {
+    key: 'teams',
+    label: 'Équipes',
+    value: () => data.value.teams.length,
+  },
+  {
+    key: 'operators',
+    label: 'Opérateurs',
+    value: () => data.value.operators.length,
+  },
+  {
+    key: 'accounts',
+    label: 'Comptes',
+    value: () => data.value.accounts.length,
+  },
+]
+
+// Mélange aléatoire
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5)
 }
-onMounted(async () => {
-  // await foo()
+
+const randomizedCards = ref([])
+const gridConfig = ref([])
+
+onMounted(() => {
+  // Mélange les cartes
+  randomizedCards.value = shuffle([...cards])
+
+  // Applique des configurations aléatoires de classes Tailwind
+  const styles = [
+    'col-span-1 row-span-1',
+    'col-span-2 md:col-span-1 row-span-1',
+    'md:col-span-2 row-span-1',
+    'md:col-span-1 row-span-2',
+  ]
+  gridConfig.value = shuffle(styles).slice(0, 3)
 })
 </script>
+
 <template>
-  <div
-    class="w-full h-full grid grid-cols-1 md:grid-cols-2 text-center"
-    :class="loading ? 'animate-pulse' : ''"
-  >
+  <div class="w-full h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 p-2">
     <div
-      class="flex items-center justify-center m-2 bg bg-surface border-2 border-border rounded-lg"
+      v-for="(card, index) in randomizedCards"
+      :key="card.key"
+      :class="`flex items-center justify-center p-4 bg-surface border-2 border-border rounded-2xl shadow-soft hover:shadow-deep transition-all duration-500 ease-in-out ${gridConfig[index]}`"
     >
-      <div>
+      <div class="text-center animate-fade-in">
         <h1 class="text-primary text-5xl font-bold">
-          {{ data.teams.length }}
+          {{ card.value() }}
         </h1>
-        <p @click="showTeamAdd = true">Equipes</p>
-      </div>
-    </div>
-    <div
-      class="flex items-center justify-center m-2 bg bg-surface border-2 border-border rounded-lg"
-    >
-      <div>
-        <h1 class="text-primary text-5xl font-bold">
-          {{ data.operators.length }}
-        </h1>
-        <p>Opérateurs</p>
-      </div>
-    </div>
-    <div
-      class="flex items-center justify-center md:col-span-2 m-2 bg bg-surface border-2 border-border rounded-lg"
-    >
-      <div>
-        <h1 class="text-primary text-5xl font-bold">
-          {{ data.accounts.length }}
-        </h1>
-        <p>Comptes</p>
+        <p class="text-muted text-lg">{{ card.label }}</p>
       </div>
     </div>
   </div>
-  <!-- Add team modal -->
-  <TeamAdd v-if="showTeamAdd" @created="teamAdd" @close="showTeamAdd = false" />
 </template>
+
+<style scoped>
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+</style>

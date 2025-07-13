@@ -14,7 +14,7 @@ const stores = useAppStore()
 const teamid = Number(route.params.id)
 const team = stores.getTeamById(teamid)
 const teamOperators = stores.getOperatorsByTeamId(teamid)
-const operatorIds = teamOperators.map(op => op.id)
+const operatorIds = teamOperators.map((op) => op.id)
 const teamAccounts = stores.getAccountsByTeamId(teamid)
 
 const stats = ref({})
@@ -55,12 +55,17 @@ onMounted(async () => {
 <template>
   <div class="w-full h-full py-1">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-1 pb-1">
-      <section class="md:col-span-2 p-2 flex gap-2 justify-between bg-surface rounded-lg border-2 border-border">
+      <section
+        class="md:col-span-2 p-2 flex gap-2 justify-between bg-surface rounded-lg border-2 border-border"
+      >
         <h1 class="text-5xl text-primary">{{ team.name }}</h1>
         <button @click="showedit = true" class="active:text-primary hover:text-primary">
           <!-- icône d'édition -->
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M3 17.46v3.04c0 .28.22.5.5.5h3.04c.13 0 .26-.05.35-.15L17.81 9.94l-3.75-3.75L3.15 17.1q-.15.15-.15.36M20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+            <path
+              fill="currentColor"
+              d="M3 17.46v3.04c0 .28.22.5.5.5h3.04c.13 0 .26-.05.35-.15L17.81 9.94l-3.75-3.75L3.15 17.1q-.15.15-.15.36M20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z"
+            />
           </svg>
         </button>
       </section>
@@ -83,7 +88,6 @@ onMounted(async () => {
       <MonthSelector :modelValue="selectedMonth" @update:month="monthChanged" />
     </div>
     <section class="md:col-span-4 p-2 bg-surface border-2 border-border rounded-lg">
-
       <!-- Onglets des opérateurs -->
       <div class="flex gap-2 mt-4 border-b border-border">
         <button
@@ -92,7 +96,9 @@ onMounted(async () => {
           @click="activeOperatorId = operator.id"
           :class="[
             'px-3 py-1 rounded-t-lg',
-            activeOperatorId === operator.id ? 'bg-primary text-white' : 'bg-surface text-muted hover:bg-surface-light'
+            activeOperatorId === operator.id
+              ? 'bg-primary text-white'
+              : 'bg-surface text-muted hover:bg-surface-light',
           ]"
         >
           {{ operator.fname }} {{ operator.lname }}
@@ -100,16 +106,22 @@ onMounted(async () => {
       </div>
 
       <!-- Contenu onglet actif -->
-      <div class="mt-1">
-        <h3 class="text-primary font-semibold mb-2">
-          Statistiques de {{ stores.getOperatorById(activeOperatorId)?.fname }} {{ stores.getOperatorById(activeOperatorId)?.lname }}
-        </h3>
-        <StatDisplay :stats="stats[activeOperatorId]" :stores="stores" />
+      <div class="mt-1 flex">
+        <section class="w-[50%]">
+          <h3 class="text-primary font-semibold mb-2">
+            Statistiques de {{ stores.getOperatorById(activeOperatorId)?.fname }}
+            {{ stores.getOperatorById(activeOperatorId)?.lname }}
+          </h3>
+          <StatDisplay :stats="stats[activeOperatorId]" :stores="stores" />
+        </section>
 
-        <h3 class="text-primary font-semibold mt-6 mb-2">
-          Pénalités de {{ stores.getOperatorById(activeOperatorId)?.fname }} {{ stores.getOperatorById(activeOperatorId)?.lname }}
-        </h3>
-        <PenaltyDisplay :penalties="penalties[activeOperatorId]" :stores="stores" />
+        <section class="w-[50%]">
+          <h3 class="text-primary font-semibold mt-6 mb-2">
+            Pénalités de {{ stores.getOperatorById(activeOperatorId)?.fname }}
+            {{ stores.getOperatorById(activeOperatorId)?.lname }}
+          </h3>
+          <PenaltyDisplay :penalties="penalties[activeOperatorId]" :stores="stores" />
+        </section>
       </div>
     </section>
   </div>

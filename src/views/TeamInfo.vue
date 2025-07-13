@@ -53,7 +53,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="w-full h-full py-1">
+  <div class="w-full h-full flex flex-col py-1">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-1 pb-1">
       <section
         class="md:col-span-2 p-2 flex gap-2 justify-between bg-surface rounded-lg border-2 border-border"
@@ -87,9 +87,9 @@ onMounted(async () => {
       </section>
       <MonthSelector :modelValue="selectedMonth" @update:month="monthChanged" />
     </div>
-    <section class="md:col-span-4 p-2 bg-surface border-2 border-border rounded-lg">
+    <div class="flex-grow md:col-span-4 p-2 bg-surface border-2 border-border rounded-lg">
       <!-- Onglets des opérateurs -->
-      <div class="flex gap-2 mt-4 border-b border-border">
+      <div class="grow flex gap-2 mt-4 border-b border-border">
         <button
           v-for="operator in teamOperators"
           :key="operator.id"
@@ -106,9 +106,9 @@ onMounted(async () => {
       </div>
 
       <!-- Contenu onglet actif -->
-      <div class="mt-1 flex">
+      <div class="mt-1 flex gap-1">
         <section class="w-[50%]">
-          <h3 class="text-primary font-semibold mb-2">
+          <h3 class="text-primary font-semibold">
             Statistiques de {{ stores.getOperatorById(activeOperatorId)?.fname }}
             {{ stores.getOperatorById(activeOperatorId)?.lname }}
           </h3>
@@ -116,14 +116,14 @@ onMounted(async () => {
         </section>
 
         <section class="w-[50%]">
-          <h3 class="text-primary font-semibold mt-6 mb-2">
+          <h3 class="text-primary font-semibold">
             Pénalités de {{ stores.getOperatorById(activeOperatorId)?.fname }}
             {{ stores.getOperatorById(activeOperatorId)?.lname }}
           </h3>
           <PenaltyDisplay :penalties="penalties[activeOperatorId]" :stores="stores" />
         </section>
       </div>
-    </section>
+    </div>
   </div>
 
   <TeamEdit :showModal="showedit" @close="showedit = false" />

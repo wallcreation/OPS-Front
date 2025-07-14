@@ -9,7 +9,7 @@ export function getTeamStats(data) {
 }
 
 export function getAccountStats(data) {
-    return api.get('/admin/stats/account', { params: data })
+    return api.get('/admin/stats/acc', { params: data })
 }
 
 // Ajouter une stat à un opérateur

@@ -108,7 +108,7 @@ onMounted(async () => {
     >
       <!-- Contenu onglet actif -->
       <section
-        class="w-full sm:w-[50%] h-[50%] sm:h-full p-2 overflow-y-auto border-2 border-border rounded-lg"
+        class="w-full sm:w-[50%] h-[50%] sm:h-full p-2 overflow-y-auto bg-surface border-2 border-border rounded-lg"
       >
         <h3 class="font-bold text-xl">
           Statistiques
@@ -122,7 +122,7 @@ onMounted(async () => {
       </section>
 
       <section
-        class="w-full sm:w-[50%] h-[50%] sm:h-full overflow-y-auto p-2 border-2 border-border rounded-lg"
+        class="w-full sm:w-[50%] h-[50%] sm:h-full overflow-y-auto p-2 bg-surface border-2 border-border rounded-lg"
       >
         <h3 class="font-semibold text-xl">
           Pénalités

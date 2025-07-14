@@ -39,7 +39,7 @@ function closeModal() {
         <div
           v-for="penalty in penaltyList"
           :key="penalty.id"
-          class="bg-surface border border-border rounded-lg p-2 shadow-sm"
+          class="bg-muted/5 border border-border rounded-lg p-2 shadow-sm"
         >
           <div class="flex justify-between items-center">
             <p v-if="penalty.operator_id" class="text-text font-medium">

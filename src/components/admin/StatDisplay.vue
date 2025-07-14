@@ -29,17 +29,17 @@ function closeModal() {
 </script>
 
 <template>
-  <div v-if="stats" class="space-y-3">
+  <div v-if="stats" class="space-y-3 grid lg:grid-cols-2">
     <div v-for="(stat, date) in stats" :key="date">
       <h2 class="text-xl font-semibold text-muted mb-1">
         {{ new Date(date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long' }) }}
       </h2>
 
-      <div class="grid md:grid-cols-2 gap-2 mb-1">
+      <div :class=" stat.lenght === 1 ? 'lg:flex gap-2 mb-1' : 'grid grid-cols-1 gap-2 mb-1' ">
         <div
           v-for="item in stat"
           :key="item.account_id"
-          class="bg-surface border border-border rounded-lg p-2 shadow-sm"
+          class="bg-muted/5 border border-border rounded-lg p-2 m-1 shadow-sm"
         >
           <div class="flex items-center justify-between">
             <p class="text-text">

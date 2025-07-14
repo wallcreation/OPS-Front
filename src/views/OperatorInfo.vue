@@ -77,7 +77,7 @@ onMounted(() => {
       <!-- Espace utilisateur : infos, bouton édition, résumé stats/pénalités -->
       <div class="col-span-2 p-2 bg-surface border-2 border-border rounded-lg">
         <!-- Nom de l'utilisateur et bouton d'édition -->
-        <div class="flex justify-between">
+        <section class="flex justify-between pb-1">
           <h1 class="text-5xl">{{ operator.fname }} {{ operator.lname }}</h1>
           <!-- Bouton pour ouvrir la modale d'édition -->
           <button class="active:text-primary hover:text-primary" @click="showopedit = true">
@@ -89,17 +89,19 @@ onMounted(() => {
               />
             </svg>
           </button>
-        </div>
+        </section>
         <!-- Email et équipe -->
-        <div class="flex gap-1 px-1">
+        <section class="flex gap-1 px-1">
           <p>{{ operator.email }}</p>
           <p class="text-primary">●</p>
-          <p>{{ team.name }}</p>
-        </div>
+          <RouterLink :to="{ name: 'team-info', params: { id: team.id } }" class="underline hover:text-primary-dark">
+            {{ team.name }}
+          </RouterLink>
+        </section>
       </div>
       <!-- Bloc statistiques résumé -->
-      <div class="grid grid-cols-3 bg-surface p-2 border-2 border-border rounded-lg">
-        <h1 class="col-span-2 text-primary font-bold">Statistiques</h1>
+      <section class="grid grid-cols-3 bg-surface p-2 border-2 border-border rounded-lg">
+        <h1 class="col-span-2 text-primary font-bold underline">Statistiques</h1>
         <!-- Bouton pour ouvrir la modale d'ajout de stat -->
         <button
           class="justify-self-end active:text-primary hover:text-primary"
@@ -115,10 +117,10 @@ onMounted(() => {
         </button>
         <!-- Résumé des stats (à compléter) -->
         <div class="col-span-3">Stat summary here Stat summary here</div>
-      </div>
+      </section>
       <!-- Bloc pénalités résumé -->
-      <div class="grid grid-cols-3 bg-surface p-2 border-2 border-border rounded-lg">
-        <h1 class="col-span-2 text-error font-bold">Pénalités</h1>
+      <section class="grid grid-cols-3 bg-surface p-2 border-2 border-border rounded-lg">
+        <h1 class="col-span-2 text-error font-bold underline">Pénalités</h1>
         <!-- Bouton pour ouvrir la modale d'ajout de pénalité -->
         <button
           class="justify-self-end active:text-error hover:text-error"
@@ -133,7 +135,7 @@ onMounted(() => {
           </svg>
         </button>
         <div class="col-span-3">Penalty summary here Stat summary here</div>
-      </div>
+      </section>
       <div class="col-span-2 md:col-span-4">
         <MonthSelector @update:month="monthChanged" class="" />
       </div>
@@ -144,23 +146,23 @@ onMounted(() => {
         class="h-[50%] sm:h-full w-full md:w-[50%] p-2 overflow-y-auto md:col-span-2 bg-surface border-2 border-border rounded-lg"
       >
         <h2 class="text-xl font-bold">
-          <span class="hidden sm:inline">Détail des</span> 
-          Statistiques</h2>
+          <span class="hidden sm:inline">Détail des</span>
+          Statistiques
+        </h2>
         <!-- Affichage des stats par date -->
         <StatDisplay :stats="stats" :stores="stores" />
       </div>
       <!-- Bloc pour le diagramme (à compléter) -->
-      <div class="h-[50%] sm:h-full w-full md:w-[50%] p-2 overflow-y-auto md:col-span-2 bg-surface border-2 border-border rounded-lg">
+      <div
+        class="h-[50%] sm:h-full w-full md:w-[50%] p-2 overflow-y-auto md:col-span-2 bg-surface border-2 border-border rounded-lg"
+      >
         <h2 class="text-xl font-bold">Détail des Pénalités</h2>
         <PenaltyDisplay :penalties="penalties" :stores="stores" />
       </div>
     </div>
   </div>
   <!-- Operator Edit -->
-  <OperatorEdit
-    v-if="showopedit"
-    :operator="operator"
-    @close="showopedit = false" />
+  <OperatorEdit v-if="showopedit" :operator="operator" @close="showopedit = false" />
   <!-- Modale d'ajout de stat -->
   <div
     v-if="showstatadd"

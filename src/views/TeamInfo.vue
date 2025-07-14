@@ -72,17 +72,17 @@ onMounted(async () => {
       <section class="hidden sm:block p-2 bg-surface rounded-lg border-2 border-border">
         <h2 class="text-primary font-bold underline">Opérateurs</h2>
         <div class="flex flex-wrap gap-1">
-          <p v-for="operator in teamOperators" :key="operator.id">
+          <RouterLink  v-for="operator in teamOperators" :key="operator.id" :to="{ name: 'operator-info', params: { id: operator.id } }" class="underline hover:text-primary-dark">
             {{ operator.fname }} <span class="hidden sm:inline">{{ operator.lname }}</span>
-          </p>
+          </RouterLink>
         </div>
       </section>
       <section class="hidden sm:block p-2 bg-surface rounded-lg border-2 border-border">
         <h2 class="text-primary font-bold underline">Comptes</h2>
         <div class="flex flex-wrap gap-1">
-          <p v-for="account in teamAccounts" :key="account.id">
+          <RouterLink v-for="account in teamAccounts" :key="account.id" :to="{ name: 'account-info', params: { id: account.id } }" class="underline hover:text-primary-dark">
             {{ account.name }}
-          </p>
+          </RouterLink>
         </div>
       </section>
       <!-- Onglets des opérateurs -->

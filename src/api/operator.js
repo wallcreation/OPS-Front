@@ -11,6 +11,6 @@ export function deleteOperator(id) {
 export function getOperators() {
     return api.get('/admin/operators')
 }
-export function updateOperator(data) {
-    return
+export function updateOperator(id, data) {
+    return api.put(`/admin/operator/${id}`, data)
 }

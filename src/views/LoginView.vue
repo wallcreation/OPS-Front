@@ -44,9 +44,8 @@ const onlogin = async () => {
       // Si succès : stocke le token, le profil, met à jour le store et redirige
       localStorage.setItem('token', res.token)
       saveProfile(res.profile)
-      console.log('res: ', res.profile)
-      updateStore(stores)
-      router.push(res.profile.role === 'admin' ? '/admin/dashboard/' : '')
+      if (res.profile.role === 'admin') updateStore(stores)
+      router.push(res.profile.role === 'admin' ? '/admin/dashboard/' : '/ops/dashboard/')
     }
   }
   disablelogin.value = false // Réactive le bouton

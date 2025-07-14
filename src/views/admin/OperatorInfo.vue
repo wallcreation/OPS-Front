@@ -162,7 +162,7 @@ onMounted(() => {
     </div>
   </div>
   <!-- Operator Edit -->
-  <OperatorEdit v-if="showopedit" :operator="operator" @close="showopedit = false" />
+  <OperatorEdit v-if="showopedit" :operator="operator" :stores="stores" @close="showopedit = false" />
   <!-- Modale d'ajout de stat -->
   <div
     v-if="showstatadd"

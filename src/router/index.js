@@ -12,6 +12,7 @@ import OperatorList from '@/views/admin/OperatorList.vue'
 import AccountList from '@/views/admin/AccountList.vue'
 import StateLoader from '@/views/admin/StateLoader.vue'
 import AccountInfo from '@/views/admin/AccountInfo.vue'
+import OpsDashboard from '@/views/ops/OpsDashboard.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -77,6 +78,17 @@ const router = createRouter({
           meta: { requiresAuth: true }
         }
       ],
+    },
+    {
+      path: '/ops/',
+      component: OperatorLayout,
+      children: [
+        {
+          path: '/ops/dashboard',
+          name: 'ops-dashboard',
+          component: OpsDashboard,
+        }
+      ]
     },
   ],
 })

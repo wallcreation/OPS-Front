@@ -1,6 +1,5 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { createOperator, getErrorMessage, safeCall } from '@/api'
 import { useAppStore } from '@/stores/app'
 import TeamSelector from './TeamSelector.vue'
 
@@ -9,10 +8,6 @@ const loading = ref(false)
 const error = ref([false, ''])
 
 const emit = defineEmits(['created', 'close'])
-
-const close = async () => {
-  emit('close')
-}
 
 const step = ref(1)
 
@@ -130,7 +125,7 @@ const oncreate = async () => {
                   type="text"
                   name="team"
                   id="team"
-                  :value="team.textvalue"
+                  v-model="team.textvalue"
                   readonly
                   placeholder="Équipe"
                   class="col-span-2 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none cursor-pointer"

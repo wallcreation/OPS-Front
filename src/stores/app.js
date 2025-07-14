@@ -80,9 +80,9 @@ export const useAppStore = defineStore('app', () => {
     const [res] = await safeCall(deleteOperator(operatorId))
     if (res) removeOperator(operatorId)
   }
-  async function editOperatorAPI(updatedOperator) {
+  async function editOperatorAPI(operatorId, updatedOperator) {
     notification.notify("Modification de l'opérateur", "info")
-    const [res] = await safeCall(updateOperator(updatedOperator))
+    const [res] = await safeCall(updateOperator(operatorId, updatedOperator))
     if (res) updateOperatorLocal(res)
   }
 

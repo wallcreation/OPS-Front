@@ -7,7 +7,7 @@ const props = defineProps({
   lname: String,
   team: String,
   team_id: Number,
-  workat: String,
+  work_at: String,
 })
 
 const deleting = ref(false)
@@ -50,33 +50,13 @@ const deloperator = async () => {
     </div>
     <div class="flex gap-1.5">
       <p>{{ team }}</p>
-      <p v-if="workat === 'Jour'">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-          <g fill="none" stroke="currentColor" stroke-width="1.2">
-            <circle cx="12" cy="12" r="3.4" fill="currentColor" fill-opacity="0.25" />
-            <path
-              stroke-linecap="round"
-              d="M12 5V3m0 18v-2m4.95-11.95l1.414-1.414M5.636 18.364L7.05 16.95M19 12h2M3 12h2m11.95 4.95l1.414 1.414M5.636 5.636L7.05 7.05"
-            />
-          </g>
-        </svg>
+      <p v-if="work_at === 'Jour'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><defs><linearGradient id="meteoconsHazeDayFill0" x1="17.3" x2="89.3" y1="43.1" y2="167.8" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d4d7dd"/><stop offset=".5" stop-color="#d4d7dd"/><stop offset="1" stop-color="#bec1c6"/></linearGradient><linearGradient id="meteoconsHazeDayFill1" x1="107.3" x2="179.3" y1="-8.8" y2="115.9" href="#meteoconsHazeDayFill0"/><linearGradient id="meteoconsHazeDayFill2" x1="174.8" x2="246.8" y1="-47.8" y2="76.9" href="#meteoconsHazeDayFill0"/><linearGradient id="meteoconsHazeDayFill3" x2="89.3" y1="-4.9" y2="119.8" href="#meteoconsHazeDayFill0"/><linearGradient id="meteoconsHazeDayFill4" x1="107.3" x2="179.3" y1="-56.9" y2="67.9" href="#meteoconsHazeDayFill0"/><linearGradient id="meteoconsHazeDayFill5" x1="174.8" x2="246.8" y1="-95.8" y2="28.9" href="#meteoconsHazeDayFill0"/><linearGradient id="meteoconsHazeDayFill6" x1="150" x2="234" y1="119.2" y2="264.8" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fbbf24"/><stop offset=".5" stop-color="#fbbf24"/><stop offset="1" stop-color="#f59e0b"/></linearGradient><symbol id="meteoconsHazeDayFill7" viewBox="0 0 384 384"><circle cx="192" cy="192" r="84" fill="url(#meteoconsHazeDayFill6)" stroke="#f8af18" stroke-miterlimit="10" stroke-width="6"/><path fill="none" stroke="#fbbf24" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" d="M192 61.7V12m0 360v-49.7m92.2-222.5l35-35M64.8 319.2l35.1-35.1m0-184.4l-35-35m254.5 254.5l-35.1-35.1M61.7 192H12m360 0h-49.7"><animateTransform additive="sum" attributeName="transform" dur="6s" repeatCount="indefinite" type="rotate" values="0 192 192; 45 192 192"/></path></symbol><symbol id="meteoconsHazeDayFill8" viewBox="0 0 264 72"><g><path fill="none" stroke="url(#meteoconsHazeDayFill0)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" d="M12 60h30"/><path fill="none" stroke="url(#meteoconsHazeDayFill1)" stroke-dasharray="60 60" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" d="M102 60h90"/><path fill="none" stroke="url(#meteoconsHazeDayFill2)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" d="M222 60h30"/><animateTransform additive="sum" attributeName="transform" dur="6s" repeatCount="indefinite" type="translate" values="-24 0; 24 0; -24 0"/></g><g><path fill="none" stroke="url(#meteoconsHazeDayFill3)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" d="M12 12h30"/><path fill="none" stroke="url(#meteoconsHazeDayFill4)" stroke-dasharray="60 60" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" d="M102 12h90"/><path fill="none" stroke="url(#meteoconsHazeDayFill5)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" d="M222 12h30"/><animateTransform additive="sum" attributeName="transform" dur="6s" repeatCount="indefinite" type="translate" values="24 0; -24 0; 24 0"/></g></symbol><clipPath id="meteoconsHazeDayFill9"><path fill="none" d="M0 0h512v306H0z"/></clipPath></defs><g clip-path="url(#meteoconsHazeDayFill9)"><use width="384" height="384" href="#meteoconsHazeDayFill7" transform="translate(64 100)"/></g><use width="264" height="72" href="#meteoconsHazeDayFill8" transform="translate(124 336)"/></svg>
       </p>
       <p v-else>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-          <path
-            fill="currentColor"
-            fill-opacity="0.25"
-            fill-rule="evenodd"
-            d="M15 4c.292 0 .438 0 .578.042a1 1 0 0 1 .586 1.448c-.072.127-.29.338-.725.759A7.98 7.98 0 0 0 13 12c0 2.257.935 4.297 2.439 5.751c.435.421.653.632.725.76a1 1 0 0 1-.586 1.447C15.438 20 15.292 20 15 20a8 8 0 1 1 0-16"
-            clip-rule="evenodd"
-          />
-          <path
-            fill="currentColor"
-            d="m16.164 18.51l.523-.294zm-.586 1.448l-.172-.575zm-.14-13.709l.418.431zm.726-.76l.523.295zm-.586-1.447l-.172.575zM13.6 12c0-2.088.864-3.974 2.256-5.32l-.834-.862A8.58 8.58 0 0 0 12.4 12zm2.256 5.32A7.38 7.38 0 0 1 13.6 12h-1.2a8.58 8.58 0 0 0 2.622 6.182zM15 19.4A7.4 7.4 0 0 1 7.6 12H6.4a8.6 8.6 0 0 0 8.6 8.6zM7.6 12A7.4 7.4 0 0 1 15 4.6V3.4A8.6 8.6 0 0 0 6.4 12zm7.422 6.182c.22.214.376.364.486.477c.122.126.14.159.133.145l1.046-.588a2 2 0 0 0-.319-.393q-.19-.194-.512-.503zM15 20.6c.258 0 .507.006.75-.067l-.344-1.15c-.037.011-.08.017-.406.017zm.64-1.796a.4.4 0 0 1-.234.58l.344 1.15a1.6 1.6 0 0 0 .937-2.318zm.216-12.124q.323-.31.512-.503c.114-.116.24-.252.319-.393l-1.046-.588c.007-.014-.011.02-.133.145c-.11.113-.265.263-.486.477zM15 4.6c.326 0 .37.006.406.017l.344-1.15c-.243-.073-.492-.067-.75-.067zm1.687 1.184a1.6 1.6 0 0 0-.937-2.317l-.344 1.15a.4.4 0 0 1 .235.579z"
-          />
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><defs><linearGradient id="meteoconsHazeNightFill0" x1="17.3" x2="89.3" y1="43.1" y2="167.8" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d4d7dd"/><stop offset=".5" stop-color="#d4d7dd"/><stop offset="1" stop-color="#bec1c6"/></linearGradient><linearGradient id="meteoconsHazeNightFill1" x1="107.3" x2="179.3" y1="-8.8" y2="115.9" href="#meteoconsHazeNightFill0"/><linearGradient id="meteoconsHazeNightFill2" x1="174.8" x2="246.8" y1="-47.8" y2="76.9" href="#meteoconsHazeNightFill0"/><linearGradient id="meteoconsHazeNightFill3" x2="89.3" y1="-4.9" y2="119.8" href="#meteoconsHazeNightFill0"/><linearGradient id="meteoconsHazeNightFill4" x1="107.3" x2="179.3" y1="-56.9" y2="67.9" href="#meteoconsHazeNightFill0"/><linearGradient id="meteoconsHazeNightFill5" x1="174.8" x2="246.8" y1="-95.8" y2="28.9" href="#meteoconsHazeNightFill0"/><linearGradient id="meteoconsHazeNightFill6" x1="54.3" x2="187.2" y1="29" y2="259.1" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#86c3db"/><stop offset=".5" stop-color="#86c3db"/><stop offset="1" stop-color="#5eafcf"/></linearGradient><symbol id="meteoconsHazeNightFill7" viewBox="0 0 270 270"><path fill="url(#meteoconsHazeNightFill6)" stroke="#72b9d5" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" d="M252.3 168.6A133.4 133.4 0 0 1 118 36.2A130.5 130.5 0 0 1 122.5 3A133 133 0 0 0 3 134.6C3 207.7 63 267 137.2 267c62.5 0 114.8-42.2 129.8-99.2a135.6 135.6 0 0 1-14.8.8Z"><animateTransform additive="sum" attributeName="transform" dur="6s" repeatCount="indefinite" type="rotate" values="-15 135 135; 9 135 135; -15 135 135"/></path></symbol><symbol id="meteoconsHazeNightFill8" viewBox="0 0 264 72"><g><path fill="none" stroke="url(#meteoconsHazeNightFill0)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" d="M12 60h30"/><path fill="none" stroke="url(#meteoconsHazeNightFill1)" stroke-dasharray="60 60" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" d="M102 60h90"/><path fill="none" stroke="url(#meteoconsHazeNightFill2)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" d="M222 60h30"/><animateTransform additive="sum" attributeName="transform" dur="6s" repeatCount="indefinite" type="translate" values="-24 0; 24 0; -24 0"/></g><g><path fill="none" stroke="url(#meteoconsHazeNightFill3)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" d="M12 12h30"/><path fill="none" stroke="url(#meteoconsHazeNightFill4)" stroke-dasharray="60 60" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" d="M102 12h90"/><path fill="none" stroke="url(#meteoconsHazeNightFill5)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24" d="M222 12h30"/><animateTransform additive="sum" attributeName="transform" dur="6s" repeatCount="indefinite" type="translate" values="24 0; -24 0; 24 0"/></g></symbol><clipPath id="meteoconsHazeNightFill9"><path fill="none" d="M0 0h512v306H0z"/></clipPath></defs><g clip-path="url(#meteoconsHazeNightFill9)"><use width="270" height="270" href="#meteoconsHazeNightFill7" transform="translate(121 121)"/></g><use width="264" height="72" href="#meteoconsHazeNightFill8" transform="translate(124 336)"/></svg>
       </p>
-      <p>{{ workat }}</p>
+      <p>{{ work_at }}</p>
     </div>
   </div>
 </template>

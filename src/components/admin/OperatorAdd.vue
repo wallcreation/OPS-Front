@@ -27,6 +27,7 @@ const password = ref('')
 const team = ref({ show: false, teamid: 0, textvalue: '', list: computed(() => stores.teams) })
 const workat = ref({ show: false, choice: 'Jour' })
 
+
 // Functions
 const closetteamselector = async (choosedteam) => {
   team.value.teamid = choosedteam.id
@@ -70,16 +71,20 @@ const oncreate = async () => {
 </script>
 
 <template>
-  <div @click="emit('close')" class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md transition">
+  <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md transition p-4">
     <div class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border bg-surface">
-      <h1 class="text-center text-xl font-bold">Ajouter un opérateur</h1>
+      <div class="flex justify-between items-center mb-1">
+        <h1 class="text-center text-xl font-bold">Ajouter un opérateur</h1>
+        <button @click="emit('close')" class="text-error hover:text-error-dark">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12L7 7m5 5l5 5m-5-5l5-5m-5 5l-5 5"/></svg>
+        </button>
+      </div>
 
       <form @submit.prevent="oncreate">
         <transition name="fade" mode="out-in">
-          <div :key="step" class="space-y-4">
+          <div :key="step" class="mt-4">
             <!-- ÉTAPE 1 -->
-            <div v-if="step === 1" class="space-y-2">
-              <h2 class="text-lg font-semibold text-primary-dark">Identifiants</h2>
+            <div v-if="step === 1" class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
               <input
                 type="email"
                 id="email"
@@ -98,7 +103,6 @@ const oncreate = async () => {
 
             <!-- ÉTAPE 2 -->
             <div v-else-if="step === 2" class="space-y-2">
-              <h2 class="text-lg font-semibold text-primary-dark">Informations personnelles</h2>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <input
                   type="text"
@@ -120,7 +124,7 @@ const oncreate = async () => {
             <!-- ÉTAPE 3 -->
             <div v-else-if="step === 3" class="space-y-2">
               <h2 class="text-lg font-semibold text-primary-dark">Poste</h2>
-              <div class="grid grid-cols-3 gap-2 items-center">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
                 <input
                   type="text"
                   name="team"
@@ -128,7 +132,7 @@ const oncreate = async () => {
                   v-model="team.textvalue"
                   readonly
                   placeholder="Équipe"
-                  class="col-span-2 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none cursor-pointer"
+                  class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none cursor-pointer"
                   @click="team.show = true"
                 />
                 <input

@@ -43,7 +43,7 @@ const showOperatorAdd = ref(false)
         :fname="operator.fname"
         :team="stores.getTeamById(operator.team_id).name"
         :team_id="operator.team_id"
-        :workat="operator.workat"
+        :work_at="operator.work_at"
       />
     </div>
   </div>

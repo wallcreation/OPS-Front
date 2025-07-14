@@ -12,6 +12,7 @@ const emit = defineEmits(['close', 'updated'])
 const step = ref(0)
 const error = ref([false, ''])
 const passtype = ref('password')
+const loading = ref(false)
 
 const lname = ref(props.operator?.lname || '')
 const fname = ref(props.operator?.fname || '')
@@ -47,6 +48,7 @@ const closetteamselector = async (choosedteam) => {
 }
 
 async function foo() {
+  loading.value = true
   const data = {
     lname: lname.value,
     fname: fname.value,
@@ -57,6 +59,7 @@ async function foo() {
   }
 
   await props.stores.editOperatorAPI(props.operator.id, data)
+  loading.value = false
   emit('close')
 }
 </script>
@@ -188,9 +191,11 @@ async function foo() {
           <button
             v-if="step === 2"
             type="submit"
+            :disabled="loading"
             class="ml-auto px-2 py-1 border-2 border-primary rounded-lg hover:bg-primary-dark"
+            :class="loading ? 'animate-pulse' : ''"
           >
-            Valider
+            {{ loading ? 'Enregistrement...' : 'Enregistrer' }}
           </button>
         </div>
       </form>

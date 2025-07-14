@@ -14,27 +14,6 @@ const error = ref([false, ''])
 const stores = useAppStore()
 const team = ref({ show: false, teamid: 0, textvalue: '', list: props.teams })
 
-// Functions
-// const addaccount = async () => {
-//   loading.value = true
-//   if (!accountipt.value) {
-//     error.value = [true, 'Le nom du compte ne peut être vide']
-//     setTimeout(() => {
-//       error.value = [false, '']
-//     }, 5000)
-//     loading.value = false
-//     return
-//   }
-//   const data = { name: accountipt.value, team_id: team.value.teamid }
-//   const [res, err] = await safeCall(createAccount(data))
-//   if (err) {
-//     error.value = [true, err.message]
-//   } else {
-//     emit('created', res)
-//   }
-//   loading.value = false
-// }
-
 const addaccount = async () => {
   if (!accountipt.value) {
     error.value = [true, 'Le nom du compte ne peut être vide']

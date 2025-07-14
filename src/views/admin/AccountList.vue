@@ -12,9 +12,9 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="w-full h-full p-1">
+  <div class="w-full h-full p-1 flex flex-col">
     <div
-      class="h-[10%] px-2 py-1 flex justify-between items-center border-1 border-border bg-surface rounded-lg"
+      class="p-2 flex justify-between items-center border-1 border-border bg-surface rounded-lg"
     >
       <h1 class="text-xl font-bold text-primary">Liste des comptes</h1>
       <button
@@ -30,10 +30,10 @@ onMounted(async () => {
         <span class="hidden sm:inline">Ajouter</span>
       </button>
     </div>
-    <div v-if="loading" class="h-[90%] p-5 flex gap-2 items-center justify-center">
+    <div v-if="loading" class="flex-grow p-5 flex gap-2 items-center justify-center">
       <p class="animate-bounce">Chargement des comptes...</p>
     </div>
-    <div v-else class="h-[90%] p-2 grid gap-1 grid-cols-1 md:grid-cols-3 overflow-auto">
+    <div v-else class="flex-grow p-2 grid gap-1 grid-cols-1 md:grid-cols-3 overflow-auto">
       <AccountCard
         v-for="account in accounts"
         :id="account.id"

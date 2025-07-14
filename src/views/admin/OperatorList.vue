@@ -10,9 +10,9 @@ const showOperatorAdd = ref(false)
 
 </script>
 <template>
-  <div class="w-full h-full p-1">
+  <div class="w-full h-full p-1 flex flex-col">
     <div
-      class="h-[10%]  px-2 py-1 flex justify-between items-center border-1 border-border bg-surface rounded-lg"
+      class="p-2 flex justify-between items-center border-1 border-border bg-surface rounded-lg"
     >
       <h1 class="text-xl font-bold text-primary">Liste des opérateurs</h1>
       <button
@@ -28,12 +28,12 @@ const showOperatorAdd = ref(false)
         <span class="hidden sm:inline">Ajouter</span>
       </button>
     </div>
-    <div v-if="loading" class="h-[90%] p-5 flex gap-2 items-center justify-center">
+    <div v-if="loading" class="flex-grow p-5 flex gap-2 items-center justify-center">
       <p class="animate-bounce">Chargement des opérateurs...</p>
     </div>
     <div
       v-else
-      class="h-[90%] p-2 grid gap-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 overflow-auto"
+      class="flex-grow p-2 grid gap-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 overflow-auto"
     >
       <OperatorCard
         v-for="operator in operators"

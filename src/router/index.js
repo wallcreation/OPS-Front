@@ -3,15 +3,15 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import OperatorLayout from '@/layouts/OperatorLayout.vue'
 // views
-import AdminDashboard from '@/views/AdminDashboard.vue'
-import TeamInfo from '@/views/TeamInfo.vue'
-import TeamList from '@/views/TeamList.vue'
+import AdminDashboard from '@/views/admin/AdminDashboard.vue'
+import TeamInfo from '@/views/admin/TeamInfo.vue'
+import TeamList from '@/views/admin/TeamList.vue'
 import LoginView from '@/views/LoginView.vue'
-import OperatorInfo from '@/views/OperatorInfo.vue'
-import OperatorList from '@/views/OperatorList.vue'
-import AccountList from '@/views/AccountList.vue'
-import StateLoader from '@/views/StateLoader.vue'
-import AccountInfo from '@/views/AccountInfo.vue'
+import OperatorInfo from '@/views/admin/OperatorInfo.vue'
+import OperatorList from '@/views/admin/OperatorList.vue'
+import AccountList from '@/views/admin/AccountList.vue'
+import StateLoader from '@/views/admin/StateLoader.vue'
+import AccountInfo from '@/views/admin/AccountInfo.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

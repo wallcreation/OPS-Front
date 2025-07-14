@@ -131,6 +131,12 @@ export const useAppStore = defineStore('app', () => {
   const getAccountById = id => accounts.value.find(acc => acc.id === id)
   const getAccountsByTeamId = teamId => accounts.value.filter(acc => acc.team_id === teamId)
 
+  const reset = () => {
+    teams.value = []
+    operators.value = []
+    accounts.value = []
+  }
+
   return {
     // état
     teams, operators, accounts,
@@ -149,6 +155,8 @@ export const useAppStore = defineStore('app', () => {
     getTeamById, getTeamByName,
     getOperatorById, getOperatorsByTeamId,
     getAccountById, getAccountsByTeamId,
+
+    reset,
   }
 }, {
   persist: {

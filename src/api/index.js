@@ -1,6 +1,6 @@
 import { useErrorStore } from '@/stores/error'
 import { clearProfile } from '../utils/storage'
-import { useSessionStore } from '@/stores/useSessionStore'
+import { useSessionStore } from '@/stores/session'
 import { useNotificationStore } from '@/stores/notification'
 import api from './base'
 export * from './account'

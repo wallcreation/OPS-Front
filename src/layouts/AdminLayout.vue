@@ -1,7 +1,7 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import { useErrorStore } from '@/stores/error'
-import { useSessionStore } from '@/stores/useSessionStore'
+import { useSessionStore } from '@/stores/session'
 import ErrorModal from '@/components/utils/ErrorModal.vue'
 import Header from '@/components/admin/Header.vue'
 import Notification from '@/components/utils/Notification.vue'

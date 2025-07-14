@@ -1,12 +1,14 @@
 <script setup>
 import { clearProfile, fetchAllAppData, loadProfile } from '@/api'
 import { useAppStore } from '@/stores/app'
+import { useSessionStore } from '@/stores/session'
 import { useNotificationStore } from '@/stores/notification'
 import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 const error = ref(false)
 const notification = useNotificationStore()
-const profile = loadProfile()
+const sessionstores = useSessionStore()
+const profile = sessionstores.user
 const initials = (profile?.fname?.[0] || '') + (profile?.lname?.[0] || '')
 const router = useRouter()
 const show = ref(false)

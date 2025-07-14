@@ -1,13 +1,16 @@
 <script setup>
 // Importation des fonctions et hooks nécessaires
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getErrorMessage, fetchAllAppData, login, safeCall, updateStore } from '@/api'
-import { saveProfile } from '@/utils/storage'
+import { getErrorMessage  , login, safeCall, updateStore } from '@/api'
 import { useAppStore } from '@/stores/app'
+import { useSessionStore } from '@/stores/session'
+import { resetAll } from '@/api'
 
 // Initialisation du router pour la navigation
 const router = useRouter()
+
+const sessionstores = useSessionStore()
 
 // Déclaration des variables réactives pour la gestion du formulaire et des états
 const disablelogin = ref(false) // Désactive le bouton pendant la connexion
@@ -17,7 +20,6 @@ const errorMessage = ref('') // Message d'erreur à afficher
 const password = ref('') // Mot de passe saisi
 const showpassword = ref(false) // Affiche ou masque le mot de passe
 const stores = useAppStore() // Accès au store global
-const error = ref(false) // Etat d'erreur général (non utilisé ici)
 
 // Fonction appelée lors de la soumission du formulaire de connexion
 const onlogin = async () => {
@@ -43,13 +45,20 @@ const onlogin = async () => {
     } else {
       // Si succès : stocke le token, le profil, met à jour le store et redirige
       localStorage.setItem('token', res.token)
-      saveProfile(res.profile)
+      sessionstores.setSession({
+        user: res.profile,
+        role: res.profile.role,
+        token: res.token,
+      })
       if (res.profile.role === 'admin') updateStore(stores)
       router.push(res.profile.role === 'admin' ? '/admin/dashboard/' : '/ops/dashboard/')
     }
   }
   disablelogin.value = false // Réactive le bouton
 }
+onMounted(() => {
+  resetAll()
+})
 </script>
 <template>
   <!-- Fond de la page de login avec image et effet de flou -->
@@ -176,7 +185,7 @@ const onlogin = async () => {
           :class="disablelogin ? 'animate-pulse' : ''"
           :disabled="disablelogin"
         >
-          {{ disablelogin ? 'Connexion...' : 'Se connecter'}}
+          {{ disablelogin ? 'Connexion...' : 'Se connecter' }}
         </button>
       </form>
     </div>

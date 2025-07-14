@@ -16,5 +16,10 @@ export const useErrorStore = defineStore('error', () => {
     showErrorModal.value = false
   }
 
-  return { error, showErrorModal, triggerError, clearError }
+  function reset() {
+    error.value = null
+    showErrorModal.value = false
+  }
+
+  return { error, showErrorModal, triggerError, clearError, reset }
 })

@@ -1,5 +1,5 @@
 <script setup>
-import { clearProfile, fetchAllAppData, loadProfile } from '@/api'
+import { clearProfile, fetchAllAppData } from '@/api'
 import { useAppStore } from '@/stores/app'
 import { useSessionStore } from '@/stores/session'
 import { useNotificationStore } from '@/stores/notification'

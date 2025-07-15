@@ -2,15 +2,18 @@
 // Importation des fonctions et hooks nécessaires
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getErrorMessage  , login, safeCall, updateStore } from '@/api'
+import { getErrorMessage, login, safeCall, updateStore } from '@/api'
 import { useAppStore } from '@/stores/app'
 import { useSessionStore } from '@/stores/session'
 import { resetAll } from '@/api'
+import { useOperatorStore } from '@/stores/operator'
 
 // Initialisation du router pour la navigation
 const router = useRouter()
 
+// Initialisation des stores pour la gestion de session et des opérateurs
 const sessionstores = useSessionStore()
+const operatorStore = useOperatorStore()
 
 // Déclaration des variables réactives pour la gestion du formulaire et des états
 const disablelogin = ref(false) // Désactive le bouton pendant la connexion
@@ -51,6 +54,7 @@ const onlogin = async () => {
         token: res.token,
       })
       if (res.profile.role === 'admin') updateStore(stores)
+      else await operatorStore.getMonthData()
       router.push(res.profile.role === 'admin' ? '/admin/dashboard/' : '/ops/dashboard/')
     }
   }

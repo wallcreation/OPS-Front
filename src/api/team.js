@@ -9,6 +9,14 @@ export function deleteTeam(id) {
   return api.delete(`/admin/team/${id}`)
 }
 
+export function getTeam(id) {
+  return api.get(`/admin/team/${id}`)
+
+}
+export function getOpsTeam(id) {
+  return api.get(`/ops/team/${id}`)
+}
+
 export function getTeams() {
   return api.get('/admin/teams')
 }

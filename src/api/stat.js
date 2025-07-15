@@ -1,5 +1,8 @@
 import api from "./base"
 
+export function getOpsStats(data) {
+    return api.get('/ops/stats', { params: data })
+}
 export function getOperatorStats(data) {
     return api.get('/admin/stats/op', { params: data })
 }

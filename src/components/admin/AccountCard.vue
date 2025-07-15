@@ -11,14 +11,6 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  team: {
-    type: String,
-    required: true,
-  },
-  team_id: {
-    type: Number,
-    required: true,
-  },
 })
 
 const deleting = ref(false)
@@ -55,10 +47,6 @@ const delaccount = async () => {
           d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z"
         />
       </svg>
-    </div>
-
-    <div class="flex gap-2">
-      <p>{{ team }}</p>
     </div>
   </div>
 </template>

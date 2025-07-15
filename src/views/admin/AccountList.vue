@@ -38,8 +38,6 @@ onMounted(async () => {
         v-for="account in accounts"
         :id="account.id"
         :name="account.name"
-        :team="stores.getTeamById(account.team_id).name"
-        :team_id="account.team_id"
       />
     </div>
   </div>

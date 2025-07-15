@@ -1,6 +1,8 @@
 import api from "./base"
 
-// Récupérer les pénalités d'un opérateur
+export function getOpsPenalties(data) {
+    return api.get('/ops/penalties', { params: data })
+}
 export function getOperatorPenalties(data) {
     return api.get('/admin/penalties/op', { params: data })
 }

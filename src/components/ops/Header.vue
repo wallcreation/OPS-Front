@@ -7,7 +7,6 @@ const props = defineProps({
     required: true,
   },
 })
-console.log('profile', props.profile)
 const initials = (props.profile?.fname?.[0] || '') + (props.profile?.lname?.[0] || '')
 const router = useRouter()
 const logout = async () => {

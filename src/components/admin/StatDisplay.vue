@@ -143,6 +143,9 @@ function closeModal() {
         </p>
       </div>
       <div class="mt-3 text-right">
+        <button class="px-3 py-1 bg-error text-white rounded-lg shadow-sm hover:bg-error-dark">
+          Supprimer
+        </button>
         <button
           @click="closeModal"
           class="px-3 py-1 bg-primary text-white rounded-lg shadow-sm hover:bg-primary-dark"

@@ -12,7 +12,6 @@ const accountipt = ref('')
 const loading = ref(false)
 const error = ref([false, ''])
 const stores = useAppStore()
-const team = ref({ show: false, teamid: 0, textvalue: '', list: props.teams })
 
 const addaccount = async () => {
   if (!accountipt.value) {
@@ -22,21 +21,16 @@ const addaccount = async () => {
     }, 5000)
     return
   }
-  stores.createAccountAPI({ name: accountipt.value, team_id: team.value.teamid })
+  stores.createAccountAPI({ name: accountipt.value })
   emit('close')
 }
 
-const closetteamselector = async (choosedteam) => {
-  team.value.show = false
-  team.value.teamid = choosedteam.id
-  team.value.textvalue = choosedteam.name
-}
 </script>
 <template>
   <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
     <div class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border bg-surface">
       <h1 class="text-xl text-center font-bold">Ajouter un compte</h1>
-      <form action="" class="my-2 grid gap-2 grid-cols-1 md:grid-cols-3">
+      <form action="">
         <input
           type="text"
           name="aname"
@@ -44,16 +38,7 @@ const closetteamselector = async (choosedteam) => {
           required
           placeholder="Nom du compte"
           v-model="accountipt"
-          class="col-span-3 md:col-span-2 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
-        />
-        <input
-          type="text"
-          name="team"
-          id="team"
-          placeholder="Équipe"
-          :value="team.textvalue"
-          class="col-span-3 md:col-span-1 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
-          @click="team.show = true"
+          class="w-full mb-2 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
         />
       </form>
       <div v-if="error[0]" class="w-full rounded-lg bg-error">
@@ -77,11 +62,4 @@ const closetteamselector = async (choosedteam) => {
       </div>
     </div>
   </div>
-  <!-- Quick team selector -->
-  <TeamSelector
-    v-if="team.show"
-    :teamlist="team.list"
-    @close="team.show = false"
-    @select="closetteamselector"
-  />
 </template>

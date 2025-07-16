@@ -28,7 +28,7 @@ export const useNotificationStore = defineStore('notification', () => {
     timer = setTimeout(() => {
       show.value = false
       displayNext()
-    }, 4000)
+    }, 2000)
   }
 
   function reset() {

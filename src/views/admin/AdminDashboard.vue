@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref, onMounted } from 'vue'
 import { useAppStore } from '@/stores/app'
+import { updateStore } from '@/api'
 
 const store = useAppStore()
 const data = ref({
@@ -37,6 +38,7 @@ const randomizedCards = ref([])
 const gridConfig = ref([])
 
 onMounted(() => {
+  updateStore(store)
   // Mélange les cartes
   randomizedCards.value = shuffle([...cards])
 

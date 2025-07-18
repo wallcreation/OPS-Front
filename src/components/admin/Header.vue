@@ -1,5 +1,5 @@
 <script setup>
-import { clearProfile, fetchAllAppData } from '@/api'
+import { clearProfile, fetchAllAppData, safeCall, logout } from '@/api'
 import { useAppStore } from '@/stores/app'
 import { useSessionStore } from '@/stores/session'
 import { useNotificationStore } from '@/stores/notification'
@@ -13,7 +13,8 @@ const initials = (profile?.fname?.[0] || '') + (profile?.lname?.[0] || '')
 const router = useRouter()
 const show = ref(false)
 const stores = useAppStore()
-const logout = async () => {
+const dologout = async () => {
+  const [res,err] = await safeCall(logout())
   clearProfile()
   router.push({ name: 'login' })
 }
@@ -154,7 +155,7 @@ const reload = async () => {
         <span>Recharger</span>
       </button>
       <button
-        @click="logout()"
+        @click="dologout()"
         class="mx-1 p-1 flex items-center justify-center gap-1 border-2 border-error rounded-lg hover:bg-error-dark hover:border-error-dark transition"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

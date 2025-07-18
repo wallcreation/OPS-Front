@@ -12,44 +12,25 @@ const data = ref({
   accounts: computed(() => store.accounts),
 })
 
-// Toutes les cartes possibles
-const cards = [
-  {
-    key: 'teams',
-    label: 'Équipes',
-    value: () => data.value.teams.length,
-  },
-  {
-    key: 'operators',
-    label: 'Opérateurs',
-    value: () => data.value.operators.length,
-  },
-  {
-    key: 'accounts',
-    label: 'Comptes',
-    value: () => data.value.accounts.length,
-  },
-]
 
 onMounted(async () => {
   updateStore(store)
-  const [res, err] = await safeCall(getChartData())
-  if (err) console.log("Dashboard error ", err)
-  stats.value = res
-  console.log("res ", res)
 })
 </script>
 
 <template>
-<div class="w-full h-full flex flex-col gap-2 p-2">
-  <div class="flex-grow">
-    <MyChart :stats="stats" />
+<div class="w-full h-full grid grid-cols-1 md:grid-cols-2 gap-2 p-2">
+  <div class="md:col-span-2 flex flex-col items-center justify-center bg-surface border-2 border-border rounded-xl">
+    <h1 class="text-primary text-5xl font-bold">{{ data.teams.length }}</h1>
+    <p>Équipes</p>
   </div>
-  <div class="flex gap-2">
-    <div class="flex-grow">
-      <MonthSelector />
-    </div>
-    <button class="p-2 border-2 border-primary rounded-xl hover:bg-primary-dark hover:border-primary-dark">Télécharger la facture</button>
+  <div class="flex flex-col items-center justify-center bg-surface border-2 border-border rounded-xl">
+    <h1 class="text-primary text-5xl font-bold">{{ data.operators.length }}</h1>
+    <p>Opérateurs</p>
+  </div>
+  <div class="flex flex-col items-center justify-center bg-surface border-2 border-border rounded-xl">
+    <h1 class="text-primary text-5xl font-bold">{{ data.accounts.length }}</h1>
+    <p>Comptes</p>
   </div>
 </div>
 </template>

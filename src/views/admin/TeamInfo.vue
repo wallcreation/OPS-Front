@@ -69,7 +69,7 @@ onMounted(async () => {
           </svg>
         </button>
       </section>
-      <section class="hidden sm:block p-2 bg-surface rounded-lg border-2 border-border">
+      <section class="col-span-2 sm:block p-2 bg-surface rounded-lg border-2 border-border">
         <h2 class="text-primary font-bold underline">Opérateurs</h2>
         <div class="flex flex-wrap gap-1">
           <RouterLink  v-for="operator in teamOperators" :key="operator.id" :to="{ name: 'operator-info', params: { id: operator.id } }" class="underline hover:text-primary-dark">
@@ -77,29 +77,29 @@ onMounted(async () => {
           </RouterLink>
         </div>
       </section>
-      <section class="hidden sm:block p-2 bg-surface rounded-lg border-2 border-border">
-        <h2 class="text-primary font-bold underline">Comptes</h2>
-        <div class="flex flex-wrap gap-1">
-          <RouterLink v-for="account in teamAccounts" :key="account.id" :to="{ name: 'account-info', params: { id: account.id } }" class="underline hover:text-primary-dark">
-            {{ account.name }}
-          </RouterLink>
-        </div>
-      </section>
+
       <!-- Onglets des opérateurs -->
       <section class="col-span-2 flex gap-1">
-        <button
-          v-for="operator in teamOperators"
-          :key="operator.id"
-          @click="activeOperatorId = operator.id"
-          :class="[
-            'w-[50%] px-2 py-1 rounded-lg',
-            activeOperatorId === operator.id
-              ? 'border-2 border-primary text-white'
-              : 'border-2 border-border text-muted hover:bg-surface-light',
-          ]"
+
+        <div
         >
-          {{ operator.fname }} <span class="hidden sm:inline">{{ operator.lname }}</span>
-        </button>
+          <RouterLink  v-for="operator in teamOperators" :key="operator.id" :to="{ name: 'operator-info', params: { id: operator.id } }" class="underline hover:text-primary-dark">
+            {{ operator.fname }} <span class="hidden sm:inline">{{ operator.lname }}</span>
+          </RouterLink>
+          <button
+            :class="[
+              'w-[50%] px-2 py-1 rounded-lg',
+              activeOperatorId === operator.id
+                ? 'border-2 border-primary text-white'
+                : 'border-2 border-border text-muted hover:bg-surface-light',
+            ]"
+            v-for="operator in teamOperators"
+            :key="operator.id"
+            @click="activeOperatorId = operator.id"
+          >
+            switch
+          </button>
+        </div>
       </section>
       <MonthSelector :modelValue="selectedMonth" @update:month="monthChanged" class="col-span-2" />
     </div>

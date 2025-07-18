@@ -37,23 +37,24 @@ export async function safeCall(promise) {
 
 export async function fetchAllAppData() {
   const notification = useNotificationStore()
-  notification.notify("Récupérations des équipes", "info")
-  const [teamsRes, teamsErr] = await safeCall(api.get('/admin/teams'))
-  notification.notify("Récupérations des opérateurs", "info")
-  const [operatorsRes, operatorsErr] = await safeCall(api.get('/admin/operators'))
-  notification.notify("Récupérations des comptes", "info")
-  const [accountsRes, accountsErr] = await safeCall(api.get('/admin/accounts'))
-
-  if (teamsErr || operatorsErr || accountsErr) {
-    return [null, teamsErr || operatorsErr || accountsErr]
+  // notification.notify("Récupérations des équipes", "info")
+  // const [teamsRes, teamsErr] = await safeCall(api.get('/admin/teams'))
+  // notification.notify("Récupérations des opérateurs", "info")
+  // const [operatorsRes, operatorsErr] = await safeCall(api.get('/admin/operators'))
+  // notification.notify("Récupérations des comptes", "info")
+  // const [accountsRes, accountsErr] = await safeCall(api.get('/admin/accounts'))
+  notification.notify("Récupérations des données", "info")
+  const [res,err] = await safeCall(getdashboard())
+  if(err) { // (teamsErr || operatorsErr || accountsErr) {
+    return [null, err] //teamsErr || operatorsErr || accountsErr]
   }
 
   notification.notify("Récupération terminé", "success")
   return [
     {
-      teams: teamsRes,
-      operators: operatorsRes,
-      accounts: accountsRes,
+      teams: res.teams, // teamsRes,
+      operators: res.operators, // operatorsRes,
+      accounts: res.accounts, // accountsRes,
     },
     null
   ]

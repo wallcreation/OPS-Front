@@ -18,12 +18,12 @@ onMounted(async () => {
 <template>
   <div class="w-full h-full p-1 flex flex-col">
     <div
-      class="p-2 flex justify-between items-center border-1 border-border bg-surface rounded-lg"
+      class="p-2 flex justify-between items-center border-2 border-border bg-surface rounded-xl"
     >
-      <h1 class="text-xl font-bold text-primary">Liste des équipes</h1>
+      <h1 class="text-xl font-bold text-primary-light">Liste des équipes</h1>
       <button
         @click="showTeamAdd = true"
-        class="p-1 flex gap-1 hover:text-primary hover:border-2 hover:rounded-lg hover:border-primary"
+        class="p-1 flex gap-1 border-2 border-primary rounded-xl hover:border-primary-dark hover:border-2  hover:bg-primary-dark"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 20">
           <path
@@ -39,7 +39,7 @@ onMounted(async () => {
     </div>
     <div
       v-else
-      class="flex-grow p-2 grid gap-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 overflow-auto"
+      class="flex-grow p-2 grid gap-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-auto overflow-auto"
     >
       <TeamCard
         v-for="team in teams"

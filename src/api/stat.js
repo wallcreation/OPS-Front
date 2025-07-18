@@ -58,5 +58,5 @@ async function downloadFacture(year, month) {
 }
 
 export function getChartData() {
-    return api.get('/admin/dashboard')
+    return api.get('/admin/chartdata')
 }

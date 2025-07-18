@@ -69,39 +69,38 @@ onMounted(async () => {
           </svg>
         </button>
       </section>
-      <section class="col-span-2 sm:block p-2 bg-surface rounded-lg border-2 border-border">
-        <h2 class="text-primary font-bold underline">Opérateurs</h2>
-        <div class="flex flex-wrap gap-1">
-          <RouterLink  v-for="operator in teamOperators" :key="operator.id" :to="{ name: 'operator-info', params: { id: operator.id } }" class="underline hover:text-primary-dark">
-            {{ operator.fname }} <span class="hidden sm:inline">{{ operator.lname }}</span>
-          </RouterLink>
-        </div>
-      </section>
 
       <!-- Onglets des opérateurs -->
-      <section class="col-span-2 flex gap-1">
-
-        <div
-        >
-          <RouterLink  v-for="operator in teamOperators" :key="operator.id" :to="{ name: 'operator-info', params: { id: operator.id } }" class="underline hover:text-primary-dark">
+      <section
+        class="col-span-2 p-2 grid grid-cols-2 gap-1 border-2 border-border rounded-lg bg-surface"
+      >
+        <h2 class="col-span-2 text-xl font-bold text-primary">Opérateurs</h2>
+        <div v-for="operator in teamOperators" :key="operator.id" class="flex gap-1 items-center">
+          <RouterLink
+            :to="{ name: 'operator-info', params: { id: operator.id } }"
+            class="underline hover:text-primary"
+          >
             {{ operator.fname }} <span class="hidden sm:inline">{{ operator.lname }}</span>
           </RouterLink>
           <button
             :class="[
-              'w-[50%] px-2 py-1 rounded-lg',
+              'px-3 py-1 rounded-xl text-sm font-medium transition-colors duration-200',
+              'border-2',
               activeOperatorId === operator.id
-                ? 'border-2 border-primary text-white'
-                : 'border-2 border-border text-muted hover:bg-surface-light',
+                ? 'border-primary bg-primary text-white shadow-soft'
+                : 'border-border text-muted hover:bg-surface hover:border-primary hover:text-primary-light',
             ]"
-            v-for="operator in teamOperators"
-            :key="operator.id"
             @click="activeOperatorId = operator.id"
           >
-            switch
+            {{ operator.name }}
           </button>
         </div>
       </section>
-      <MonthSelector :modelValue="selectedMonth" @update:month="monthChanged" class="col-span-2" />
+      <MonthSelector
+        :modelValue="selectedMonth"
+        @update:month="monthChanged"
+        class="col-span-2 md:col-span-4"
+      />
     </div>
     <div
       class="h-full overflow-hidden flex-grow md:col-span-4 sm:flex sm:gap-1 space-y-1 sm:space-y-0"
@@ -137,5 +136,5 @@ onMounted(async () => {
     </div>
   </div>
 
-  <TeamEdit :showModal="showedit" @close="showedit = false" />
+  <TeamEdit v-if="showedit" :stores="stores" @close="showedit = false" />
 </template>

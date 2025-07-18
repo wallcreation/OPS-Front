@@ -102,7 +102,7 @@ function closeModal() {
       </div>
     </div>
   </div>
-  <div v-else class="text-muted text-center py-4">No stats found.</div>
+  <div v-else class="text-muted text-center py-4">Aucune statistiques.</div>
 
   <!-- ✅ Modal -->
   <div

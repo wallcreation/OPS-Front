@@ -70,6 +70,12 @@ const router = createRouter({
           name: 'account-info',
           component: AccountInfo,
           meta: { requiresAuth: true, role: 'admin'}
+        },
+        {
+          path: '/admin/summary',
+          name: 'admin-summary',
+          component: Summary,
+          meta: { requiresAuth: true, role: 'admin'}
         }
       ],
     },
@@ -90,6 +96,7 @@ const router = createRouter({
 
 // 👇 Global Navigation Guard
 import { useSessionStore } from '@/stores/session'
+import Summary from '@/views/admin/Summary.vue'
 
 router.beforeEach((to, from, next) => {
   const session = useSessionStore()

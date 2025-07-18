@@ -14,12 +14,12 @@ const router = useRouter()
 const show = ref(false)
 const stores = useAppStore()
 const dologout = async () => {
-  const [res,err] = await safeCall(logout())
+  const [res, err] = await safeCall(logout())
   clearProfile()
   router.push({ name: 'login' })
 }
 const reload = async () => {
-  notification.notify("Rechargement des données", "info")
+  notification.notify('Rechargement des données', 'info')
   const [data, err] = await fetchAllAppData()
   if (err) {
     if (err.code === 1003) {
@@ -122,6 +122,19 @@ const reload = async () => {
         </svg>
       </span>
       <span class="hidden md:inline">Comptes</span>
+    </RouterLink>
+    <RouterLink
+      to="/admin/summary"
+      class="mx-1 hover:border-b-2 hover:border-primary-light flex items-center"
+      active-class="text-primary-light border-b-2 border-primary"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="inline pb-1">
+        <path
+          fill="currentColor"
+          d="M6 13H2c-.6 0-1 .4-1 1v8c0 .6.4 1 1 1h4c.6 0 1-.4 1-1v-8c0-.6-.4-1-1-1m16-4h-4c-.6 0-1 .4-1 1v12c0 .6.4 1 1 1h4c.6 0 1-.4 1-1V10c0-.6-.4-1-1-1m-8-8h-4c-.6 0-1 .4-1 1v20c0 .6.4 1 1 1h4c.6 0 1-.4 1-1V2c0-.6-.4-1-1-1"
+        />
+      </svg>
+      <span class="hidden md:inline">Récapitulatif</span>
     </RouterLink>
     <button @click="show = !show" class="flex mx-1 hover:border-b-2 hover:border-primary-light">
       <span class="font-bold text-lg text-primary">{{ initials }}</span>

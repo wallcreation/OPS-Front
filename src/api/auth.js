@@ -8,3 +8,7 @@ export function login(data) {
 export function me() {
     return api.get("/me")
 }
+
+export function refresh() {
+    return api.get('/refresh')
+}

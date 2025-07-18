@@ -2,6 +2,7 @@ import { useErrorStore } from '@/stores/error'
 import { clearProfile } from '../utils/storage'
 import { useSessionStore } from '@/stores/session'
 import { useNotificationStore } from '@/stores/notification'
+import { useAuthStore } from '@/stores/useAuthStore'
 import api from './base'
 export * from './account'
 export * from './auth'
@@ -12,21 +13,29 @@ export * from './stat'
 export * from './team'
 export * from '../utils/storage'
 
+
 export function getdashboard() {
-    return api.get("/admin/dashboard")
+  return api.get("/admin/dashboard")
 }
 
-export async function safeCall(promise) {
+export async function safeCall(promise, retry = false) {
+  const auth = useAuthStore()
   try {
     const response = await promise
     const data = response?.data ?? response // axios ou fetch
     return [data, null]
   } catch (err) {
     const code =  err.response?.data?.detail?.code || 0
-    if(code === 1003) {
-      clearProfile()
-      const session = useSessionStore()
-      session.triggerSessionExpired()
+    if(code === 1003 && !retry) {
+      try {
+        await auth.refreshTokens() // gère isRefreshing + queue
+        // Retente la requête
+        return await safeCall(promise, true)
+      } catch (error) {
+        clearProfile()
+        const session = useSessionStore()
+        session.triggerSessionExpired()
+      }
     }
     const message = err.response?.data?.detail?.message || err.message || "Erreur inconnue."
     const error = useErrorStore()
@@ -37,16 +46,11 @@ export async function safeCall(promise) {
 
 export async function fetchAllAppData() {
   const notification = useNotificationStore()
-  // notification.notify("Récupérations des équipes", "info")
-  // const [teamsRes, teamsErr] = await safeCall(api.get('/admin/teams'))
-  // notification.notify("Récupérations des opérateurs", "info")
-  // const [operatorsRes, operatorsErr] = await safeCall(api.get('/admin/operators'))
-  // notification.notify("Récupérations des comptes", "info")
-  // const [accountsRes, accountsErr] = await safeCall(api.get('/admin/accounts'))
+
   notification.notify("Récupérations des données", "info")
   const [res,err] = await safeCall(getdashboard())
-  if(err) { // (teamsErr || operatorsErr || accountsErr) {
-    return [null, err] //teamsErr || operatorsErr || accountsErr]
+  if(err) {
+    return [null, err]
   }
 
   notification.notify("Récupération terminé", "success")

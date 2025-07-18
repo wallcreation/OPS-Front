@@ -1,5 +1,4 @@
 // src/api.js
-import { useSessionStore } from '@/stores/session'
 import axios from 'axios'
 
 const api = axios.create({

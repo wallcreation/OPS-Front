@@ -2,8 +2,8 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000',
-  // baseURL: 'https://djetovi-api.onrender.com',
+  // baseURL: 'http://localhost:8000',
+  baseURL: 'https://djetovi-api.onrender.com',
   headers: {
     'Content-Type': 'application/json',
   },

@@ -74,7 +74,7 @@ async function foo() {
         </button>
       </div>
 
-      <form @submit.prevent="foo" class="grid gap-3">
+      <form @submit.prevent="foo" class="grid gap-2">
         <!-- Étape 1 : Mail + mot de passe -->
         <div v-show="step === 0" class="grid md:grid-cols-2 gap-2">
           <input
@@ -84,17 +84,21 @@ async function foo() {
             class="border-b-2 outline-none border-border focus:border-primary hover:border-primary-dark"
           />
           <div
-            class="flex items-center justify-between gap-2 border-b-2 border-border focus-within:border-primary hover:border-primary-dark"
+            class="grid grid-cols-4 gap-2 border-b-2 border-border focus-within:border-primary hover:border-primary-dark"
           >
             <input
               :type="passtype"
               v-model="password"
               placeholder="Mot de passe (laisser vide pour ne pas changer)"
-              class="flex-1 bg-transparent outline-none"
+              class="col-span-3 bg-transparent outline-none"
             />
-            <button type="button" @click="togglePassword">
-              <span v-if="passtype === 'password'">👁‍🗨</span>
-              <span v-else>🙈</span>
+            <button type="button" @click="togglePassword" class="place-self-end text-muted hover:text-primary transition-colors">
+              <span v-if="passtype === 'password'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0-4 0"/><path d="M21 12q-3.6 6-9 6t-9-6q3.6-6 9-6t9 6"/></g></svg>
+              </span>
+              <span v-else>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10.585 10.587a2 2 0 0 0 2.829 2.828"/><path d="M16.681 16.673A8.7 8.7 0 0 1 12 18q-5.4 0-9-6q1.908-3.18 4.32-4.674m2.86-1.146A9 9 0 0 1 12 6q5.4 0 9 6q-1 1.665-2.138 2.87M3 3l18 18"/></g></svg>
+              </span>
             </button>
           </div>
         </div>
@@ -171,28 +175,30 @@ async function foo() {
         </div>
 
         <!-- Navigation -->
-        <div class="flex justify-between items-center gap-2 mt-1">
+        <div class="flex justify-between items-center gap-2 mt-2">
           <button
             type="button"
             v-if="step > 0"
             @click="prevStep"
-            class="px-2 py-1 border-2 border-border rounded-lg hover:border-primary-dark"
+            class="px-2 flex gap-1 outline-2 outline-primary outline-offset-2 rounded hover:bg-primary-dark hover:outline-primary-dark"
           >
-            ← Précédent
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><circle cx="3" cy="3" r="3" transform="matrix(-1 0 0 1 22 9)"/><path d="M2 12h10M2 12c0 .562.438.99 1.314 1.844L4.971 15.5M2 12c0-.562.438-.99 1.314-1.844L4.97 8.5"/></g></svg>
+            Précédent
           </button>
           <button
             type="button"
             v-if="step < 2"
             @click="nextStep"
-            class="ml-auto px-2 py-1 border-2 border-primary rounded-lg hover:bg-primary-dark"
+            class="ml-auto px-2 flex gap-1 outline-2 outline-primary outline-offset-2 rounded hover:bg-primary-dark hover:outline-primary-dark"
           >
-            Suivant →
+            Suivant 
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><circle cx="5" cy="12" r="3"/><path d="M22 12H12m10 0c0 .562-.438.99-1.314 1.844L19.029 15.5M22 12c0-.562-.438-.99-1.314-1.844L19.03 8.5"/></g></svg>
           </button>
           <button
             v-if="step === 2"
             type="submit"
             :disabled="loading"
-            class="ml-auto px-2 py-1 border-2 border-primary rounded-lg hover:bg-primary-dark"
+            class="ml-auto px-2 outline-2 outline-primary outline-offset-2 rounded hover:bg-primary-dark hover:outline-primary-dark"
             :class="loading ? 'animate-pulse' : ''"
           >
             {{ loading ? 'Enregistrement...' : 'Enregistrer' }}

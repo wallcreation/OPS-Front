@@ -25,25 +25,24 @@ export function deleteStat(id) {
     return api.delete(`/admin/stat/${id}`)
 }
 
-async function downloadFacture(year, month) {
+export function generateFacture(data) {
+  return api.get('/admin/stats/summary/generate', { params: data })
+}
+
+export async function downloadFacture(data) {
   try {
-    const response = api.get(
-      `/admin/stats/summary/facture?year=${year}&month=${month}`,
+    const response = await api.get(
+      `/admin/stats/summary/download`,
       {
+        params: data,
         responseType: 'blob', // important pour gérer un fichier binaire
       }
     )
 
-    // Extraire le nom du fichier depuis les headers (si fourni)
-    const contentDisposition = response.headers['content-disposition']
-    let filename = 'factures.zip'
-    if (contentDisposition) {
-      const match = contentDisposition.match(/filename="?([^"]+)"?/)
-      if (match?.[1]) filename = match[1]
-    }
+    let filename = data?.name
 
     // Créer un lien temporaire pour déclencher le téléchargement
-    const blob = new Blob([response.data], { type: response.headers['content-type'] })
+    const blob = new Blob([response.data], { type: 'application/zip' })
     const url = window.URL.createObjectURL(blob)
     const link = document.createElement('a')
     link.href = url
@@ -58,5 +57,5 @@ async function downloadFacture(year, month) {
 }
 
 export function getChartData(data) {
-    return api.get('/admin/chartdata', data)
+    return api.get('/admin/chartdata', { params: data })
 }

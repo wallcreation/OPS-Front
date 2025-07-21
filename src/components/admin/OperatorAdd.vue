@@ -177,7 +177,7 @@ const oncreate = async () => {
                   v-else
                   type="submit"
                   :disabled="loading"
-                  class="px-2 py-1 border-2 border-primary rounded-lg hover:border-primary-dark text-text"
+                  class="px-2 outline-2 outline-primary outline-offset-2 rounded hover:bg-primary-dark hover:outline-primary-dark"
                   :class="loading ? 'animate-pulse' : ''"
                 >
                   {{ loading ? 'Création...' : 'Valider' }}

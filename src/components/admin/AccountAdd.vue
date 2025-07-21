@@ -24,12 +24,25 @@ const addaccount = async () => {
   stores.createAccountAPI({ name: accountipt.value })
   emit('close')
 }
-
 </script>
 <template>
   <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
     <div class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border bg-surface">
-      <h1 class="text-xl text-center font-bold">Ajouter un compte</h1>
+      <div class="flex justify-between">
+        <h1 class="text-xl text-center font-bold">Ajouter un compte</h1>
+        <button @click="emit('close')" class="text-error hover:text-error-dark">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 12L7 7m5 5l5 5m-5-5l5-5m-5 5l-5 5"
+            />
+          </svg>
+        </button>
+      </div>
       <form action="">
         <input
           type="text"
@@ -47,18 +60,13 @@ const addaccount = async () => {
       <div class="flex gap-2 items-center justify-end mt-1">
         <button
           @click="addaccount"
-          class="px-2 border-2 border-primary rounded-lg hover:border-primary-dark hover:bg-primary-dark"
+          class="ml-auto px-2 outline-2 outline-primary outline-offset-2 rounded hover:bg-primary-dark hover:outline-primary-dark"
           :class="loading ? 'animate-pulse' : ''"
           :disabled="loading"
         >
           {{ loading ? 'Créaton..' : 'Valider' }}
         </button>
-        <button
-          @click="emit('close')"
-          class="px-2 border-2 border-error rounded-lg hover:border-error-dark hover:bg-error-dark"
-        >
-          Annuler
-        </button>
+
       </div>
     </div>
   </div>

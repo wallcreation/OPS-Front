@@ -13,8 +13,7 @@ const props = defineProps({
   notification: {
     type: Object,
     required: true,
-  }
-
+  },
 })
 
 const emit = defineEmits(['deleted'])
@@ -35,11 +34,9 @@ function closeModal() {
 }
 
 async function deleteStat(id) {
-  closeModal(),
-  props.notification.notify("Suppression", "error")
+  closeModal(), props.notification.notify('Suppression', 'error')
   emit('deleted', id)
 }
-
 </script>
 
 <template>
@@ -56,10 +53,13 @@ async function deleteStat(id) {
           class="bg-muted/5 border border-border rounded-lg p-2 m-1 shadow-sm"
         >
           <div class="flex items-center justify-between">
-            <p class="text-text">
+            <RouterLink
+              :to="{ name: 'operator-info', params: { id: item.operator_id } }"
+              class="text-text underline hover:text-primary active:text-primary"
+            >
               {{ stores.getOperatorById(item.operator_id).lname }}
               {{ stores.getOperatorById(item.operator_id).fname }}
-            </p>
+            </RouterLink>
             <button
               class="text-muted hover:text-primary-dark"
               @click="openModal(item, date)"
@@ -156,9 +156,10 @@ async function deleteStat(id) {
       </div>
 
       <div class="mt-3 text-right">
-         <button
+        <button
           @click="deleteStat(selectedStat?.id)"
-          class="px-3 py-1 mx-1 bg-error text-white rounded-lg shadow-sm hover:bg-error-dark">
+          class="px-3 py-1 mx-1 bg-error text-white rounded-lg shadow-sm hover:bg-error-dark"
+        >
           Supprimer
         </button>
         <button

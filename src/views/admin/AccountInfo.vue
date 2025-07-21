@@ -15,6 +15,7 @@ const account = stores.getAccountById(accountid) // Données du compte
 
 // Gestion des états réactifs
 const stats = ref({}) // Stocke les statistiques récupérées
+const summary = ref({})
 const selectedMonth = ref(dayjs().format('YYYY-MM')) // Mois sélectionné (par défaut : mois courant)
 
 // Fonction appelée lors du changement de mois
@@ -32,7 +33,9 @@ const monthChanged = async (month) => {
     console.error('Error fetching stats:', err)
     return
   }
-  stats.value = res
+  stats.value = res.stats
+  summary.value = res.summary
+
 }
 
 const statDeleted = async (id) => {
@@ -56,7 +59,17 @@ onMounted(() => {
       </section>
       <!-- Stat summaary -->
       <section class="col-span-2 sm:col-span-none bg-surface p-2 rounded-lg border-2 border-border">
-        <h2 class="font-bold text-primary">Statistiques</h2>
+        <h1 class="col-span-2 text-primary font-bold underline">Statistiques</h1>
+        <!-- Résumé des stats (à compléter) -->
+        <section class="flex flex-nowrap overflow-x-auto sm:flex-wrap sm:overflow-auto gap-1">
+          <div v-for="(data, weeks) in summary" class="bg-surface flex gap-1 text-sm">
+            <h3 class="uppercase font-bold">{{ weeks }}:</h3>
+            <p class="text-nowrap">
+              {{ data.total_entry }}
+              <sup>{{ data.total_stop }}</sup>
+            </p>
+          </div>
+        </section>
       </section>
       <!-- Month selector -->
        <MonthSelector :modelValue="selectedMonth" @update:month="monthChanged" class="col-span-2 sm:col-span-4" />

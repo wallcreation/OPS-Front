@@ -40,7 +40,7 @@ onMounted(async () => {
 
 <template>
   <div class="w-full h-full flex flex-col gap-2 p-2">
-    <div class="md:flex-grow">
+    <div class="flex-grow">
       <MyChart :stats="stats" />
     </div>
     <div class="flex flex-col md:flex-row gap-2">

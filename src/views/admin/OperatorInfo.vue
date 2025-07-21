@@ -19,7 +19,9 @@ const team = stores.getTeamById(operator.team_id) // Données de l'équipe de l'
 
 // Gestion des états réactifs
 const stats = ref({}) // Stocke les statistiques récupérées
+const stats_summaries = ref({})
 const penalties = ref({}) // Stocke les pénalités récupérées
+const penalties_summaries = ref({})
 const selectedMonth = ref(dayjs().format('YYYY-MM')) // Mois sélectionné (par défaut : mois courant)
 
 // Fonction appelée lors du changement de mois
@@ -31,12 +33,13 @@ const monthChanged = async (month) => {
   }
   // Appel API sécurisé pour récupérer les stats
   const [res, err] = await safeCall(getOperatorStats(data))
-  console.log('Selected month:', selectedMonth.value)
   if (err) {
     console.error('Error fetching stats:', err)
     return
   }
-  stats.value = res
+  console.log('res: ', res)
+  stats.value = res.stats
+  stats_summaries.value = res.summary
 
   // Appel API sécurisé pour récupérer les pénalités
   const [penRes, penErr] = await safeCall(getOperatorPenalties(data))
@@ -44,7 +47,8 @@ const monthChanged = async (month) => {
     console.error('Error fetching penalties:', penErr)
     return
   }
-  penalties.value = penRes
+  penalties.value = penRes.penalties
+  penalties_summaries.value = penRes.summary
 }
 
 // Etats pour la gestion des modales et du type de champ mot de passe
@@ -109,41 +113,60 @@ onMounted(() => {
         </section>
       </div>
       <!-- Bloc statistiques résumé -->
-      <section class="grid grid-cols-3 bg-surface p-2 border-2 border-border rounded-lg">
-        <h1 class="col-span-2 text-primary font-bold underline">Statistiques</h1>
-        <!-- Bouton pour ouvrir la modale d'ajout de stat -->
-        <button
-          class="justify-self-end active:text-primary hover:text-primary"
-          @click="showstatadd = true"
-        >
-          <!-- Icône + -->
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z"
-            />
-          </svg>
-        </button>
+      <section class="bg-surface p-2 border-2 border-border rounded-lg">
+        <div class="flex justify-between mb-1">
+          <h1 class="col-span-2 text-primary font-bold underline">Statistiques</h1>
+          <!-- Bouton pour ouvrir la modale d'ajout de stat -->
+          <button
+            class="justify-self-end active:text-primary hover:text-primary"
+            @click="showstatadd = true"
+          >
+            <!-- Icône + -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z"
+              />
+            </svg>
+          </button>
+        </div>
         <!-- Résumé des stats (à compléter) -->
-        <div class="col-span-3">Stat summary here Stat summary here</div>
+        <div class="flex flex-nowrap overflow-x-auto sm:flex-wrap sm:overflow-auto gap-1">
+          <div v-for="(data, weeks) in stats_summaries" class="bg-surface flex gap-1 text-sm">
+            <h3 class="uppercase font-bold">{{ weeks }}:</h3>
+            <p class="text-nowrap">
+              {{ data.total_entry }}
+              <sup>{{ data.total_stop }}</sup>
+            </p>
+          </div>
+        </div>
       </section>
       <!-- Bloc pénalités résumé -->
-      <section class="grid grid-cols-3 bg-surface p-2 border-2 border-border rounded-lg">
-        <h1 class="col-span-2 text-error font-bold underline">Pénalités</h1>
-        <!-- Bouton pour ouvrir la modale d'ajout de pénalité -->
-        <button
-          class="justify-self-end active:text-error hover:text-error"
-          @click="showpenality = true"
-        >
-          <!-- Icône + -->
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z"
-            />
-          </svg>
-        </button>
-        <div class="col-span-3">Penalty summary here Stat summary here</div>
+      <section class="bg-surface p-2 border-2 border-border rounded-lg">
+        <div class="col-span-3 flex justify-between mb-1">
+          <h1 class="text-error font-bold underline">Pénalités</h1>
+          <!-- Bouton pour ouvrir la modale d'ajout de pénalité -->
+          <button
+            class="active:text-error hover:text-error"
+            @click="showpenality = true"
+          >
+            <!-- Icône + -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="flex flex-nowrap overflow-x-auto sm:flex-wrap sm:overflow-auto gap-1">
+          <div v-for="(amount, weeks) in penalties_summaries" class="bg-surface flex gap-1 text-sm">
+            <h3 class="uppercase font-bold">{{ weeks }}:</h3>
+            <p>
+              {{ amount }}
+            </p>
+          </div>
+        </div>
       </section>
       <div class="col-span-2 md:col-span-4">
         <MonthSelector @update:month="monthChanged" class="" />
@@ -155,8 +178,8 @@ onMounted(() => {
         class="h-[50%] sm:h-full w-full md:w-[50%] p-2 overflow-y-auto md:col-span-2 bg-surface border-2 border-border rounded-lg"
       >
         <h2 class="text-xl font-bold">
-          <span class="hidden sm:inline">Détail des</span>
-          Statistiques
+          <span class="hidden sm:inline">Détail des </span>
+          <span class="capitalize md:lowercase">statistiques</span>
         </h2>
         <!-- Affichage des stats par date -->
         <StatDisplay :stats="stats" :stores="stores" />
@@ -165,7 +188,10 @@ onMounted(() => {
       <div
         class="h-[50%] sm:h-full w-full md:w-[50%] p-2 overflow-y-auto md:col-span-2 bg-surface border-2 border-border rounded-lg"
       >
-        <h2 class="text-xl font-bold">Détail des Pénalités</h2>
+        <h2 class="text-xl font-bold">
+          <span class="hidden sm:inline">Détail des </span>
+          <span class="capitalize md:lowercase">pénalités</span>
+        </h2>
         <PenaltyDisplay :penalties="penalties" :stores="stores" />
       </div>
     </div>

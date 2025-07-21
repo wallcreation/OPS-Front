@@ -34,7 +34,7 @@ const reload = async () => {
 </script>
 <template>
   <h1 class="text-5xl font-bold text-primary" @click="show = !show">OPS</h1>
-  <nav class="flex items-center">
+  <nav class="flex items-center justify-center">
     <RouterLink
       to="/admin/dashboard"
       class="mx-1 hover:border-b-2 hover:border-primary-light"
@@ -128,7 +128,13 @@ const reload = async () => {
       class="mx-1 hover:border-b-2 hover:border-primary-light flex items-center"
       active-class="text-primary-light border-b-2 border-primary"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="inline pb-1">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        class="inline pb-1"
+      >
         <path
           fill="currentColor"
           d="M6 13H2c-.6 0-1 .4-1 1v8c0 .6.4 1 1 1h4c.6 0 1-.4 1-1v-8c0-.6-.4-1-1-1m16-4h-4c-.6 0-1 .4-1 1v12c0 .6.4 1 1 1h4c.6 0 1-.4 1-1V10c0-.6-.4-1-1-1m-8-8h-4c-.6 0-1 .4-1 1v20c0 .6.4 1 1 1h4c.6 0 1-.4 1-1V2c0-.6-.4-1-1-1"
@@ -136,8 +142,8 @@ const reload = async () => {
       </svg>
       <span class="hidden md:inline">Récapitulatif</span>
     </RouterLink>
-    <button @click="show = !show" class="flex mx-1 hover:border-b-2 hover:border-primary-light">
-      <span class="font-bold text-lg text-primary">{{ initials }}</span>
+    <button @click="show = !show" class="w-7 h-7 rounded-[100px] bg-primary flex items-center justify-center mx-1 hover:border-b-2 hover:border-primary-light">
+      <span class="font-bold text-surface">{{ initials }}</span>
     </button>
   </nav>
 
@@ -148,13 +154,13 @@ const reload = async () => {
     class="fixed inset-0 backdrop-blur-md flex items-center justify-center"
   >
     <div
-      class="border-2 p-4 border-primary rounded-lg bg-surface grid gap-2 grid-cols-1 md:grid-cols-2 text-center"
+      class="border-2 p-4 border-primary rounded-lg bg-surface grid gap-4 grid-cols-1 md:grid-cols-2 text-center"
     >
       <h1 class="md:col-span-2 text-primary text-2xl">{{ profile.fname }} {{ profile.lname }}</h1>
-      <p class="md:col-span-2 mb-2">Administrateur</p>
+      <p class="md:col-span-2">Administrateur</p>
       <button
         @click="reload"
-        class="mx-1 p-1 flex items-center justify-center gap-1 border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
+        class="p-1 flex items-center justify-center gap-1 outline-2 outline-offset-2 outline-primary rounded-lg hover:bg-primary-dark hover:outline-primary-dark"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">
           <path
@@ -169,7 +175,7 @@ const reload = async () => {
       </button>
       <button
         @click="dologout()"
-        class="mx-1 p-1 flex items-center justify-center gap-1 border-2 border-error rounded-lg hover:bg-error-dark hover:border-error-dark transition"
+        class="p-1 flex items-center justify-center gap-1 outline-2 outline-offset-2 outline-error rounded-lg hover:bg-error-dark hover:outline-error-dark transition"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path
@@ -182,6 +188,20 @@ const reload = async () => {
           />
         </svg>
         <span>Se déconnecter</span>
+      </button>
+      <button
+        class="col-span-2 p-1 flex items-center justify-center gap-1 outline-2 outline-offset-2 outline-primary rounded-lg hover:bg-primary-dark hover:outline-primary-dark"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-width="2"
+            d="M13.1 12c-1.2 1.5-3 2.5-5.1 2.5c-3.6 0-6.5-2.9-6.5-6.5S4.4 1.5 8 1.5c2.2 0 4.1 1.1 5.3 2.7m.2-3.2v3c0 .3-.2.5-.5.5h-3"
+          />
+        </svg>  
+        Régénérer les codes
       </button>
     </div>
   </div>

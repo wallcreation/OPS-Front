@@ -81,7 +81,7 @@ onMounted(() => {
       <div class="col-span-2 p-2 bg-surface border-2 border-border rounded-lg">
         <!-- Nom de l'utilisateur et bouton d'édition -->
         <section class="flex justify-between pb-1">
-          <h1 class="text-5xl">{{ operator.fname }} {{ operator.lname }}</h1>
+          <h1 class="text-5xl text-primary">{{ operator.fname }} {{ operator.lname }}</h1>
           <!-- Bouton pour ouvrir la modale d'édition -->
           <button class="active:text-primary hover:text-primary" @click="showopedit = true">
             <!-- Icône crayon -->

@@ -26,7 +26,7 @@ export async function safeCall(promise, retry = false) {
     return [data, null]
   } catch (err) {
     const code =  err.response?.data?.detail?.code || 0
-    if(code === 1003 && !retry) {
+    if(code === 1003 && retry) {
       try {
         await auth.refreshTokens() // gère isRefreshing + queue
         // Retente la requête
@@ -38,8 +38,10 @@ export async function safeCall(promise, retry = false) {
       }
     }
     const message = err.response?.data?.detail?.message || err.message || "Erreur inconnue."
-    const error = useErrorStore()
-    error.triggerError(message)
+    // const error = useErrorStore()
+    const notification = useNotificationStore()
+    notification.notify(message, 'error')
+    // error.triggerError(message)
     return [null, { code, message }]
   }
 }

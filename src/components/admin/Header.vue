@@ -1,5 +1,5 @@
 <script setup>
-import { clearProfile, fetchAllAppData, safeCall, logout } from '@/api'
+import { clearProfile, fetchAllAppData, safeCall, logout, regenerateCodes } from '@/api'
 import { useAppStore } from '@/stores/app'
 import { useSessionStore } from '@/stores/session'
 import { useNotificationStore } from '@/stores/notification'
@@ -30,6 +30,15 @@ const reload = async () => {
   stores.setOperators(data.operators)
   stores.setAccounts(data.accounts)
   show.value = false
+}
+const regenerate = async () => {
+  const [res, err] = await safeCall(regenerateCodes())
+  if (res) {
+    notification.notify('Codes changés, rechargement', 'info')
+    stores.fetchAllAppData()
+  } else {
+    notification.notify("Quelque chose s'est mal passé", 'error')
+  }
 }
 </script>
 <template>
@@ -142,7 +151,10 @@ const reload = async () => {
       </svg>
       <span class="hidden md:inline">Récapitulatif</span>
     </RouterLink>
-    <button @click="show = !show" class="w-7 h-7 rounded-[100px] bg-primary flex items-center justify-center mx-1 hover:border-b-2 hover:border-primary-light">
+    <button
+      @click="show = !show"
+      class="w-7 h-7 rounded-[100px] bg-primary flex items-center justify-center mx-1 hover:border-b-2 hover:border-primary-light"
+    >
       <span class="font-bold text-surface">{{ initials }}</span>
     </button>
   </nav>
@@ -190,6 +202,7 @@ const reload = async () => {
         <span>Se déconnecter</span>
       </button>
       <button
+        @click="regenerate"
         class="col-span-2 p-1 flex items-center justify-center gap-1 outline-2 outline-offset-2 outline-primary rounded-lg hover:bg-primary-dark hover:outline-primary-dark"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">
@@ -200,7 +213,7 @@ const reload = async () => {
             stroke-width="2"
             d="M13.1 12c-1.2 1.5-3 2.5-5.1 2.5c-3.6 0-6.5-2.9-6.5-6.5S4.4 1.5 8 1.5c2.2 0 4.1 1.1 5.3 2.7m.2-3.2v3c0 .3-.2.5-.5.5h-3"
           />
-        </svg>  
+        </svg>
         Régénérer les codes
       </button>
     </div>

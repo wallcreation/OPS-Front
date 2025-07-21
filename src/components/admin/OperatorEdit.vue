@@ -18,14 +18,12 @@ const lname = ref(props.operator?.lname || '')
 const fname = ref(props.operator?.fname || '')
 const email = ref(props.operator?.email || '')
 const password = ref('')
-const team = ref(
-  {
-    show: false,
-    teamid: 0,
-    textvalue: props.stores.getTeamById(props.operator.team_id).name,
-    list: computed(() => props.stores.teams)
-  }
-)
+const team = ref({
+  show: false,
+  teamid: 0,
+  textvalue: props.stores.getTeamById(props.operator.team_id).name,
+  list: computed(() => props.stores.teams),
+})
 
 const workat = ref({ show: false, choice: props.operator?.work_at || 'Jour' })
 
@@ -70,7 +68,16 @@ async function foo() {
       <div class="flex justify-between items-center">
         <h2 class="text-xl font-semibold text-center text-primary">Modifier l'opérateur</h2>
         <button @click="emit('close')" class="text-error hover:text-error-dark">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12L7 7m5 5l5 5m-5-5l5-5m-5 5l-5 5"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 12L7 7m5 5l5 5m-5-5l5-5m-5 5l-5 5"
+            />
+          </svg>
         </button>
       </div>
 
@@ -92,12 +99,40 @@ async function foo() {
               placeholder="Mot de passe (laisser vide pour ne pas changer)"
               class="col-span-3 bg-transparent outline-none"
             />
-            <button type="button" @click="togglePassword" class="place-self-end text-muted hover:text-primary transition-colors">
+            <button
+              type="button"
+              @click="togglePassword"
+              class="place-self-end text-muted hover:text-primary transition-colors"
+            >
               <span v-if="passtype === 'password'">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0-4 0"/><path d="M21 12q-3.6 6-9 6t-9-6q3.6-6 9-6t9 6"/></g></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <g
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  >
+                    <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0-4 0" />
+                    <path d="M21 12q-3.6 6-9 6t-9-6q3.6-6 9-6t9 6" />
+                  </g>
+                </svg>
               </span>
               <span v-else>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10.585 10.587a2 2 0 0 0 2.829 2.828"/><path d="M16.681 16.673A8.7 8.7 0 0 1 12 18q-5.4 0-9-6q1.908-3.18 4.32-4.674m2.86-1.146A9 9 0 0 1 12 6q5.4 0 9 6q-1 1.665-2.138 2.87M3 3l18 18"/></g></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <g
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  >
+                    <path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
+                    <path
+                      d="M16.681 16.673A8.7 8.7 0 0 1 12 18q-5.4 0-9-6q1.908-3.18 4.32-4.674m2.86-1.146A9 9 0 0 1 12 6q5.4 0 9 6q-1 1.665-2.138 2.87M3 3l18 18"
+                    />
+                  </g>
+                </svg>
               </span>
             </button>
           </div>
@@ -182,7 +217,20 @@ async function foo() {
             @click="prevStep"
             class="px-2 flex gap-1 outline-2 outline-primary outline-offset-2 rounded hover:bg-primary-dark hover:outline-primary-dark"
           >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><circle cx="3" cy="3" r="3" transform="matrix(-1 0 0 1 22 9)"/><path d="M2 12h10M2 12c0 .562.438.99 1.314 1.844L4.971 15.5M2 12c0-.562.438-.99 1.314-1.844L4.97 8.5"/></g></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <g
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+              >
+                <circle cx="3" cy="3" r="3" transform="matrix(-1 0 0 1 22 9)" />
+                <path
+                  d="M2 12h10M2 12c0 .562.438.99 1.314 1.844L4.971 15.5M2 12c0-.562.438-.99 1.314-1.844L4.97 8.5"
+                />
+              </g>
+            </svg>
             Précédent
           </button>
           <button
@@ -191,8 +239,21 @@ async function foo() {
             @click="nextStep"
             class="ml-auto px-2 flex gap-1 outline-2 outline-primary outline-offset-2 rounded hover:bg-primary-dark hover:outline-primary-dark"
           >
-            Suivant 
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><circle cx="5" cy="12" r="3"/><path d="M22 12H12m10 0c0 .562-.438.99-1.314 1.844L19.029 15.5M22 12c0-.562-.438-.99-1.314-1.844L19.03 8.5"/></g></svg>
+            Suivant
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <g
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+              >
+                <circle cx="5" cy="12" r="3" />
+                <path
+                  d="M22 12H12m10 0c0 .562-.438.99-1.314 1.844L19.029 15.5M22 12c0-.562-.438-.99-1.314-1.844L19.03 8.5"
+                />
+              </g>
+            </svg>
           </button>
           <button
             v-if="step === 2"
@@ -205,6 +266,51 @@ async function foo() {
           </button>
         </div>
       </form>
+      <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-1">
+        <button
+          class="m-1 p-1 flex items-center justify-center text-sm outline-2 outline-offset-2 outline-warning rounded hover:bg-warning-dark hover:outline-warning-dark"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48">
+            <path
+              fill="currentColor"
+              d="M20.471 6.228c1.617-2.99 5.916-2.966 7.5.042l15.533 29.502c1.49 2.83-.562 6.23-3.76 6.23H8.255c-3.22 0-5.27-3.44-3.738-6.272zM24 15c-.69 0-1.25.56-1.25 1.25v11.5a1.25 1.25 0 1 0 2.5 0v-11.5c0-.69-.56-1.25-1.25-1.25m0 20a2 2 0 1 0 0-4a2 2 0 0 0 0 4"
+            />
+          </svg>
+          Bloquer
+          <span class="hidden sm:inline"> l'opérateur</span>
+        </button>
+        <button
+          class="m-1 p-1 flex items-center justify-center text-sm outline-2 outline-offset-2 outline-primary rounded hover:bg-primary-dark hover:outline-primary-dark"
+        >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-width="2"
+            d="M13.1 12c-1.2 1.5-3 2.5-5.1 2.5c-3.6 0-6.5-2.9-6.5-6.5S4.4 1.5 8 1.5c2.2 0 4.1 1.1 5.3 2.7m.2-3.2v3c0 .3-.2.5-.5.5h-3"
+          />
+        </svg>
+          Régénérer le code
+        </button>
+        <button
+          class="m-1 p-1 flex items-center justify-center sm:col-span-2 text-sm outline-2 outline-offset-2 outline-error rounded hover:bg-error-dark hover:outline-error-dark"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z"
+            />
+          </svg>
+          Supprimer
+          <span class="hidden sm:inline"> l'opérateur</span>
+        </button>
+      </div>
     </div>
   </div>
   <!-- Quick team selector -->

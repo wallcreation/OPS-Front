@@ -14,7 +14,7 @@ api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token')
   const refreshToken = localStorage.getItem('refresh_token')
 
-  if (token && refreshToken) {
+  if (token &'https://djetovi-api.onrender.com'& refreshToken) {
     config.headers.Authorization = `Bearer ${token}::${refreshToken}`
   }
 

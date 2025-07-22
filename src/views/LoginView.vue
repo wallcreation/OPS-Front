@@ -53,7 +53,6 @@ const onlogin = async () => {
         role: res.profile.role,
         token: res.token,
       })
-      if (res.profile.role === 'operator') await operatorStore.getMonthData()
       router.push(res.profile.role === 'admin' ? '/admin/dashboard/' : '/ops/dashboard/')
     }
   }

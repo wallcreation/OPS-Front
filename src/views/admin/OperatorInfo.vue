@@ -505,7 +505,7 @@ onMounted(() => {
       <!-- Bloc statistiques résumé -->
       <section class="bg-surface p-2 border-2 border-border rounded-lg">
         <div class="flex justify-between mb-1">
-          <h1 class="col-span-2 text-primary font-bold underline">Statistiques</h1>
+          <h1 class="text-primary font-bold underline">Statistiques</h1>
           <!-- Bouton pour ouvrir la modale d'ajout de stat -->
           <button
             class="justify-self-end active:text-primary hover:text-primary"
@@ -533,7 +533,7 @@ onMounted(() => {
       </section>
       <!-- Bloc pénalités résumé -->
       <section class="bg-surface p-2 border-2 border-border rounded-lg">
-        <div class="col-span-3 flex justify-between mb-1">
+        <div class="flex justify-between mb-1">
           <h1 class="text-error font-bold underline">Pénalités</h1>
           <!-- Bouton pour ouvrir la modale d'ajout de pénalité -->
           <button class="active:text-error hover:text-error" @click="showpenality = true">
@@ -555,7 +555,10 @@ onMounted(() => {
           </div>
         </div>
       </section>
-      <div class="col-span-2 md:col-span-4">
+      <div class="md:col-span-2 bg-surface border-2 border-border rounded-xl text-center">
+        Stats en cours
+      </div>
+      <div class="md:col-span-2">
         <MonthSelector @update:month="monthChanged" class="" />
       </div>
     </div>

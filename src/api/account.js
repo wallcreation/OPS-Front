@@ -12,6 +12,11 @@ export function getAccounts() {
     return api.get('/admin/accounts')
 }
 
+export function getOpsAccounts() {
+    return api.get('/ops/accounts')
+}
+
+
 export function updateAccount(data) {
     return
 }

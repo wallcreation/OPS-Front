@@ -13,9 +13,8 @@ export * from './stat'
 export * from './team'
 export * from '../utils/storage'
 
-
 export function getdashboard() {
-  return api.get("/admin/dashboard")
+  return api.get('/admin/dashboard')
 }
 
 export async function safeCall(promise, retry = false) {
@@ -25,8 +24,8 @@ export async function safeCall(promise, retry = false) {
     const data = response?.data ?? response // axios ou fetch
     return [data, null]
   } catch (err) {
-    const code =  err.response?.data?.detail?.code || 0
-    if(code === 1003 && retry) {
+    const code = err.response?.data?.detail?.code || 0
+    if (code === 1003 && !retry) {
       try {
         await auth.refreshTokens() // gère isRefreshing + queue
         // Retente la requête
@@ -37,7 +36,12 @@ export async function safeCall(promise, retry = false) {
         session.triggerSessionExpired()
       }
     }
-    const message = err.response?.data?.detail?.message || err.message || "Erreur inconnue."
+    // if (code == 1003  && retry) {
+    //   clearProfile()
+    //   const session = useSessionStore()
+    //   session.triggerSessionExpired()
+    // }
+    const message = err.response?.data?.detail?.message || err.message || 'Erreur inconnue.'
     // const error = useErrorStore()
     const notification = useNotificationStore()
     notification.notify(message, 'error')
@@ -49,20 +53,20 @@ export async function safeCall(promise, retry = false) {
 export async function fetchAllAppData() {
   const notification = useNotificationStore()
 
-  notification.notify("Récupérations des données", "info")
-  const [res,err] = await safeCall(getdashboard())
-  if(err) {
+  notification.notify('Récupérations des données', 'info')
+  const [res, err] = await safeCall(getdashboard())
+  if (err) {
     return [null, err]
   }
 
-  notification.notify("Récupération terminé", "success")
+  notification.notify('Récupération terminé', 'success')
   return [
     {
       teams: res.teams, // teamsRes,
       operators: res.operators, // operatorsRes,
       accounts: res.accounts, // accountsRes,
     },
-    null
+    null,
   ]
 }
 

@@ -18,7 +18,7 @@ const stores = useAppStore()
 
 const delaccount = async () => {
   deleting.value = true
-  stores.deleteAccountAPI(props.id)
+  await stores.deleteAccountAPI(props.id)
 }
 </script>
 <template>
@@ -33,7 +33,11 @@ const delaccount = async () => {
   </div>
   <div v-else class="bg-surface rounded-lg border-2 border-border hover:border-primary p-2">
     <div class="flex justify-between items-center">
-      <RouterLink :to="{ name: 'account-info', params: { id:id } }" class="text-primary font-bold">{{ name }}</RouterLink>
+      <RouterLink
+        :to="{ name: 'account-info', params: { id: id } }"
+        class="text-primary font-bold"
+        >{{ name }}</RouterLink
+      >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"

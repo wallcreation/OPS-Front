@@ -95,8 +95,8 @@ onMounted(() => {
         </section>
         <!-- Email et équipe -->
         <section class="flex items-center px-1">
-          <p>{{ operator.email }}</p>
-          <p class="text-primary">
+          <p class="hidden md:inline">{{ operator.email }}</p>
+          <p class="hidden md:inline text-primary">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256">
               <g fill="currentColor">
                 <path d="M176 128a48 48 0 1 1-48-48a48 48 0 0 1 48 48" opacity="0.2" />

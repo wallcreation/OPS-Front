@@ -555,10 +555,10 @@ onMounted(() => {
           </div>
         </div>
       </section>
-      <div class="md:col-span-2 bg-surface border-2 border-border rounded-xl text-center">
+      <div class="hidden md:inline md:col-span-2 bg-surface border-2 border-border rounded-xl text-center">
         Stats en cours
       </div>
-      <div class="md:col-span-2">
+      <div class="col-span-2">
         <MonthSelector @update:month="monthChanged" class="" />
       </div>
     </div>

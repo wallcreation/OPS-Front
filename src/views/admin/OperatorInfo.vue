@@ -556,7 +556,9 @@ onMounted(() => {
         </div>
       </section>
       <div class="hidden md:inline md:col-span-2 bg-surface border-2 border-border rounded-xl text-center">
-        Stats en cours
+        <di v-for="(stats, accountId) in operator.current_stat" :key="accountId">
+          {{ stats }}
+        </di>
       </div>
       <div class="col-span-2">
         <MonthSelector @update:month="monthChanged" class="" />

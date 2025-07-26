@@ -556,8 +556,10 @@ onMounted(() => {
         </div>
       </section>
       <div class="hidden md:inline md:col-span-2 bg-surface border-2 border-border rounded-xl text-center">
-        <di v-for="(stats, accountId) in operator.current_stat" :key="accountId">
-          {{ stats }}
+        <di v-for="(stats, accountId) in operator.current_stat" :key="accountId" class="me-1 flex gap-1 items-center bg-muted/5 rounded">
+          <p>{{ stores.getAccountById(accountId)?.name }}</p>
+          <p>{{ stats.entry_start }}</p>
+          <sup>{{ stats.stop_start }}</sup>
         </di>
       </div>
       <div class="col-span-2">

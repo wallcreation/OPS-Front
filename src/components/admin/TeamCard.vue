@@ -23,7 +23,7 @@ const stores = useAppStore()
 const deleting = ref(false)
 const delteam = async () => {
   deleting.value = true
-  stores.deleteTeamAPI(props.id)
+  await stores.deleteTeamAPI(props.id)
 }
 </script>
 <template>

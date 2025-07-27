@@ -27,7 +27,10 @@ const delteam = async () => {
 }
 </script>
 <template>
-  <div v-if="deleting" class="group bg-surface rounded-lg border-2 border-border hover:border-primary p-2">
+  <div
+    v-if="deleting"
+    class="group bg-surface rounded-lg border-2 border-border hover:border-primary p-2"
+  >
     <h2 class="flex items-center justify-between">
       {{ name }}
     </h2>
@@ -52,12 +55,17 @@ const delteam = async () => {
         />
       </svg>
     </div>
-    
+
     <div class="flex gap-2">
-      <div>
-        <p v-for="operator in operators" :key="operator.id" class="text-sm">
+      <div class="flex gap-2">
+        <RouterLink
+          v-for="operator in operators"
+          :key="operator.id"
+          :to="{ name: 'operator-info', params: { id: operator.id } }"
+          class="text-sm underline hover:text-primary"
+        >
           {{ operator.lname }} {{ operator.fname }}
-        </p>
+        </RouterLink>
       </div>
 
       <div>

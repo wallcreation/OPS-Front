@@ -13,7 +13,7 @@ const error = useErrorStore()
 <template>
   <div class="flex flex-col h-full w-full">
     <header
-      class="h-[8%] md:h-[10%] w-full bg-surface px-4 py-2 flex items-center justify-between text-text shadow-md"
+      class="h-[10%] w-full bg-surface px-4 py-2 flex items-center justify-between text-text shadow-md"
     >
       <Header />
     </header>

@@ -153,7 +153,7 @@ const regenerate = async () => {
     </RouterLink>
     <button
       @click="show = !show"
-      class="w-7 h-7 rounded-[100px] bg-primary flex items-center justify-center mx-1 hover:border-b-2 hover:border-primary-light"
+      class="w-7 h-7 rounded-[100px] bg-primary flex items-center justify-center mx-1"
     >
       <span class="font-bold text-surface">{{ initials }}</span>
     </button>

@@ -46,7 +46,7 @@ const nextLabel = computed(() => {
   >
     <button
       @click="prevMonth"
-      class="px-2 py-1 rounded-lg border-2 border-primary hover:bg-primary-dark transition text-text flex items-center gap-1"
+      class="px-2 py-1 rounded-lg border-2 border-primary hover:bg-primary-dark hover:border-primary-dark transition text-text flex items-center gap-1"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><circle cx="3" cy="3" r="3" transform="matrix(-1 0 0 1 22 9)"/><path d="M2 12h10M2 12c0 .562.438.99 1.314 1.844L4.971 15.5M2 12c0-.562.438-.99 1.314-1.844L4.97 8.5"/></g></svg>
       <span class="hidden sm:inline capitalize">{{ prevLabel.full }}</span>
@@ -55,7 +55,7 @@ const nextLabel = computed(() => {
     <span class="text-lg font-semibold text-text capitalize">{{ formattedMonth }}</span>
     <button
       @click="nextMonth"
-      class="px-2 py-1 rounded-lg border-2 border-primary hover:bg-primary-dark transition text-text flex items-center gap-1"
+      class="px-2 py-1 rounded-lg border-2 border-primary hover:bg-primary-dark hover:border-primary-dark transition text-text flex items-center gap-1"
     >
       <span class="hidden sm:inline capitalize">{{ nextLabel.full }}</span>
       <span class="inline sm:hidden capitalize">{{ nextLabel.short }}</span>

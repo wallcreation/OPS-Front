@@ -94,9 +94,9 @@ onMounted(() => {
           </button>
         </section>
         <!-- Email et équipe -->
-        <section class="flex items-center px-1">
-          <p class="hidden md:inline">{{ operator.email }}</p>
-          <p class="hidden md:inline text-primary">
+        <section class="flex items-center px-1 w-full overflow-hidden overflow-x-auto">
+          <p class="">{{ operator.email }}</p>
+          <p class="text-primary">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256">
               <g fill="currentColor">
                 <path d="M176 128a48 48 0 1 1-48-48a48 48 0 0 1 48 48" opacity="0.2" />
@@ -106,7 +106,7 @@ onMounted(() => {
           </p>
           <RouterLink
             :to="{ name: 'team-info', params: { id: team.id } }"
-            class="underline hover:text-primary-dark"
+            class="text-nowrap underline hover:text-primary-dark"
           >
             {{ team.name }}
           </RouterLink>
@@ -555,13 +555,28 @@ onMounted(() => {
           </div>
         </div>
       </section>
-      <div class="hidden md:inline md:col-span-2 bg-surface border-2 border-border rounded-xl text-center">
-        <di v-for="(stats, accountId) in operator.current_stat" :key="accountId" class="me-1 flex gap-1 items-center bg-muted/5 rounded">
-          <p>{{ stores.getAccountById(accountId)?.name }}</p>
-          <p>{{ stats.entry_start }}</p>
-          <sup>{{ stats.stop_start }}</sup>
-        </di>
-      </div>
+      <section class="hidden md:inline md:col-span-2 bg-surface border-2 border-border rounded-xl">
+        <div
+          v-if="Object.keys(operator.current_stat || {}).length > 0"
+          class="w-full h-full flex items-center justify-center gap-2"
+        >
+          <di
+            v-for="(stats, accountId) in operator.current_stat"
+            :key="accountId"
+            class="px-2 py-1 flex gap-1 items-center bg-primary/20 rounded-lg"
+          >
+            <RouterLink :to="{ name: 'account-info', params: { id: accountId } }"
+            class="font-bold underline">
+              {{ stores.getAccountById(accountId)?.name }}:
+            </RouterLink>
+            <p>{{ stats.entry_start }}</p>
+            <sup>{{ stats.stop_start }}</sup>
+          </di>
+        </div>
+        <div v-else class="w-full h-full flex items-center justify-center">
+          <p class="px-2 py-1 bg-muted/10 rounded-lg">Aucune stats en cours.</p>
+        </div>
+      </section>
       <div class="col-span-2">
         <MonthSelector @update:month="monthChanged" class="" />
       </div>

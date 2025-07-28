@@ -11,9 +11,9 @@ const stores = useAppStore()
 const accounts = computed(() => stores.accounts)
 async function foo() {
   const notification = useNotificationStore()
-  notification.notify("Mise à jour de la liste des comptes")
-  const [res,err] = await safeCall(getAccounts())
-  if(res) {
+  notification.notify('Mise à jour de la liste des comptes')
+  const [res, err] = await safeCall(getAccounts())
+  if (res) {
     stores.setAccounts(res)
   }
 }
@@ -23,9 +23,7 @@ onMounted(async () => {
 </script>
 <template>
   <div class="w-full h-full p-1 flex flex-col">
-    <div
-      class="p-1 flex justify-between items-center"
-    >
+    <div class="p-1 flex justify-between items-center">
       <h1 class="text-xl font-bold text-primary">Liste des comptes</h1>
       <button
         @click="showAccountAdd = true"
@@ -43,13 +41,17 @@ onMounted(async () => {
     <div v-if="loading" class="flex-grow p-5 flex gap-2 items-center justify-center">
       <p class="animate-bounce">Chargement des comptes...</p>
     </div>
-    <div v-else class="p-2 grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 overflow-auto">
+    <div
+      v-else
+      class="p-2 grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 overflow-auto"
+    >
       <AccountCard
         v-for="account in accounts"
         :id="account.id"
         :name="account.name"
+        :key="account.id"
       />
     </div>
   </div>
-  <AccountAdd v-if="showAccountAdd" :teams="stores.teams"  @close="showAccountAdd = false"/>
+  <AccountAdd v-if="showAccountAdd" :teams="stores.teams" @close="showAccountAdd = false" />
 </template>

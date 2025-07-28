@@ -31,7 +31,7 @@ const delaccount = async () => {
     </h2>
     <p class="text-error underline animate-pulse">Suppression</p>
   </div>
-  <div v-else class="bg-surface rounded-lg border-2 border-border hover:border-primary p-2">
+  <div v-else class="group bg-surface rounded-lg border-2 border-border hover:border-primary p-2">
     <div class="flex justify-between items-center">
       <RouterLink
         :to="{ name: 'account-info', params: { id: id } }"

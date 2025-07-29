@@ -63,8 +63,8 @@ async function foo() {
 </script>
 
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-md p-4">
-    <div class="p-4 bg-surface border-2 border-border rounded-lg w-full max-w-md space-y-2">
+  <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md p-4">
+    <div class="p-4 bg-surface border-2 border-border rounded-lg space-y-2">
       <div class="flex justify-between items-center">
         <h2 class="text-xl font-semibold text-center text-primary">Modifier l'opérateur</h2>
         <button @click="emit('close')" class="text-error hover:text-error-dark">
@@ -215,7 +215,7 @@ async function foo() {
             type="button"
             v-if="step > 0"
             @click="prevStep"
-            class="px-2 flex gap-1 outline-2 outline-primary outline-offset-2 rounded hover:bg-primary-dark hover:outline-primary-dark"
+            class="px-2 py-1 flex gap-1 border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
               <g
@@ -237,7 +237,7 @@ async function foo() {
             type="button"
             v-if="step < 2"
             @click="nextStep"
-            class="ml-auto px-2 flex gap-1 outline-2 outline-primary outline-offset-2 rounded hover:bg-primary-dark hover:outline-primary-dark"
+            class="ml-auto px-2 py-1 flex gap-1 border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
           >
             Suivant
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -259,16 +259,18 @@ async function foo() {
             v-if="step === 2"
             type="submit"
             :disabled="loading"
-            class="ml-auto px-2 outline-2 outline-primary outline-offset-2 rounded hover:bg-primary-dark hover:outline-primary-dark"
+            class="ml-auto px-2 py-1 border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
             :class="loading ? 'animate-pulse' : ''"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" class="inline" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m9 16.2l-3.5-3.5a.984.984 0 0 0-1.4 0a.984.984 0 0 0 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7a.984.984 0 0 0 0-1.4a.984.984 0 0 0-1.4 0z"/></svg>
             {{ loading ? 'Enregistrement...' : 'Enregistrer' }}
           </button>
         </div>
       </form>
-      <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-1">
+      <hr class="w-full bg-border h-0.5 rounded border-none" />
+      <div class="px-5 grid grid-cols-1 md:grid-cols-2 gap-1">
         <button
-          class="m-1 p-1 flex items-center justify-center text-sm outline-2 outline-offset-2 outline-warning rounded hover:bg-warning-dark hover:outline-warning-dark"
+          class="p-1 flex gap-1 items-center justify-center text-sm border-2 border-warning rounded-lg hover:bg-warning-dark hover:border-warning-dark"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48">
             <path
@@ -277,10 +279,9 @@ async function foo() {
             />
           </svg>
           Bloquer
-          <span class="hidden sm:inline"> l'opérateur</span>
         </button>
         <button
-          class="m-1 p-1 flex items-center justify-center text-sm outline-2 outline-offset-2 outline-primary rounded hover:bg-primary-dark hover:outline-primary-dark"
+          class="p-1 flex gap-1 items-center justify-center text-sm border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
         >
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">
           <path
@@ -294,7 +295,7 @@ async function foo() {
           Régénérer le code
         </button>
         <button
-          class="m-1 p-1 flex items-center justify-center sm:col-span-2 text-sm outline-2 outline-offset-2 outline-error rounded hover:bg-error-dark hover:outline-error-dark"
+          class="p-1 flex gap-1 items-center justify-center sm:col-span-2 text-sm border-2 border-error rounded-lg hover:bg-error-dark hover:border-error-dark"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -308,7 +309,6 @@ async function foo() {
             />
           </svg>
           Supprimer
-          <span class="hidden sm:inline"> l'opérateur</span>
         </button>
       </div>
     </div>

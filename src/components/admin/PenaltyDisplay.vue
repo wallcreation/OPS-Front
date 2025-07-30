@@ -29,7 +29,7 @@ function closeModal() {
 </script>
 
 <template>
-  <div v-if="penalties" class="grid grid-cols-1 md:grid-cols-2 space-y-3">
+  <div v-if="Object.keys(penalties || {}).length" class="grid grid-cols-1 md:grid-cols-2 space-y-3">
     <div v-for="(penaltyList, date) in penalties" :key="date">
       <h2 class="text-xl font-semibold text-muted mb-1">
         {{ new Date(date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long' }) }}

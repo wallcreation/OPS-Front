@@ -26,7 +26,7 @@ onMounted(async () => {
           v-for="team in data.teams"
           :key="team.id"
           :to="{ name: 'team-info', params: { id: team.id } }"
-          class="p-1 text-nowrap border-2 border-border rounded-lg hover:border-primary hover:text-primary"
+          class="p-1 text-sm text-nowrap border-2 border-border rounded-lg hover:border-primary hover:text-primary"
         >
           {{ team.name }}
         </RouterLink>
@@ -42,7 +42,7 @@ onMounted(async () => {
           v-for="operator in data.operators"
           :key="operator.id"
           :to="{ name: 'operator-info', params: { id:operator.id } }"
-          class="p-1 text-nowrap border-2 border-border rounded-lg hover:border-primary hover:text-primary"
+          class="p-1 text-sm text-nowrap border-2 border-border rounded-lg hover:border-primary hover:text-primary"
         >
           {{ operator.fname }}
         </RouterLink>
@@ -58,7 +58,7 @@ onMounted(async () => {
           v-for="account in data.accounts"
           :key="account.id"
           :to="{ name: 'account-info', params: { id: account.id} }"
-          class="p-1 text-nowrap border-2 border-border rounded-lg hover:border-primary hover:text-primary"
+          class="p-1 text-sm text-nowrap border-2 border-border rounded-lg hover:border-primary hover:text-primary"
         >
           {{ account.name }}
         </RouterLink>

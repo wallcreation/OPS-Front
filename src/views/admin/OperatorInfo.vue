@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
-import { getOperatorStats, getOperatorPenalties, safeCall } from '@/api'
+import { getOperatorStats, getOperatorPenalties, safeCall, getOperator } from '@/api'
 import MonthSelector from '@/components/utils/MonthSelector.vue'
 import OperatorEdit from '@/components/admin/OperatorEdit.vue'
 import PenaltyDisplay from '@/components/admin/PenaltyDisplay.vue'
@@ -25,7 +25,7 @@ const penalties_summaries = ref({})
 const selectedMonth = ref(dayjs().format('YYYY-MM')) // Mois sélectionné (par défaut : mois courant)
 
 // Fonction appelée lors du changement de mois
-const monthChanged = async (month) => {
+async function monthChanged(month) {
   selectedMonth.value = month
   const data = {
     operator_id: operatorid,
@@ -57,20 +57,25 @@ const showstatadd = ref(false) // Affichage du modal d'ajout de stat
 const showpenality = ref(false) // Affichage du modal d'ajout de pénalité
 
 // Fonction pour ajouter une stat (ferme la modale)
-const addStat = () => {
+function addStat() {
   console.log('Ajouter stat !')
   showstatadd.value = false
 }
 
+async function reloadOp() {
+  const [res,err] = await safeCall(getOperator(operatorid))
+  if (res) stores.updateOperatorLocal(res)
+}
 // Fonction pour ajouter une pénalité (ferme la modale)
-const addPenality = () => {
+function addPenality() {
   console.log('Ajouter stat !')
   showpenality.value = false
 }
 
 // Au montage du composant, on charge les stats du mois courant
-onMounted(() => {
-  monthChanged(selectedMonth.value)
+onMounted(async () => {
+  await reloadOp()
+  await monthChanged(selectedMonth.value)
 })
 </script>
 <template>
@@ -576,7 +581,7 @@ onMounted(() => {
           v-if="Object.keys(operator.current_stat || {}).length > 0"
           class="w-full h-full flex items-center justify-center gap-2"
         >
-          <di
+          <div
             v-for="(stats, accountId) in operator.current_stat"
             :key="accountId"
             class="px-2 py-1 flex gap-1 items-center bg-primary/20 rounded-lg"
@@ -589,7 +594,7 @@ onMounted(() => {
             </RouterLink>
             <p>{{ stats.entry_start }}</p>
             <sup>{{ stats.stop_start }}</sup>
-          </di>
+          </div>
         </div>
         <div v-else class="w-full h-full flex items-center justify-center">
           <p class="px-2 py-1 bg-warning-dark/50  rounded-lg">Aucune stats en cours.</p>

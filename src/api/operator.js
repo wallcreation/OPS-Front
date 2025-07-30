@@ -8,6 +8,10 @@ export function deleteOperator(id) {
     return api.delete(`/admin/operator/${id}`)
 }
 
+export function getOperator(id) {
+    return api.get(`/admin/operator/${id}`)
+}
+
 export function getOperators() {
     return api.get('/admin/operators')
 }

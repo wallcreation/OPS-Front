@@ -10,6 +10,7 @@ import OperatorEdit from '@/components/admin/OperatorEdit.vue'
 import PenaltyDisplay from '@/components/admin/PenaltyDisplay.vue'
 import StatDisplay from '@/components/admin/StatDisplay.vue'
 import WorkAt from '@/components/utils/WorkAt.vue'
+import PenaltyAdd from '@/components/admin/PenaltyAdd.vue'
 
 // Récupération des informations de la route et du store
 const route = useRoute()
@@ -24,24 +25,18 @@ const stats_summaries = ref({})
 const penalties = ref({}) // Stocke les pénalités récupérées
 const penalties_summaries = ref({})
 const selectedMonth = ref(dayjs().format('YYYY-MM')) // Mois sélectionné (par défaut : mois courant)
+// Etats pour la gestion des modales et du type de champ mot de passe
+const passtype = ref('password') // Type du champ mot de passe (text/password)
+const showopedit = ref(false) // Affichage du modal d'édition opérateur
+const showstatadd = ref(false) // Affichage du modal d'ajout de stat
+const showpenality = ref(false) // Affichage du modal d'ajout de pénalité
 
-// Fonction appelée lors du changement de mois
-async function monthChanged(month) {
-  selectedMonth.value = month
+async function getPenalties() {
+  // Appel API sécurisé pour récupérer les pénalités
   const data = {
     operator_id: operatorid,
     date: selectedMonth.value,
   }
-  // Appel API sécurisé pour récupérer les stats
-  const [res, err] = await safeCall(getOperatorStats(data))
-  if (err) {
-    console.error('Error fetching stats:', err)
-    return
-  }
-  stats.value = res.stats
-  stats_summaries.value = res.summary
-
-  // Appel API sécurisé pour récupérer les pénalités
   const [penRes, penErr] = await safeCall(getOperatorPenalties(data))
   if (penErr) {
     console.error('Error fetching penalties:', penErr)
@@ -51,11 +46,27 @@ async function monthChanged(month) {
   penalties_summaries.value = penRes.summary
 }
 
-// Etats pour la gestion des modales et du type de champ mot de passe
-const passtype = ref('password') // Type du champ mot de passe (text/password)
-const showopedit = ref(false) // Affichage du modal d'édition opérateur
-const showstatadd = ref(false) // Affichage du modal d'ajout de stat
-const showpenality = ref(false) // Affichage du modal d'ajout de pénalité
+async function getStats() {
+  // Appel API sécurisé pour récupérer les stats
+  const data = {
+    operator_id: operatorid,
+    date: selectedMonth.value,
+  }
+  const [res, err] = await safeCall(getOperatorStats(data))
+  if (err) {
+    console.error('Error fetching stats:', err)
+    return
+  }
+  stats.value = res.stats
+  stats_summaries.value = res.summary
+}
+
+// Fonction appelée lors du changement de mois
+async function monthChanged(month) {
+  selectedMonth.value = month
+  await getStats()
+  await getPenalties()
+}
 
 // Fonction pour ajouter une stat (ferme la modale)
 function addStat() {
@@ -64,7 +75,7 @@ function addStat() {
 }
 
 async function reloadOp() {
-  const [res,err] = await safeCall(getOperator(operatorid))
+  const [res, err] = await safeCall(getOperator(operatorid))
   if (res) stores.updateOperatorLocal(res)
 }
 // Fonction pour ajouter une pénalité (ferme la modale)
@@ -226,7 +237,7 @@ onMounted(async () => {
           </div>
         </div>
         <div v-else class="w-full h-full flex items-center justify-center">
-          <p class="px-2 py-1 bg-warning-dark/50  rounded-lg">Aucune stats en cours.</p>
+          <p class="px-2 py-1 bg-warning-dark/50 rounded-lg">Aucune stats en cours.</p>
         </div>
       </section>
       <div class="col-span-2">
@@ -298,44 +309,17 @@ onMounted(async () => {
     </div>
   </div>
   <!-- Modale d'ajout de pénalité -->
-  <div
+  <PenaltyAdd
     v-if="showpenality"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-sm"
-  >
-    <div class="w-full max-w-lg mx-4 bg-surface border border-border rounded-xl p-4">
-      <h2 class="text-xl font-bold text-text mb-4">Ajouter une pénalité</h2>
-      <form class="grid gap-3">
-        <!-- Champ raison -->
-        <input
-          type="text"
-          placeholder="Raison"
-          class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none bg-transparent px-2 py-1"
-        />
-        <!-- Champ montant -->
-        <input
-          type="number"
-          placeholder="Montant"
-          class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none bg-transparent px-2 py-1"
-        />
-        <div class="flex justify-end gap-3 mt-2">
-          <!-- Bouton pour ajouter la pénalité -->
-          <button
-            class="text-primary hover:border-b-2 hover:border-primary-light"
-            @click.prevent="addPenality"
-          >
-            Ajouter
-          </button>
-          <!-- Bouton pour fermer la modale -->
-          <button
-            class="text-error hover:border-b-2 hover:border-error"
-            @click="showpenality = false"
-          >
-            Annuler
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
+    :operatorid="operatorid"
+    @created="
+      getPenalties({
+        operator_id: operatorid,
+        date: selectedMonth,
+      })
+    "
+    @close="showpenality = false"
+  />
 </template>
 <style scoped>
 *::-webkit-scrollbar {

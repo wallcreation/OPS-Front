@@ -20,11 +20,11 @@ export const useAppStore = defineStore('app', () => {
   }
   function addTeam(team) {
     teams.value.push(team)
-    notification.notify("Equipe crée", "success")
+    notification.notify("Équipe crée", "success")
   }
   function removeTeam(teamId) {
     teams.value = teams.value.filter(t => t.id !== teamId)
-    notification.notify("Equipe supprimée", "success")
+    notification.notify("Équipe supprimée", "success")
   }
   function updateTeamLocal(updatedTeam) {
     const index = teams.value.findIndex(t => t.id === updatedTeam.id)

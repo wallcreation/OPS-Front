@@ -88,7 +88,7 @@ const regenerate = async () => {
           />
         </svg>
       </span>
-      <span class="hidden md:inline">Equipes</span>
+      <span class="hidden md:inline">Équipes</span>
     </RouterLink>
     <RouterLink
       to="/admin/operators"

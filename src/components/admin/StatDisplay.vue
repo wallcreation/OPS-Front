@@ -1,4 +1,5 @@
 <script setup>
+import { deleteStat, safeCall } from '@/api'
 import { ref } from 'vue'
 
 const props = defineProps({
@@ -15,6 +16,7 @@ const props = defineProps({
 const showModal = ref(false)
 const selectedStat = ref(null)
 const selectedDate = ref('')
+const deleting = ref(false)
 
 function openModal(stat, date) {
   selectedStat.value = stat
@@ -26,6 +28,35 @@ function closeModal() {
   showModal.value = false
   selectedStat.value = null
 }
+
+async function removeStat(statid) {
+  deleting.value = true
+  const [res, err] = await safeCall(deleteStat(statid))
+  if (err) {
+    deleting.value = false
+    return
+  }
+
+  try {
+    for (const [date, statArray] of Object.entries(props.stats)) {
+      const index = statArray.findIndex((stat) => stat.id === statid)
+
+      if (index !== -1) {
+        statArray.splice(index, 1)
+        if (statArray.length === 0) {
+          delete props.stats[date]
+        }
+        break
+      }
+    }
+  } catch (error) {
+    console.error('Erreur de suppression :', error)
+  }
+
+  deleting.value = false
+  closeModal()
+}
+
 </script>
 
 <template>
@@ -153,9 +184,12 @@ function closeModal() {
           <sup>{{ selectedStat?.stop_total }}</sup>
         </p>
         <button
+          @click="removeStat(selectedStat.id)"
+          :disabled="deleting"
           class="col-span-2 px-3 py-1 bg-error text-white rounded-lg shadow-sm hover:bg-error-dark"
+          :class="deleting ? 'animate-pulse' : ''"
         >
-          Supprimer
+          {{ deleting ? 'Suppression' : 'Supprimer' }}
         </button>
       </div>
     </div>

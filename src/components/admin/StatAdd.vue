@@ -1,37 +1,44 @@
 <script setup>
-import { addOperatorPenalty, safeCall } from '@/api'
+import { addOperatorStat, safeCall } from '@/api'
 import { useNotificationStore } from '@/stores/notification'
 import { ref } from 'vue'
 
+const props = defineProps({
+  operatorid: {
+    type: String,
+    required: true,
+  },
+})
 const emit = defineEmits(['close', 'created'])
-const props = defineProps({ operatorid: { type: String, required: true } })
+
 const amount = ref(0)
-const reason = ref('')
 const loading = ref(false)
-const notification = useNotificationStore()
-async function addPenality() {
+
+async function addStat() {
   loading.value = true
+  const notification = useNotificationStore()
   const data = {
-    operator_id: props.operatorid,
+    operatorid: props.operatorid,
     amount: amount.value,
-    reason: reason.value,
   }
-  const [res, err] = await safeCall(addOperatorPenalty(data))
+  const [res, err] = await safeCall(addOperatorStat(data))
   if (res) {
-    notification.notify('Pénalités créé', 'success')
+    notification.notify('Statistiques créé.', 'success')
     emit('created')
     emit('close')
   } else {
-    notification.notify('Ereur lors de la création', 'error')
+    loading.value = false
+    notification.notify('Error lors de la création.', 'error')
     emit('close')
   }
+  loading.value = false
 }
 </script>
 <template>
   <div class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 backdrop-blur-sm">
     <div class="w-full max-w-lg mx-4 bg-surface border border-border rounded-xl p-4">
       <div class="mb-2 flex items-center justify-between">
-        <h2 class="text-xl font-bold text-text">Ajouter une pénalité</h2>
+        <h2 class="text-xl font-bold text-text">Ajouter une stat</h2>
         <button @click="emit('close')" class="text-error hover:text-error-dark">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <path
@@ -45,30 +52,19 @@ async function addPenality() {
           </svg>
         </button>
       </div>
-      <form class="mt-1 grid grid-cols-1 sm:grid-cols-2 gap-2">
-        <!-- Champ raison -->
-        <input
-          v-model="reason"
-          type="text"
-          placeholder="Raison"
-          required
-          class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none bg-transparent"
-        />
+      <form class="mt-1 flex flex-col gap-1">
         <!-- Champ montant -->
         <input
-          v-model="amount"
           type="number"
           placeholder="Montant"
-          required
-          class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none bg-transparent"
+          class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none bg-transparent px-2 py-1"
         />
-        <div class="sm:col-span-2 flex justify-end gap-3 mt-2">
-          <!-- Bouton pour ajouter la pénalité -->
+        <div class="flex justify-end gap-3 mt-2">
           <button
             class="px-2 py-1 border-2 rounded-lg border-primary hover:border-primary-dark hover:bg-primary-dark"
             :disabled="loading"
             :class="loading ? 'animate-pulse' : ''"
-            @click.prevent="addPenality"
+            @click.prevent="addStat"
           >
             Ajouter
           </button>

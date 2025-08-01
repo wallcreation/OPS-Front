@@ -1,24 +1,29 @@
 <script setup>
 import dayjs from 'dayjs'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref,  } from 'vue'
 import { useSessionStore } from '@/stores/session'
 import { useOperatorStore } from '@/stores/operator'
-import { safeCall, getOpsStats, getOpsPenalties } from '@/api'
+import { safeCall, getOpsStats, getOpsPenalties, operatorMe } from '@/api'
 import MonthSelector from '@/components/utils/MonthSelector.vue'
 import StatDisplay from '@/components/ops/StatDisplay.vue'
 import PenaltyDisplay from '@/components/ops/PenaltyDisplay.vue'
 import WorkAt from '@/components/utils/WorkAt.vue'
-
+import { useNotificationStore } from '@/stores/notification'
+import { deleteOpsCurrentStat } from '@/api'
+const notification = useNotificationStore()
 const sessionStore = useSessionStore()
 const stores = useOperatorStore()
 const selectedMonth = ref(dayjs().format('YYYY-MM'))
-const profile = sessionStore.user
+const profile = computed(() => sessionStore.user.value)
 const statsres = ref({})
 const statssum = ref({})
 const penaltiesres = ref({})
 const penaltiessum = ref({})
-const monthChanged = async (month) => {
-  console.log('month: ', month)
+const currentStatSelected = ref(null)
+
+// Functions
+async function monthChanged(month) {
+  notification.notify('Chargement des données', 'info')
   selectedMonth.value = month
   const data = {
     date: selectedMonth.value,
@@ -40,17 +45,44 @@ const monthChanged = async (month) => {
   penaltiessum.value = penRes.summary
 }
 
+async function me() {
+  const [res, err] = await safeCall(operatorMe())
+  if (err) {
+    console.error('Error fetching me:', err)
+    return
+  }
+  sessionStore.user.value = res
+}
+
+async function selectCurrentStat(accountId) {
+  currentStatSelected.value = accountId
+}
+
+async function deleteCurrentStat() {
+  const [res, err] = await safeCall(deleteOpsCurrentStat(currentStatSelected.value))
+  if (err) {
+    console.error('Error deleting stat:', err)
+    return
+  }
+  notification.notify('Stat supprimé.', 'success')
+  currentStatSelected.value = null
+  await me()
+}
 onMounted(async () => {
+  await me()
   await monthChanged(selectedMonth.value)
   await stores.fetchAllAccounts()
 })
 </script>
 <template>
   <div class="w-full h-full flex flex-col py-1">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-1 pb-1">
-      <section class="md:col-span-2 p-2 bg-surface rounded-lg border-2 border-border">
-        <h1 class="text-5xl text-primary">{{ profile.lname }} {{ profile.fname }}</h1>
-        <div class="flex gap-1">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-1 pb-1">
+      <section class="col-span-2 p-2 bg-surface rounded-lg border-2 border-border">
+        <h1 class="text-5xl text-primary">
+          {{ profile.lname }}
+          <span class="hidden sm:inline">{{ profile.fname }}</span>
+        </h1>
+        <div class="w-full px-1 flex gap-1 items-center overflow-hidden overflow-x-auto">
           <p>{{ profile.email }}</p>
           <p class="text-primary">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256">
@@ -60,7 +92,7 @@ onMounted(async () => {
               </g>
             </svg>
           </p>
-          <p>{{ profile.team_name }}</p>
+          <p class="text-nowrap">{{ profile.team_name }}</p>
           <p class="text-primary">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256">
               <g fill="currentColor">
@@ -81,39 +113,65 @@ onMounted(async () => {
           <p>{{ profile.code }}</p>
         </div>
       </section>
-      <section class="bg-surface p-2 border-2 border-border rounded-lg">
-        <div class="flex justify-between mb-1">
-          <h1 class="text-primary font-bold underline">Statistiques</h1>
-        </div>
-        <!-- Résumé des stats (à compléter) -->
-        <section class="flex flex-nowrap overflow-x-auto sm:flex-wrap sm:overflow-auto gap-1">
-          <div v-for="(data, weeks) in statssum" class="bg-surface flex gap-1 text-sm">
-            <h3 class="uppercase font-bold">{{ weeks }}:</h3>
-            <p class="text-nowrap">
-              {{ data.total_entry }}
-              <sup>{{ data.total_stop }}</sup>
-            </p>
+      <div class="col-span-2 grid grid-cols-2 gap-1">
+        <section class="bg-surface p-2 border-2 border-border rounded-lg">
+          <div class="flex justify-between mb-1">
+            <h1 class="text-primary font-bold underline">Statistiques</h1>
+          </div>
+          <!-- Résumé des stats (à compléter) -->
+          <section class="flex flex-nowrap overflow-x-auto sm:flex-wrap sm:overflow-auto gap-1">
+            <div v-for="(data, weeks) in statssum" class="bg-surface flex gap-1 text-sm">
+              <h3 class="uppercase font-bold">{{ weeks }}:</h3>
+              <p class="text-nowrap">
+                {{ data.total_entry }}
+                <sup>{{ data.total_stop }}</sup>
+              </p>
+            </div>
+          </section>
+        </section>
+        <section class="bg-surface p-2 border-2 border-border rounded-lg overflow-hidden">
+          <div class="flex justify-between mb-1">
+            <h1 class="text-error font-bold underline">Pénalités</h1>
+          </div>
+          <div class="flex flex-nowrap overflow-x-auto sm:flex-wrap sm:overflow-auto gap-1 overflow-x-auto">
+            <div v-for="(amount, weeks) in penaltiessum" class="bg-surface flex gap-1 text-sm">
+              <h3 class="uppercase font-bold">{{ weeks }}:</h3>
+              <p>
+                {{ amount }}
+              </p>
+            </div>
           </div>
         </section>
-      </section>
-      <section class="bg-surface p-2 border-2 border-border rounded-lg">
-        <div class="flex justify-between mb-1">
-          <h1 class="text-error font-bold underline">Pénalités</h1>
-        </div>
-        <div class="flex flex-nowrap overflow-x-auto sm:flex-wrap sm:overflow-auto gap-1">
-          <div v-for="(amount, weeks) in penaltiessum" class="bg-surface flex gap-1 text-sm">
-            <h3 class="uppercase font-bold">{{ weeks }}:</h3>
-            <p>
-              {{ amount }}
-            </p>
+      </div>
+      <div class="col-span-2 md:col-span-4 grid grid-cols-2 gap-1">
+        <section class="bg-surface rounded-lg border-2 border-border p-1">
+          <div
+            v-if="Object.keys(profile.current_stat || {}).length > 0"
+            class="w-full h-full flex items-center justify-center gap-2"
+          >
+            <div
+              v-for="(stats, accountId) in profile.current_stat"
+              :key="accountId"
+              @click="selectCurrentStat(accountId)"
+              class="px-2 py-1 flex gap-1 items-center bg-primary/20 rounded-lg"
+            >
+              <RouterLink
+                :to="{ name: 'account-info', params: { id: accountId } }"
+                class="font-bold underline"
+              >
+                {{ stores.getAccountById(accountId)?.name }}:
+              </RouterLink>
+              <p>{{ stats.entry_start }}</p>
+              <sup>{{ stats.stop_start }}</sup>
+            </div>
           </div>
+          <div v-else class="w-full h-full flex items-center justify-center">
+            <p class="px-2 py-1 bg-warning-dark/50 rounded-lg">Aucune stats en cours.</p>
+          </div>
+        </section>
+        <div class="">
+          <MonthSelector @update:month="monthChanged" />
         </div>
-      </section>
-      <section class="md:col-span-2 p-2 bg-surface rounded-lg border-2 border-border">
-        Stats en cours
-      </section>
-      <div class="md:col-span-2">
-        <MonthSelector @update:month="monthChanged" />
       </div>
     </div>
     <div class="w-full flex-grow overflow-hidden sm:flex sm:gap-1 space-y-1 sm:space-y-0">
@@ -138,4 +196,61 @@ onMounted(async () => {
       </div>
     </div>
   </div>
+  <!-- Display selected current stat with a button to delete it -->
+  <div
+    v-if="currentStatSelected"
+    class="fixed inset-0 backdrop-blur-md flex flex-col items-center justify-center z-50"
+  >
+    <div class="bg-surface p-2 border-2 border-primary rounded-lg">
+      <div class="flex items-center justify-between w-full">
+        <h2 class="text-primary text-xl font-bold">Statistiques en cours</h2>
+        <button @click="currentStatSelected = null" class="text-error hover:text-error-dark text-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 12L7 7m5 5l5 5m-5-5l5-5m-5 5l-5 5"
+            />
+          </svg>
+        </button>
+      </div>
+      <div class="m-2 grid grid-cols-1 sm:grid-cols-2 gap-1 items-center">
+        <p>
+          Compte :
+          <span class="font-semibold">
+            {{ stores.getAccountById(currentStatSelected)?.name }}
+          </span>
+        </p>
+        <p>
+          Débuté le :
+          <span class="font-semibold">
+            {{ new Date(profile.current_stat[currentStatSelected].created_at).toLocaleString() }}
+          </span>
+        </p>
+        <p>
+          Entrant :
+          <span class="font-semibold">
+            {{ profile.current_stat[currentStatSelected].entry_start }}
+          </span>
+        </p>
+        <p>
+          Stop :
+          <span class="font-semibold">
+            {{ profile.current_stat[currentStatSelected].stop_start }}
+          </span>
+        </p>
+        <button @click="deleteCurrentStat" class="sm:col-span-2 px-2 py-1 border-2 border-error rounded-lg hover:bg-error-dark hover:border-error-dark">
+          Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
+<style scoped>
+*::-webkit-scrollbar {
+  display: none;
+}
+</style>

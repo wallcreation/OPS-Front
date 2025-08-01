@@ -25,6 +25,10 @@ export function deleteStat(id) {
     return api.delete(`/admin/stat/${id}`)
 }
 
+export function deleteOpsCurrentStat(id) {
+  return api.delete(`/ops/current_stat/${id}`)
+}
+
 export function generateFacture(data) {
   return api.get('/admin/stats/summary/generate', { params: data })
 }

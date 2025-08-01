@@ -77,16 +77,27 @@ function closeModal() {
   <!-- ✅ Modale -->
   <div
     v-if="showModal"
-    class="fixed inset-0 z-50 bg-black/40 backdrop-blur-md flex items-center justify-center"
+    class="fixed inset-0 z-50 backdrop-blur-md flex items-center justify-center"
     @click.self="closeModal"
   >
-    <div class="bg-surface border border-warning rounded-lg p-4 w-full max-w-md">
+  <div class="bg-surface border border-error rounded-lg p-4">
       <div class="flex justify-between items-center mb-2">
-        <h2 class="text-xl font-bold text-warning">Détails de la pénalité</h2>
-        <button @click="closeModal" class="text-error hover:text-error-dark text-xl">×</button>
+        <h2 class="text-xl font-bold text-error">Détails de la pénalité</h2>
+        <button @click="closeModal" class="text-error hover:text-error-dark text-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 12L7 7m5 5l5 5m-5-5l5-5m-5 5l-5 5"
+            />
+          </svg>
+        </button>
       </div>
 
-      <div class="space-y-2 text-text">
+      <div class="grid px-2 gap-1 grid-cols-1 md:grid-cols-2 space-y-2 text-text">
         <p>
           <span class="font-semibold">Opérateur :</span>
           {{ session.user.lname }}
@@ -97,21 +108,12 @@ function closeModal() {
         </p>
         <p>
           <span class="font-semibold">Raison :</span>
-          {{ selectedPenalty?.raison }}
+          {{ selectedPenalty?.reason }}
         </p>
         <p>
           <span class="font-semibold">Date :</span>
           {{ new Date(selectedPenalty?.created_at).toLocaleString('fr-FR') }}
         </p>
-      </div>
-
-      <div class="mt-3 text-right">
-        <button
-          @click="closeModal"
-          class="px-3 py-1 bg-warning text-white rounded hover:bg-warning-dark"
-        >
-          Fermer
-        </button>
       </div>
     </div>
   </div>

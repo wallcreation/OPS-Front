@@ -11,14 +11,6 @@ const emit = defineEmits(['created', 'close'])
 
 const step = ref(1)
 
-const nextStep = () => {
-  if (step.value < 3) step.value++
-}
-
-const prevStep = () => {
-  if (step.value > 1) step.value--
-}
-
 // Champs du formulaire
 const lname = ref('')
 const fname = ref('')
@@ -29,13 +21,21 @@ const workat = ref({ show: false, choice: 'Jour' })
 
 
 // Functions
-const closetteamselector = async (choosedteam) => {
+function nextStep() {
+  if (step.value < 3) step.value++
+}
+
+function prevStep() {
+  if (step.value > 1) step.value--
+}
+
+async function closetteamselector(choosedteam) {
   team.value.teamid = choosedteam.id
   team.value.textvalue = choosedteam.name
   team.value.show = false
 }
 
-const oncreate = async () => {
+async function oncreate() {
   loading.value = true
   if (!lname.value || !fname.value || !email.value || !password.value || !team.value.teamid) {
     error.value = [true, 'Veuillez remplir tous les champs.']
@@ -82,7 +82,7 @@ const oncreate = async () => {
 
       <form @submit.prevent="oncreate">
         <transition name="fade" mode="out-in">
-          <div :key="step" class="mt-4">
+          <div :key="step" class="mt-2">
             <!-- ÉTAPE 1 -->
             <div v-if="step === 1" class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
               <input
@@ -123,7 +123,6 @@ const oncreate = async () => {
 
             <!-- ÉTAPE 3 -->
             <div v-else-if="step === 3" class="space-y-2">
-              <h2 class="text-lg font-semibold text-primary-dark">Poste</h2>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
                 <input
                   type="text"
@@ -158,7 +157,7 @@ const oncreate = async () => {
                 v-if="step > 1"
                 type="button"
                 @click="prevStep"
-                class="px-2 py-1 border-2 border-muted rounded-lg hover:border-primary-dark text-text"
+                class="px-2 border-2 border-muted rounded-lg hover:border-primary-dark hover:bg-primary-dark text-text"
               >
                 Retour
               </button>
@@ -168,7 +167,7 @@ const oncreate = async () => {
                   v-if="step < 3"
                   type="button"
                   @click="nextStep"
-                  class="px-2 py-1 border-2 border-primary rounded-lg hover:border-primary-dark text-text"
+                  class="px-2 border-2 border-primary rounded-lg hover:border-primary-dark hover:bg-primary-dark text-text"
                 >
                   Suivant
                 </button>
@@ -177,7 +176,7 @@ const oncreate = async () => {
                   v-else
                   type="submit"
                   :disabled="loading"
-                  class="px-2 outline-2 outline-primary outline-offset-2 rounded hover:bg-primary-dark hover:outline-primary-dark"
+                  class="px-2 border-2 border-primary rounded-lg hover:border-primary-dark hover:bg-primary-dark text-text"
                   :class="loading ? 'animate-pulse' : ''"
                 >
                   {{ loading ? 'Création...' : 'Valider' }}

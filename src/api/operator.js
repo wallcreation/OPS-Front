@@ -21,3 +21,6 @@ export function updateOperator(id, data) {
 export function regenerateCodes() {
     return api.get('/admin/regenerate/codes')
 }
+export function operatorMe() {
+    return api.get('/ops/me')
+}

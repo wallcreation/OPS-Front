@@ -158,7 +158,7 @@ async function removeStat(statid) {
         </button>
       </div>
       <div
-        class="grid grid-cols-2 gap-1 space-x-2 px-2 items-center justify-center text-text text-nowrap"
+        class="grid grid-cols-1 sm:grid-cols-2 gap-1 space-x-2 px-2 items-center justify-center text-text text-nowrap"
       >
         <p>
           <span class="font-semibold">Du :</span>
@@ -178,7 +178,11 @@ async function removeStat(statid) {
           {{ selectedStat?.entry_end }}
           <sup>{{ selectedStat?.stop_end }}</sup>
         </p>
-        <p class="col-start-2">
+        <p>
+          Compte :
+          <span>{{ stores.getAccountById(selectedStat?.account_id)?.name }}</span>
+        </p>
+        <p class="">
           <span class="font-semibold">Somme :</span>
           {{ selectedStat?.entry_total }}
           <sup>{{ selectedStat?.stop_total }}</sup>

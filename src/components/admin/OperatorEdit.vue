@@ -39,7 +39,7 @@ function prevStep() {
   if (step.value > 0) step.value--
 }
 
-const closetteamselector = async (choosedteam) => {
+async function closetteamselector(choosedteam) {
   team.value.teamid = choosedteam.id
   team.value.textvalue = choosedteam.name
   team.value.show = false
@@ -65,7 +65,7 @@ async function foo() {
 <template>
   <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md p-4">
     <div class="p-4 bg-surface border-2 border-border rounded-lg space-y-2">
-      <div class="flex justify-between items-center">
+      <div class="flex items-center justify-between">
         <h2 class="text-xl font-semibold text-center text-primary">Modifier l'opérateur</h2>
         <button @click="emit('close')" class="text-error hover:text-error-dark">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -91,18 +91,18 @@ async function foo() {
             class="border-b-2 outline-none border-border focus:border-primary hover:border-primary-dark"
           />
           <div
-            class="grid grid-cols-4 gap-2 border-b-2 border-border focus-within:border-primary hover:border-primary-dark"
+            class="flex justify-between border-b-2 border-border focus-within:border-primary hover:border-primary-dark"
           >
             <input
               :type="passtype"
               v-model="password"
               placeholder="Mot de passe (laisser vide pour ne pas changer)"
-              class="col-span-3 bg-transparent outline-none"
+              class="bg-transparent outline-none"
             />
             <button
               type="button"
               @click="togglePassword"
-              class="place-self-end text-muted hover:text-primary transition-colors"
+              class="text-muted hover:text-primary transition-colors"
             >
               <span v-if="passtype === 'password'">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -215,54 +215,25 @@ async function foo() {
             type="button"
             v-if="step > 0"
             @click="prevStep"
-            class="px-2 py-1 flex gap-1 border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
+            class="px-2 border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-              <g
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-              >
-                <circle cx="3" cy="3" r="3" transform="matrix(-1 0 0 1 22 9)" />
-                <path
-                  d="M2 12h10M2 12c0 .562.438.99 1.314 1.844L4.971 15.5M2 12c0-.562.438-.99 1.314-1.844L4.97 8.5"
-                />
-              </g>
-            </svg>
             Précédent
           </button>
           <button
             type="button"
             v-if="step < 2"
             @click="nextStep"
-            class="ml-auto px-2 py-1 flex gap-1 border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
+            class="ml-auto px-2 border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
           >
             Suivant
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-              <g
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-              >
-                <circle cx="5" cy="12" r="3" />
-                <path
-                  d="M22 12H12m10 0c0 .562-.438.99-1.314 1.844L19.029 15.5M22 12c0-.562-.438-.99-1.314-1.844L19.03 8.5"
-                />
-              </g>
-            </svg>
           </button>
           <button
             v-if="step === 2"
             type="submit"
             :disabled="loading"
-            class="ml-auto px-2 py-1 border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
+            class="ml-auto px-2 border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
             :class="loading ? 'animate-pulse' : ''"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" class="inline" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m9 16.2l-3.5-3.5a.984.984 0 0 0-1.4 0a.984.984 0 0 0 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7a.984.984 0 0 0 0-1.4a.984.984 0 0 0-1.4 0z"/></svg>
             {{ loading ? 'Enregistrement...' : 'Enregistrer' }}
           </button>
         </div>

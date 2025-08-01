@@ -18,7 +18,7 @@ async function addStat() {
   loading.value = true
   const notification = useNotificationStore()
   const data = {
-    operatorid: props.operatorid,
+    operator_id: props.operatorid,
     amount: amount.value,
   }
   const [res, err] = await safeCall(addOperatorStat(data))
@@ -55,6 +55,7 @@ async function addStat() {
       <form class="mt-1 flex flex-col gap-1">
         <!-- Champ montant -->
         <input
+          v-model="amount"
           type="number"
           placeholder="Montant"
           class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none bg-transparent px-2 py-1"
@@ -66,7 +67,7 @@ async function addStat() {
             :class="loading ? 'animate-pulse' : ''"
             @click.prevent="addStat"
           >
-            Ajouter
+            {{ loading ? 'Ajout en cours...' : 'Ajouter' }}
           </button>
         </div>
       </form>

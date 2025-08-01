@@ -63,133 +63,69 @@ onMounted(() => {
 })
 </script>
 <template>
-  <!-- Fond de la page de login avec image et effet de flou -->
-  <div
-    class="h-screen w-screen bg-[url('/loginbg.jpg')] bg-cover bg-center flex items-center justify-center"
-  >
-    <!-- Boîte centrale du formulaire -->
-    <div class="bg-bg/50 backdrop-blur-md rounded-lg text-text p-10 text-center pb-5">
-      <h1 class="text-4xl">OPS</h1>
-      <!-- Message d'erreur affiché si besoin -->
-      <div
-        class="flex items-center justify-center gap-2 text-xs bg-error text-text p-1 rounded-lg my-2"
-        v-show="displayerror"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 12 12">
-          <path
-            fill="currentColor"
-            d="M5.214 1.459a.903.903 0 0 1 1.572 0l4.092 7.169c.348.61-.089 1.372-.787 1.372H1.91c-.698 0-1.135-.762-.787-1.372zM5.5 4.5v1a.5.5 0 0 0 1 0v-1a.5.5 0 0 0-1 0M6 6.75a.75.75 0 1 0 0 1.5a.75.75 0 0 0 0-1.5"
-          />
+  <div class="h-screen w-screen  bg-cover bg-center flex items-center justify-center bg-no-repeat" :style="{ backgroundImage: 'url(/loginbg.jpg)' }">
+    <div class=" backdrop-blur-sm rounded-xl shadow-2xl   max-w-lg p-10 text-center space-y-6 transition-all duration-300 transform hover:scale-105">
+      <div class="flex justify-center mb-6">
+        <img src="../assets/ops.png" alt="Logo" width="170" height="120" class="transition-transform duration-300 hover:rotate-12" />
+      </div>
+      <!-- Logo -->
+
+      <!-- Error Message -->
+      <div v-if="displayerror"
+        class="flex items-center justify-center gap-2 px-4 py-2 text-xs text-text bg-error rounded-lg animate-fade-in-down"
+        role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+          <path fill-rule="evenodd"
+            d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
+            clip-rule="evenodd" />
         </svg>
         <p>{{ errorMessage }}</p>
       </div>
-      <!-- Formulaire de connexion -->
-      <form @submit.prevent="onlogin">
-        <!-- Champ email avec icône -->
-        <div
-          class="flex items-center gap-2 my-5 border-b-2 border-border focus-within:border-primary"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path fill="currentColor" fill-opacity="0" d="M12 11l-8 -5h16l-8 5Z">
-              <animate
-                fill="freeze"
-                attributeName="fill-opacity"
-                begin="0.8s"
-                dur="0.15s"
-                values="0;0.3"
-              />
-            </path>
-            <g
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-            >
-              <path
-                stroke-dasharray="64"
-                stroke-dashoffset="64"
-                d="M4 5h16c0.55 0 1 0.45 1 1v12c0 0.55 -0.45 1 -1 1h-16c-0.55 0 -1 -0.45 -1 -1v-12c0 -0.55 0.45 -1 1 -1Z"
-              >
-                <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="64;0" />
-              </path>
-              <path stroke-dasharray="24" stroke-dashoffset="24" d="M3 6.5l9 5.5l9 -5.5">
-                <animate
-                  fill="freeze"
-                  attributeName="stroke-dashoffset"
-                  begin="0.6s"
-                  dur="0.2s"
-                  values="24;0"
-                />
-              </path>
-            </g>
-          </svg>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Email"
-            required
-            class="ps-1 outline-none bg-transparent"
-            v-model="email"
-          />
+
+      <!-- Login Form -->
+      <form @submit.prevent="onlogin" class="space-y-4">
+
+        <!-- Email Input -->
+        <div class="relative group ">
+          <span class="absolute inset-y-0  left-0 flex items-center pl-3 text-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </span>
+          <input type="email" name="email" id="email" placeholder="Email" required v-model="email"
+            class="w-full px-10 py-2 rounded-lg text-text bg-transparent border-b-2 border-border focus:border-primary outline-none transition-colors duration-300" />
         </div>
-        <!-- Champ mot de passe avec icône pour afficher/masquer -->
-        <div
-          class="flex items-center gap-2 my-5 border-b-2 border-border focus-within:border-primary"
-        >
-          <svg
-            v-if="!showpassword"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            @click="showpassword = !showpassword"
-          >
-            <g fill="none" stroke="currentColor" stroke-width="1.5">
-              <circle cx="12" cy="16" r="2" />
-              <path
-                stroke-linecap="round"
-                d="M6 10V8q0-.511.083-1M18 10V8A6 6 0 0 0 7.5 4.031M11 22H8c-2.828 0-4.243 0-5.121-.879C2 20.243 2 18.828 2 16s0-4.243.879-5.121C3.757 10 5.172 10 8 10h8c2.828 0 4.243 0 5.121.879C22 11.757 22 13.172 22 16s0 4.243-.879 5.121C20.243 22 18.828 22 16 22h-1"
-              />
-            </g>
-          </svg>
-          <svg
-            v-else
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            @click="showpassword = !showpassword"
-          >
-            <g fill="none" stroke="currentColor" stroke-width="1.5">
-              <circle cx="12" cy="16" r="2" />
-              <path
-                stroke-linecap="round"
-                d="M11 22H8c-2.828 0-4.243 0-5.121-.879C2 20.243 2 18.828 2 16s0-4.243.879-5.121C3.757 10 5.172 10 8 10h8c2.828 0 4.243 0 5.121.879C22 11.757 22 13.172 22 16s0 4.243-.879 5.121C20.243 22 18.828 22 16 22h-1M6 10V8q0-.511.083-1m11.728-.5A6.003 6.003 0 0 0 7.528 4"
-              />
-            </g>
-          </svg>
-          <input
-            :type="showpassword ? 'text' : 'password'"
-            name="password"
-            id="password"
-            placeholder="Mot de passe"
-            required
-            class="ps-1 outline-none"
+
+        <!-- Password Input -->
+        <div class="relative group">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-primary cursor-pointer"
+            @click="showpassword = !showpassword">
+            <svg v-if="!showpassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+            </svg>
+          </span>
+          <input :type="showpassword ? 'text' : 'password'" name="password" id="password" placeholder="Mot de passe" required
             v-model="password"
-          />
+            class="w-full px-10 py-2 rounded-lg text-text bg-transparent border-b-2 border-border focus:border-primary outline-none transition-colors duration-300" />
         </div>
-        <!-- Bouton de connexion, désactivé pendant le chargement -->
-        <button
-          type="submit"
-          class="p-2 text-bg bg-primary rounded-lg hover:bg-primary-dark"
-          :class="disablelogin ? 'animate-pulse' : ''"
-          :disabled="disablelogin"
-        >
+
+        <!-- Submit Button -->
+        <button type="submit"
+          class="w-full py-2 mt-2 font-semibold text-bg bg-gradient-to-r from-primary to-primary-dark rounded-lg shadow-md hover:shadow-lg hover:from-primary-dark hover:to-primary transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed"
+          :disabled="disablelogin">
           {{ disablelogin ? 'Connexion...' : 'Se connecter' }}
         </button>
       </form>
+
     </div>
   </div>
 </template>

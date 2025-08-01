@@ -295,6 +295,8 @@ onMounted(async () => {
     "
     @close="showpenality = false"
   />
+
+  
 </template>
 <style scoped>
 *::-webkit-scrollbar {

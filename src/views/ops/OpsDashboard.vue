@@ -14,7 +14,7 @@ const notification = useNotificationStore()
 const sessionStore = useSessionStore()
 const stores = useOperatorStore()
 const selectedMonth = ref(dayjs().format('YYYY-MM'))
-const profile = computed(() => sessionStore.user.value)
+const profile = computed(() => sessionStore.user)
 const statsres = ref({})
 const statssum = ref({})
 const penaltiesres = ref({})
@@ -133,7 +133,7 @@ onMounted(async () => {
           <div class="flex justify-between mb-1">
             <h1 class="text-error font-bold underline">Pénalités</h1>
           </div>
-          <div class="flex flex-nowrap overflow-x-auto sm:flex-wrap sm:overflow-auto gap-1 overflow-x-auto">
+          <div class="flex flex-nowrap sm:flex-wrap sm:overflow-auto gap-1 overflow-x-auto">
             <div v-for="(amount, weeks) in penaltiessum" class="bg-surface flex gap-1 text-sm">
               <h3 class="uppercase font-bold">{{ weeks }}:</h3>
               <p>

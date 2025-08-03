@@ -94,7 +94,8 @@ export const useAppStore = defineStore('app', () => {
       // Remplace localement l'opérateur
       const index = operators.value.findIndex(op => op.id === operatorId)
       if (index !== -1) {
-        operators.value[index] = res
+        // operators.value[index] = res
+        operators.value.splice(index, 1, res) // Remplace l'opérateur
       } else {
         operators.value.push(res)
       }

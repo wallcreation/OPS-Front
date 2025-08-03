@@ -14,6 +14,8 @@ const step = ref(0)
 const error = ref([false, ''])
 const passtype = ref('password')
 const loading = ref(false)
+const lockloading = ref(false)
+const codeloading = ref(false)
 
 const lname = ref(props.operator?.lname || '')
 const fname = ref(props.operator?.fname || '')
@@ -47,9 +49,9 @@ async function closetteamselector(choosedteam) {
 }
 
 async function lockOp() {
-  loading.value = true
+  lockloading.value = true
   const [res, err] = await safeCall(
-    lockOperator(props.operator.id, { is_locked: !props.operator.lock }),
+    lockOperator(props.operator.id, { is_locked: !props.operator.is_locked }),
   )
   if (err) {
     console.error('Error locking operator:', err)
@@ -57,11 +59,11 @@ async function lockOp() {
   }
   emit('updated')
   emit('close')
-  loading.value = false
+  lockloading.value = false
 }
 
 async function updateCode() {
-  loading.value = true
+  codeloading.value = true
   const [res, err] = await safeCall(updateOperatorCode(props.operator.id))
   if (err) {
     console.error('Error updating code:', err)
@@ -69,7 +71,7 @@ async function updateCode() {
   }
   emit('updated')
   emit('close')
-  loading.value = false
+  codeloading.value = false
 }
 
 async function foo() {
@@ -269,8 +271,8 @@ async function foo() {
       <div class="px-5 grid grid-cols-1 md:grid-cols-2 gap-1">
         <button
           @click="lockOp"
-          :disabled="loading"
-          :class="loading ? 'animate-pulse' : ''"
+          :disabled="lockloading"
+          :class="lockloading ? 'animate-pulse' : ''"
           class="p-1 flex gap-1 items-center justify-center text-sm border-2 border-warning rounded-lg hover:bg-warning-dark hover:border-warning-dark"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48">
@@ -283,8 +285,8 @@ async function foo() {
         </button>
         <button
           @click="updateCode"
-          :disabled="loading"
-          :class="loading ? 'animate-pulse' : ''"
+          :disabled="codeloading"
+          :class="codeloading ? 'animate-pulse' : ''"
           class="p-1 flex gap-1 items-center justify-center text-sm border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">
@@ -296,7 +298,7 @@ async function foo() {
               d="M13.1 12c-1.2 1.5-3 2.5-5.1 2.5c-3.6 0-6.5-2.9-6.5-6.5S4.4 1.5 8 1.5c2.2 0 4.1 1.1 5.3 2.7m.2-3.2v3c0 .3-.2.5-.5.5h-3"
             />
           </svg>
-          {{ loading ? 'Enregistrement...' : 'Régénérer le code' }}
+          {{ codeloading ? 'Enregistrement...' : 'Régénérer le code' }}
         </button>
       </div>
     </div>

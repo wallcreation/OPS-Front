@@ -101,14 +101,10 @@ onUnmounted(() => {
         <i class="pi pi-home"></i>
         Accueil
       </RouterLink>
-      <RouterLink to="/ops/tasks" class="block text-text hover:underline">
-        <i class="pi pi-list"></i>
-        Tâches
-      </RouterLink>
-      <RouterLink to="/ops/history" class="block text-text hover:underline">
+      <!-- <RouterLink to="/ops/history" class="block text-text hover:underline">
         <i class="pi pi-clock "></i>
         Historique
-      </RouterLink>
+      </RouterLink> -->
     </div>
 
     <!-- Dropdown user menu -->

@@ -27,7 +27,7 @@ onMounted( async () => {
     <div
       class="p-1 flex justify-between items-center"
     >
-      <h1 class="text-xl font-bold text-primary">Liste des opérateurs</h1>
+      <h1 class="text-xl font-bold text-primary">Gestion Des opérateurs</h1>
       <button
         @click="showOperatorAdd = true"
         class="p-1 flex gap-1 items-center border-2 rounded-lg border-primary hover:bg-primary-dark hover:border-primary-dark"
@@ -38,7 +38,7 @@ onMounted( async () => {
             d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z"
           />
         </svg>
-        <span class="hidden sm:inline">Ajouter</span>
+        <span class="hidden sm:inline">Nouvel opérateur</span>
       </button>
     </div>
     <div v-if="loading" class="flex-grow p-5 flex gap-2 items-center justify-center">
@@ -46,7 +46,7 @@ onMounted( async () => {
     </div>
     <div
       v-else
-      class="p-2 grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 overflow-auto"
+      class="p-2 grid gap-2 grid-cols-1 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 overflow-auto"
     >
       <OperatorCard
         v-for="operator in operators"
@@ -54,7 +54,7 @@ onMounted( async () => {
         :id="operator.id"
         :lname="operator.lname"
         :fname="operator.fname"
-        :team="stores.getTeamById(operator.team_id).name"
+        :team="stores.getTeamById(operator.team_id).name || 'Inconnu'"
         :team_id="operator.team_id"
         :work_at="operator.work_at"
         :code="operator.code"

@@ -17,6 +17,6 @@ export function getOpsAccounts() {
 }
 
 
-export function updateAccount(data) {
-    return
+export function updateAccount(id, data) {
+    return api.put(`/admin/account/${id}`, data)
 }

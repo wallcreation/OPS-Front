@@ -21,6 +21,6 @@ export function getTeams() {
   return api.get('/admin/teams')
 }
 
-export function updateTeam(data) {
-  return
+export function updateTeam(id, data) {
+  return api.put(`/admin/team/${id}`, data)
 }

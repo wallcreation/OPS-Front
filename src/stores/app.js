@@ -43,9 +43,9 @@ export const useAppStore = defineStore('app', () => {
     const [res] = await safeCall(deleteTeam(teamId))
     if (res) removeTeam(teamId)
   }
-  async function editTeamAPI(updatedTeam) {
+  async function editTeamAPI(teamId, updatedTeam) {
     notification.notify("Modification de l'équipe", "info")
-    const [res] = await safeCall(updateTeam(updatedTeam))
+    const [res] = await safeCall(updateTeam(teamId, updatedTeam))
     if (res) updateTeamLocal(res)
   }
 
@@ -117,9 +117,9 @@ export const useAppStore = defineStore('app', () => {
     const [res] = await safeCall(deleteAccount(accountId))
     if (res) removeAccount(accountId)
   }
-  async function editAccountAPI(updatedAccount) {
+  async function editAccountAPI(accountId, updatedAccount) {
     notification.notify("Modification du compte", "info")
-    const [res] = await safeCall(updateAccount(updatedAccount))
+    const [res] = await safeCall(updateAccount(accountId, updatedAccount))
     if (res) updateAccountLocal(res)
   }
 

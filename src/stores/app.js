@@ -5,6 +5,7 @@ import {
   createTeam, deleteTeam, updateTeam,
   createOperator, deleteOperator, updateOperator,
   createAccount, deleteAccount, updateAccount,
+  getOperator,
   safeCall
 } from '@/api'
 import { useNotificationStore } from './notification'
@@ -86,6 +87,20 @@ export const useAppStore = defineStore('app', () => {
     if (res) updateOperatorLocal(res)
   }
 
+  async function fetchOperatorById(operatorId) {
+    const [res] = await safeCall(() => getOperator(operatorId))
+    if (res) {
+      // Remplace localement l'opérateur
+      const index = operators.value.findIndex(op => op.id === operatorId)
+      if (index !== -1) {
+        operators.value[index] = res
+      } else {
+        operators.value.push(res)
+      }
+      notification.notify("Opérateur chargé", "success")
+    }
+  }
+  
   // 🔹 Comptes
   const accounts = ref([])
 
@@ -150,6 +165,7 @@ export const useAppStore = defineStore('app', () => {
     createTeamAPI, deleteTeamAPI, editTeamAPI,
     createOperatorAPI, deleteOperatorAPI, editOperatorAPI,
     createAccountAPI, deleteAccountAPI, editAccountAPI,
+    fetchOperatorById,
 
     // getters
     getTeamById, getTeamByName,

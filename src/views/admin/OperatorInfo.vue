@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
-import { getOperatorStats, getOperatorPenalties, safeCall, getOperator } from '@/api'
+import { getOperatorStats, getOperatorPenalties, safeCall, getOperator, getOperators } from '@/api'
 import MonthSelector from '@/components/utils/MonthSelector.vue'
 import OperatorEdit from '@/components/admin/OperatorEdit.vue'
 import PenaltyDisplay from '@/components/admin/PenaltyDisplay.vue'
@@ -70,11 +70,8 @@ async function monthChanged(month) {
 }
 
 async function reloadOp() {
-  const [res, err] = await safeCall(getOperator(operatorid))
-  if (res) {
-    stores.updateOperatorLocal(res)
-    operator.value = res
-  }
+  const [ops, err2] = await safeCall(getOperators())
+  if (ops) stores.setOperators(ops)
 }
 
 // Fonction pour ajouter une pénalité (ferme la modale)

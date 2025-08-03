@@ -82,7 +82,7 @@ export const useAppStore = defineStore('app', () => {
   }
   async function editOperatorAPI(operatorId, updatedOperator) {
     notification.notify("Modification de l'opérateur", "info")
-    const [res] = await safeCall(updateOperator(operatorId, updatedOperator))
+    const [res,err] = await safeCall(updateOperator(operatorId, updatedOperator))
     if (res) updateOperatorLocal(res)
   }
 

@@ -64,22 +64,14 @@ onUnmounted(() => {
           <i class="pi pi-home"></i>
           Accueil
         </RouterLink>
-        <RouterLink
-          to="/ops/tasks"
-          active-class="border-b-2 border-white"
-          class="hover:text-gray-200"
-        >
-          <i class="pi pi-list"></i>
-          Tâches
-        </RouterLink>
-        <RouterLink
+        <!-- <RouterLink
           to="/ops/history"
           active-class="border-b-2 border-white"
           class="hover:text-gray-200"
         >
           <i class="pi pi-clock"></i>
           Historique
-        </RouterLink>
+        </RouterLink> -->
       </nav>
 
       <!-- User & mobile menu toggle -->

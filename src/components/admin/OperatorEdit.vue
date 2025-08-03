@@ -47,12 +47,14 @@ async function closetteamselector(choosedteam) {
 }
 
 async function updateCode() {
+  loading.value = true
   const [res,err] = safeCall(updateOperatorCode(props.operator.id))
   if (err) {
     console.error('Error updating code:', err)
     return
   }
   emit('updated')
+  loading.value = false
 }
 
 async function foo() {
@@ -263,6 +265,7 @@ async function foo() {
         </button>
         <button
           @click="updateCode"
+          :disabled="loading"
           class="p-1 flex gap-1 items-center justify-center text-sm border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
         >
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">

@@ -21,7 +21,7 @@ const email = ref(props.operator?.email || '')
 const password = ref('')
 const team = ref({
   show: false,
-  teamid: 0,
+  teamid: props.operator.team_id,
   textvalue: props.stores.getTeamById(props.operator.team_id).name,
   list: computed(() => props.stores.teams),
 })
@@ -48,7 +48,7 @@ async function closetteamselector(choosedteam) {
 
 async function updateCode() {
   loading.value = true
-  const [res,err] = safeCall(updateOperatorCode(props.operator.id))
+  const [res,err] = await safeCall(updateOperatorCode(props.operator.id))
   if (err) {
     console.error('Error updating code:', err)
     emit('close')

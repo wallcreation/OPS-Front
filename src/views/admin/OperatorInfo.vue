@@ -1,7 +1,7 @@
 <script setup>
 // Importation des dépendances
 import dayjs from 'dayjs'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 import { getOperatorStats, getOperatorPenalties, safeCall, getOperator, getOperators } from '@/api'
@@ -17,8 +17,8 @@ import StatAdd from '@/components/admin/StatAdd.vue'
 const route = useRoute()
 const stores = useAppStore()
 const operatorid = route.params.id // ID de l'opérateur depuis l'URL
-const operator = stores.getOperatorById(operatorid) // Données de l'opérateur
-const team = stores.getTeamById(operator.team_id) // Données de l'équipe de l'opérateur
+const operator = computed(() => stores.getOperatorById(operatorid)) // Données de l'opérateur
+const team = computed(() => stores.getTeamById(operator.value.team_id)) // Données de l'équipe de l'opérateur
 
 // Gestion des états réactifs
 const stats = ref({}) // Stocke les statistiques récupérées

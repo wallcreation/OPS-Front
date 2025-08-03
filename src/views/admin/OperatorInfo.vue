@@ -71,7 +71,10 @@ async function monthChanged(month) {
 
 async function reloadOp() {
   const [res, err] = await safeCall(getOperator(operatorid))
-  if (res) stores.updateOperatorLocal(res)
+  if (res) {
+    stores.updateOperatorLocal(res)
+    operator.value = res
+  }
 }
 
 // Fonction pour ajouter une pénalité (ferme la modale)

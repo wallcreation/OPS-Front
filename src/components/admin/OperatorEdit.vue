@@ -54,6 +54,7 @@ async function updateCode() {
     emit('close')
   }
   emit('updated')
+  emit('close')
   loading.value = false
 }
 
@@ -266,6 +267,7 @@ async function foo() {
         <button
           @click="updateCode"
           :disabled="loading"
+          :class="loading ? 'animate-pulse' : ''"
           class="p-1 flex gap-1 items-center justify-center text-sm border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
         >
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">

@@ -70,7 +70,6 @@ async function monthChanged(month) {
 }
 
 async function reloadOp() {
-  showopedit.value = false
   const [res, err] = await safeCall(getOperator(operatorid))
   if (res) stores.updateOperatorLocal(res)
 }

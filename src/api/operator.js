@@ -15,15 +15,23 @@ export function getOperator(id) {
 export function getOperators() {
     return api.get('/admin/operators')
 }
+
+export function lockOperator(id, data) {
+    return api.put(`/admin/operator/lock/${id}`, data)
+}
+
 export function updateOperator(id, data) {
     return api.put(`/admin/operator/${id}`, data)
 }
+
 export function updateOperatorCode(id) {
     return api.put(`/admin/operator/${id}/code`)
 }
+
 export function regenerateCodes() {
     return api.get('/admin/regenerate/codes')
 }
+
 export function operatorMe() {
     return api.get('/ops/me')
 }

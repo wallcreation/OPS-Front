@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import TeamSelector from './TeamSelector.vue'
-import { safeCall, updateOperatorCode } from '@/api'
+import { safeCall, updateOperatorCode, lockOperator } from '@/api'
 
 const props = defineProps({
   operator: Object,
@@ -46,9 +46,23 @@ async function closetteamselector(choosedteam) {
   team.value.show = false
 }
 
+async function lockOp() {
+  loading.value = true
+  const [res, err] = await safeCall(
+    lockOperator(props.operator.id, { is_locked: !props.operator.lock }),
+  )
+  if (err) {
+    console.error('Error locking operator:', err)
+    emit('close')
+  }
+  emit('updated')
+  emit('close')
+  loading.value = false
+}
+
 async function updateCode() {
   loading.value = true
-  const [res,err] = await safeCall(updateOperatorCode(props.operator.id))
+  const [res, err] = await safeCall(updateOperatorCode(props.operator.id))
   if (err) {
     console.error('Error updating code:', err)
     emit('close')
@@ -198,7 +212,7 @@ async function foo() {
             <h2 class="text-lg font-semibold text-primary-dark">Travaille de ?</h2>
             <button
               @click="
-                workat.choice = 'Jour';
+                workat.choice = 'Jour'
                 workat.show = false
               "
               class="border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
@@ -207,7 +221,7 @@ async function foo() {
             </button>
             <button
               @click="
-                workat.choice = 'Nuit';
+                workat.choice = 'Nuit'
                 workat.show = false
               "
               class="border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
@@ -254,6 +268,9 @@ async function foo() {
       <hr class="w-full bg-border h-0.5 rounded border-none" />
       <div class="px-5 grid grid-cols-1 md:grid-cols-2 gap-1">
         <button
+          @click="lockOp"
+          :disabled="loading"
+          :class="loading ? 'animate-pulse' : ''"
           class="p-1 flex gap-1 items-center justify-center text-sm border-2 border-warning rounded-lg hover:bg-warning-dark hover:border-warning-dark"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48">
@@ -262,7 +279,7 @@ async function foo() {
               d="M20.471 6.228c1.617-2.99 5.916-2.966 7.5.042l15.533 29.502c1.49 2.83-.562 6.23-3.76 6.23H8.255c-3.22 0-5.27-3.44-3.738-6.272zM24 15c-.69 0-1.25.56-1.25 1.25v11.5a1.25 1.25 0 1 0 2.5 0v-11.5c0-.69-.56-1.25-1.25-1.25m0 20a2 2 0 1 0 0-4a2 2 0 0 0 0 4"
             />
           </svg>
-          Bloquer
+          {{ props.operator.lock ? 'Débloquer' : 'Bloquer' }}
         </button>
         <button
           @click="updateCode"
@@ -270,16 +287,16 @@ async function foo() {
           :class="loading ? 'animate-pulse' : ''"
           class="p-1 flex gap-1 items-center justify-center text-sm border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
         >
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">
-          <path
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-width="2"
-            d="M13.1 12c-1.2 1.5-3 2.5-5.1 2.5c-3.6 0-6.5-2.9-6.5-6.5S4.4 1.5 8 1.5c2.2 0 4.1 1.1 5.3 2.7m.2-3.2v3c0 .3-.2.5-.5.5h-3"
-          />
-        </svg>
-          {{ loading ? 'Enregistrement...' : 'Régénérer le code'}}
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-width="2"
+              d="M13.1 12c-1.2 1.5-3 2.5-5.1 2.5c-3.6 0-6.5-2.9-6.5-6.5S4.4 1.5 8 1.5c2.2 0 4.1 1.1 5.3 2.7m.2-3.2v3c0 .3-.2.5-.5.5h-3"
+            />
+          </svg>
+          {{ loading ? 'Enregistrement...' : 'Régénérer le code' }}
         </button>
       </div>
     </div>

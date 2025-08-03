@@ -51,7 +51,7 @@ async function updateCode() {
   const [res,err] = safeCall(updateOperatorCode(props.operator.id))
   if (err) {
     console.error('Error updating code:', err)
-    return
+    emit('close')
   }
   emit('updated')
   loading.value = false

@@ -70,6 +70,7 @@ async function monthChanged(month) {
 }
 
 async function reloadOp() {
+  showopedit.value = false
   const [res, err] = await safeCall(getOperator(operatorid))
   if (res) stores.updateOperatorLocal(res)
 }
@@ -270,6 +271,7 @@ onMounted(async () => {
     :operator="operator"
     :stores="stores"
     @close="showopedit = false"
+    @updated="reloadOp()"
   />
   <!-- Modale d'ajout de stat -->
   <StatAdd

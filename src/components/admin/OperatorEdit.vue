@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import TeamSelector from './TeamSelector.vue'
+import { safeCall, updateOperatorCode } from '@/api'
 
 const props = defineProps({
   operator: Object,
@@ -43,6 +44,15 @@ async function closetteamselector(choosedteam) {
   team.value.teamid = choosedteam.id
   team.value.textvalue = choosedteam.name
   team.value.show = false
+}
+
+async function updateCode() {
+  const [res,err] = safeCall(updateOperatorCode(props.operator.id))
+  if (err) {
+    console.error('Error updating code:', err)
+    return
+  }
+  emit('updated')
 }
 
 async function foo() {
@@ -252,6 +262,7 @@ async function foo() {
           Bloquer
         </button>
         <button
+          @click="updateCode"
           class="p-1 flex gap-1 items-center justify-center text-sm border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
         >
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">

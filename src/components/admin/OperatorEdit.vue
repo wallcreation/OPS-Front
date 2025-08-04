@@ -49,6 +49,8 @@ async function closetteamselector(choosedteam) {
 }
 
 async function lockOp() {
+  console.log('lockOp triggered for', props.operator.id, " on state ", props.operator.is_locked)
+
   lockloading.value = true
   const [res, err] = await safeCall(
     lockOperator(props.operator.id, { is_locked: !props.operator.is_locked }),

@@ -216,7 +216,7 @@ async function foo() {
             <h2 class="text-lg font-semibold text-primary-dark">Travaille de ?</h2>
             <button
               @click="
-                workat.choice = 'Jour'
+                workat.choice = 'Jour';
                 workat.show = false
               "
               class="border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
@@ -225,7 +225,7 @@ async function foo() {
             </button>
             <button
               @click="
-                workat.choice = 'Nuit'
+                workat.choice = 'Nuit';
                 workat.show = false
               "
               class="border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"

@@ -20,8 +20,8 @@ export function lockOperator(id, data) {
     return api.post(`/admin/operator/lock/${id}`, data)
 }
 
-export function updateOperator(id, is_locked) {
-    return api.put(`/admin/operator/${id}/${is_locked}`)
+export function updateOperator(id, data) {
+    return api.put(`/admin/operator/${id}`, data)
 }
 
 export function updateOperatorCode(id) {

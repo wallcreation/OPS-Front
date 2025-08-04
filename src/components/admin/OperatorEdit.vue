@@ -272,7 +272,7 @@ async function foo() {
       <hr class="w-full bg-border h-0.5 rounded border-none" />
       <div class="px-5 grid grid-cols-1 md:grid-cols-2 gap-1">
         <button
-          @click="console.log('lockOp triggered for', props.operator.id, ' on state ', props.operator.is_locked)"
+          @click="lockOp()"
           :disabled="lockloading"
           :class="lockloading ? 'animate-pulse' : ''"
           class="p-1 flex gap-1 items-center justify-center text-sm border-2 border-warning rounded-lg hover:bg-warning-dark hover:border-warning-dark"

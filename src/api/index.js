@@ -36,11 +36,11 @@ export async function safeCall(promise, retry = false) {
         session.triggerSessionExpired()
       }
     }
-    // if (code == 1003  && retry) {
-    //   clearProfile()
-    //   const session = useSessionStore()
-    //   session.triggerSessionExpired()
-    // }
+    if (code == 1003  && retry) {
+      clearProfile()
+      const session = useSessionStore()
+      session.triggerSessionExpired()
+    }
     const message = err.response?.data?.detail?.message || err.message || 'Erreur inconnue.'
     // const error = useErrorStore()
     const notification = useNotificationStore()

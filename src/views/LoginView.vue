@@ -5,7 +5,6 @@ import { useRouter } from 'vue-router'
 import { getErrorMessage, login, safeCall, updateStore } from '@/api'
 import { useAppStore } from '@/stores/app'
 import { useSessionStore } from '@/stores/session'
-import { resetAll } from '@/api'
 import { useOperatorStore } from '@/stores/operator'
 
 // Initialisation du router pour la navigation
@@ -59,7 +58,9 @@ const onlogin = async () => {
   disablelogin.value = false // Réactive le bouton
 }
 onMounted(() => {
-  resetAll()
+if (sessionstores.user) {
+  router.push(sessionstores.role === 'admin' ? '/admin/dashboard/' : '/ops/dashboard/')
+}
 })
 </script>
 <template>

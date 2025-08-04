@@ -88,7 +88,6 @@ export const useAppStore = defineStore('app', () => {
   }
 
   async function fetchOperatorById(operatorId) {
-    console.log("Fetching operator by id", operatorId)
     const [res,err] = await safeCall(getOperator(operatorId))
     if (res) {
       // Remplace localement l'opérateur

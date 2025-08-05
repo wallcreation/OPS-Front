@@ -38,7 +38,7 @@ const toggleSidebar = () => {
 </script>
 
 <template>
-  <div class="flex h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+  <div class="flex h-screen bg-[#707070] dark:bg-gray-900 transition-colors duration-300">
     <!-- Sidebar -->
     <aside 
       class="fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 shadow-lg transition-transform duration-300 z-50"
@@ -80,7 +80,7 @@ const toggleSidebar = () => {
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">
       <!-- Header -->
-      <header class="h-16 flex items-center justify-between px-4 bg-white dark:bg-gray-800 shadow dark:shadow-gray-900">
+      <header class="h-16 flex items-center justify-between px-4 bg-[#707070] dark:bg-gray-800 shadow dark:shadow-gray-900">
         <button 
           @click="toggleSidebar"
           class="text-gray-600 hover:text-gray-800 focus:outline-none"
@@ -90,13 +90,13 @@ const toggleSidebar = () => {
           </svg>
         </button>
         
-        <Header />
+        <Header/>
 
       </header>
 
       <!-- Main Content -->
-      <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
-        <div class="container mx-auto px-6 py-8">
+      <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 dark:bg-[#1f1c1cb6]">
+        <div class="">
           <RouterView />
         </div>
       </main>
@@ -105,7 +105,7 @@ const toggleSidebar = () => {
     <!-- Mobile Overlay -->
     <div 
       v-if="isSidebarOpen"
-      class="fixed inset-0 bg-bg/50 backdrop-blur-md z-40"
+      class="fixed inset-0 bg-[#707070]/50 backdrop-blur-md z-40"
       @click="isSidebarOpen = false"
     ></div>
   </div>

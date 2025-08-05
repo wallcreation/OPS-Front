@@ -45,8 +45,8 @@ const onlogin = async () => {
 </script>
 <template>
   <div class="h-screen w-screen bg-cover bg-center flex items-center justify-center bg-no-repeat" :style="{ backgroundImage: 'url(/loginbg.jpg)' }">
-    <div class=" backdrop-blur-sm rounded-xl shadow-2xl h-[40%] w-[40%] max-w-lg p-10 text-center space-y-6 transition-all duration-300 transform hover:scale-105">
-      <div class="flex justify-center mb-6">
+    <div class=" backdrop-blur-sm rounded-xl shadow-2xl h-[35%] w-[35%] max-w-lg p-10 text-center space-y-6 transition-all duration-300 transform hover:scale-105">
+      <div class="flex justify-center mb-10">
         <img src="../assets/ops.png" alt="Logo" width="170" height="120" class="transition-transform duration-300 hover:rotate-12" />
       </div>
       <!-- Logo -->

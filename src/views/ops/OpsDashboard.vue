@@ -78,7 +78,7 @@ onMounted(async () => {
   <div class="w-full h-full flex flex-col py-1">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-1 pb-1">
       <section class="col-span-2 p-2 bg-surface rounded-lg border-2 border-border">
-        <h1 class="text-5xl text-primary">
+        <h1 class="text-3xl sm:text-5xl text-primary">
           {{ profile.lname }}
           <span class="hidden sm:inline">{{ profile.fname }}</span>
         </h1>
@@ -159,7 +159,7 @@ onMounted(async () => {
           </div>
         </section>
       </div>
-      <div class="col-span-2 md:col-span-4 grid grid-cols-2 gap-1">
+      <div class="col-span-2 md:col-span-4 grid grid-cols-1 md:grid-cols-2 gap-1">
         <section class="bg-surface rounded-lg border-2 border-border p-1">
           <div
             v-if="Object.keys(profile.current_stat || {}).length > 0"

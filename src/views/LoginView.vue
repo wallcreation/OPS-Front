@@ -1,52 +1,72 @@
 <script setup>
-import { ref } from 'vue'
+// Importation des fonctions et hooks nécessaires
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getErrorMessage, fetchAllAppData, login, safeCall, updateStore } from '@/api'
-import { saveProfile } from '@/utils/storage'
+import { getErrorMessage, login, safeCall, updateStore } from '@/api'
 import { useAppStore } from '@/stores/app'
-const router = useRouter()
-const disablelogin = ref(false)
-const displayerror = ref(false)
-const email = ref('')
-const errorMessage = ref('')
-const password = ref('')
-const showpassword = ref(false)
-const stores = useAppStore()
-const error = ref(false)
-// Functions
-const onlogin = async () => {
-  disablelogin.value = true
+import { useSessionStore } from '@/stores/session'
+import { useOperatorStore } from '@/stores/operator'
 
+// Initialisation du router pour la navigation
+const router = useRouter()
+
+// Initialisation des stores pour la gestion de session et des opérateurs
+const sessionstores = useSessionStore()
+const operatorStore = useOperatorStore()
+
+// Déclaration des variables réactives pour la gestion du formulaire et des états
+const disablelogin = ref(false) // Désactive le bouton pendant la connexion
+const displayerror = ref(false) // Affiche ou masque le message d'erreur
+const email = ref('') // Email saisi par l'utilisateur
+const errorMessage = ref('') // Message d'erreur à afficher
+const password = ref('') // Mot de passe saisi
+const showpassword = ref(false) // Affiche ou masque le mot de passe
+const stores = useAppStore() // Accès au store global
+
+// Fonction appelée lors de la soumission du formulaire de connexion
+const onlogin = async () => {
+  disablelogin.value = true // Désactive le bouton
+
+  // Vérifie que les champs sont remplis
   if (!email.value || !password.value) {
     displayerror.value = true
     setTimeout(() => {
       displayerror.value = false
     }, 5000)
   } else {
+    // Appel API pour tenter la connexion
     const [res, err] = await safeCall(login({ email: email.value, password: password.value }))
 
     if (err) {
-      // Optionnel : afficher un message plus précis
+      // Affiche un message d'erreur si la connexion échoue
       errorMessage.value = getErrorMessage(err.code) || err.message
       displayerror.value = true
       setTimeout(() => {
         displayerror.value = false
       }, 5000)
     } else {
+      // Si succès : stocke le token, le profil, met à jour le store et redirige
       localStorage.setItem('token', res.token)
-      saveProfile(res.profile)
-      console.log('res: ', res.profile)
-      updateStore(stores)
-      router.push(res.profile.role === 'admin' ? '/admin/dashboard/' : '')
+      sessionstores.setSession({
+        user: res.profile,
+        role: res.profile.role,
+        token: res.token,
+      })
+      router.push(res.profile.role === 'admin' ? '/admin/dashboard/' : '/ops/dashboard/')
     }
   }
-  disablelogin.value = false
+  disablelogin.value = false // Réactive le bouton
 }
+onMounted(() => {
+if (sessionstores.user) {
+  router.push(sessionstores.role === 'admin' ? '/admin/dashboard/' : '/ops/dashboard/')
+}
+})
 </script>
 <template>
-  <div class="h-screen w-screen bg-cover bg-center flex items-center justify-center bg-no-repeat" :style="{ backgroundImage: 'url(/loginbg.jpg)' }">
-    <div class=" backdrop-blur-sm rounded-xl shadow-2xl h-[35%] w-[35%] max-w-lg p-10 text-center space-y-6 transition-all duration-300 transform hover:scale-105">
-      <div class="flex justify-center mb-10">
+  <div class="h-screen w-screen  bg-cover bg-center flex items-center justify-center bg-no-repeat" :style="{ backgroundImage: 'url(/loginbg.jpg)' }">
+    <div class=" backdrop-blur-sm rounded-xl shadow-2xl   max-w-lg p-10 text-center space-y-6 transition-all duration-300 transform hover:scale-105">
+      <div class="flex justify-center mb-6">
         <img src="../assets/ops.png" alt="Logo" width="170" height="120" class="transition-transform duration-300 hover:rotate-12" />
       </div>
       <!-- Logo -->
@@ -64,10 +84,11 @@ const onlogin = async () => {
       </div>
 
       <!-- Login Form -->
-      <form @submit.prevent="onlogin" class="space-y-6">
+      <form @submit.prevent="onlogin" class="space-y-4">
+
         <!-- Email Input -->
-        <div class="relative group">
-          <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
+        <div class="relative group ">
+          <span class="absolute inset-y-0  left-0 flex items-center pl-3 text-primary">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
@@ -75,7 +96,7 @@ const onlogin = async () => {
             </svg>
           </span>
           <input type="email" name="email" id="email" placeholder="Email" required v-model="email"
-            class="w-full px-10 py-3 text-text bg-transparent border-b-2 border-border focus:border-primary outline-none transition-colors duration-300" />
+            class="w-full px-10 py-2 rounded-lg text-text bg-transparent border-b-2 border-border focus:border-primary outline-none transition-colors duration-300" />
         </div>
 
         <!-- Password Input -->
@@ -95,18 +116,21 @@ const onlogin = async () => {
           </span>
           <input :type="showpassword ? 'text' : 'password'" name="password" id="password" placeholder="Mot de passe" required
             v-model="password"
-            class="w-full px-10 py-3 text-text bg-transparent border-b-2 border-border focus:border-primary outline-none transition-colors duration-300" />
+            class="w-full px-10 py-2 rounded-lg text-text bg-transparent border-b-2 border-border focus:border-primary outline-none transition-colors duration-300" />
         </div>
 
         <!-- Submit Button -->
         <button type="submit"
-          class="w-full py-3 mt-4 font-semibold text-bg bg-gradient-to-r from-primary to-primary-dark rounded-lg shadow-md hover:shadow-lg hover:from-primary-dark hover:to-primary transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed"
+          class="w-full py-2 mt-2 font-semibold text-bg bg-gradient-to-r from-primary to-primary-dark rounded-lg shadow-md hover:shadow-lg hover:from-primary-dark hover:to-primary transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed"
           :disabled="disablelogin">
           {{ disablelogin ? 'Connexion...' : 'Se connecter' }}
         </button>
       </form>
+
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* Aucun style additionnel ici, tout est géré par Tailwind */
+</style>

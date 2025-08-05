@@ -1,108 +1,114 @@
 <script setup>
 import { ref } from 'vue'
-import { createAccount, safeCall } from '@/api'
-import TeamSelector from './TeamSelector.vue'
 import { useAppStore } from '@/stores/app'
-const props = defineProps({
-  teams: Array,
-})
-const emit = defineEmits(['close', 'created'])
-// Variable
-const accountipt = ref('')
-const loading = ref(false)
-const error = ref([false, ''])
-const stores = useAppStore()
-const team = ref({ show: false, teamid: 0, textvalue: '', list: props.teams })
 
-// Functions
-// const addaccount = async () => {
-//   loading.value = true
-//   if (!accountipt.value) {
-//     error.value = [true, 'Le nom du compte ne peut être vide']
-//     setTimeout(() => {
-//       error.value = [false, '']
-//     }, 5000)
-//     loading.value = false
-//     return
-//   }
-//   const data = { name: accountipt.value, team_id: team.value.teamid }
-//   const [res, err] = await safeCall(createAccount(data))
-//   if (err) {
-//     error.value = [true, err.message]
-//   } else {
-//     emit('created', res)
-//   }
-//   loading.value = false
-// }
+const emit = defineEmits(['created', 'close'])
+const stores = useAppStore()
+
+const loading = ref(false)
+const error = ref(false)
+const errormsg = ref('')
+const accountipt = ref('')
+const tariff = ref(35) // 👈 Champ tarif
 
 const addaccount = async () => {
-  if (!accountipt.value) {
-    error.value = [true, 'Le nom du compte ne peut être vide']
+  if (accountipt.value.trim() === '') {
+    error.value = true
+    errormsg.value = 'Tous les champs sont obligatoires'
     setTimeout(() => {
-      error.value = [false, '']
-    }, 5000)
+      error.value = false
+    }, 3000)
     return
   }
-  stores.createAccountAPI({ name: accountipt.value, team_id: team.value.teamid })
-  emit('close')
-}
 
-const closetteamselector = async (choosedteam) => {
-  team.value.show = false
-  team.value.teamid = choosedteam.id
-  team.value.textvalue = choosedteam.name
+
+  loading.value = true
+  try {
+    await stores.createAccountAPI({
+      name: accountipt.value,
+      rates: tariff.value,
+    })
+    emit('created')
+    emit('close')
+  } catch (e) {
+    errormsg.value = 'Erreur lors de la création du compte'
+    error.value = true
+    loading.value = false
+  }
 }
 </script>
+
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
-    <div class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border bg-surface">
-      <h1 class="text-xl text-center font-bold">Ajouter un compte</h1>
-      <form action="" class="my-2 grid gap-2 grid-cols-1 md:grid-cols-3">
-        <input
-          type="text"
-          name="aname"
-          id="aname"
-          required
-          placeholder="Nom du compte"
-          v-model="accountipt"
-          class="col-span-3 md:col-span-2 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
-        />
-        <input
-          type="text"
-          name="team"
-          id="team"
-          placeholder="Équipe"
-          :value="team.textvalue"
-          class="col-span-3 md:col-span-1 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
-          @click="team.show = true"
-        />
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md p-4"
+    @click.self="emit('close')"
+  >
+    <!-- Loading -->
+    <div
+      v-if="loading"
+      class="w-full max-w-sm p-6 rounded-xl border border-zinc-700 bg-zinc-900 shadow-lg animate-pulse text-white text-center"
+    >
+      <p class="text-lg font-semibold mb-2">Ajout en cours...</p>
+      <p class="text-zinc-400">Veuillez patienter</p>
+    </div>
+
+    <!-- Form -->
+    <div
+      v-else
+      class="w-full max-w-lg bg-zinc-900 text-white rounded-xl border border-zinc-700 shadow-lg p-6"
+    >
+      <h2 class="text-xl font-bold mb-4">Ajouter un nouveau compte</h2>
+
+      <form @submit.prevent="addaccount" class="space-y-4">
+        <!-- Nom du compte -->
+        <div>
+          <label for="aname" class="block text-sm mb-1">Nom du compte</label>
+          <input
+            id="aname"
+            v-model="accountipt"
+            type="text"
+            placeholder="Nom du compte"
+            class="w-full px-4 py-2 rounded-md bg-zinc-800 border text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
+            :class="error ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700'"
+          />
+        </div>
+
+        <!-- Tarif -->
+        <div>
+          <label for="atariff" class="block text-sm mb-1">Tarif (FCFA/Message)</label>
+          <input
+            id="atariff"
+            v-model="tariff"
+            type="number"
+            min="30"
+            max="40"
+            step="5"
+            placeholder="Tarif en euros"
+            class="w-full px-4 py-2 rounded-md bg-zinc-800 border text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
+            :class="error ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700'"
+          />
+        </div>
+
+        <!-- Message d'erreur -->
+        <p v-if="error" class="text-red-400 mt-1 text-sm">{{ errormsg }}</p>
+
+        <!-- Boutons -->
+        <div class="flex justify-end gap-3 pt-2">
+          <button
+            type="button"
+            @click="emit('close')"
+            class="px-4 py-2 rounded-md border border-zinc-600 text-zinc-300 hover:bg-zinc-700 transition"
+          >
+            Annuler
+          </button>
+          <button
+            type="submit"
+            class="px-4 py-2 rounded-md bg-primary hover:bg-primary-dark text-white transition"
+          >
+            Ajouter
+          </button>
+        </div>
       </form>
-      <div v-if="error[0]" class="w-full rounded-lg bg-error">
-        <p class="text-lg text-center">{{ error[1] }}</p>
-      </div>
-      <div class="flex gap-2 items-center justify-end mt-1">
-        <button
-          @click="addaccount"
-          class="px-2 border-2 border-primary rounded-lg hover:border-primary-dark hover:bg-primary-dark"
-          :class="loading ? 'animate-pulse' : ''"
-          :disabled="loading"
-        >
-          {{ loading ? 'Créaton..' : 'Valider' }}
-        </button>
-        <button
-          @click="emit('close')"
-          class="px-2 border-2 border-error rounded-lg hover:border-error-dark hover:bg-error-dark"
-        >
-          Annuler
-        </button>
-      </div>
     </div>
   </div>
-  <!-- Quick team selector -->
-  <TeamSelector
-    v-if="team.show"
-    :teamlist="team.list"
-    @close="team.show = false"
-    @select="closetteamselector"
-  />
 </template>

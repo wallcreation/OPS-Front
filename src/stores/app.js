@@ -5,6 +5,7 @@ import {
   createTeam, deleteTeam, updateTeam,
   createOperator, deleteOperator, updateOperator,
   createAccount, deleteAccount, updateAccount,
+  getOperator,
   safeCall
 } from '@/api'
 import { useNotificationStore } from './notification'
@@ -20,11 +21,11 @@ export const useAppStore = defineStore('app', () => {
   }
   function addTeam(team) {
     teams.value.push(team)
-    notification.notify("Equipe crée", "success")
+    notification.notify("Équipe crée", "success")
   }
   function removeTeam(teamId) {
     teams.value = teams.value.filter(t => t.id !== teamId)
-    notification.notify("Equipe supprimée", "success")
+    notification.notify("Équipe supprimée", "success")
   }
   function updateTeamLocal(updatedTeam) {
     const index = teams.value.findIndex(t => t.id === updatedTeam.id)
@@ -43,9 +44,9 @@ export const useAppStore = defineStore('app', () => {
     const [res] = await safeCall(deleteTeam(teamId))
     if (res) removeTeam(teamId)
   }
-  async function editTeamAPI(updatedTeam) {
+  async function editTeamAPI(teamId, updatedTeam) {
     notification.notify("Modification de l'équipe", "info")
-    const [res] = await safeCall(updateTeam(updatedTeam))
+    const [res] = await safeCall(updateTeam(teamId, updatedTeam))
     if (res) updateTeamLocal(res)
   }
 
@@ -80,12 +81,26 @@ export const useAppStore = defineStore('app', () => {
     const [res] = await safeCall(deleteOperator(operatorId))
     if (res) removeOperator(operatorId)
   }
-  async function editOperatorAPI(updatedOperator) {
+  async function editOperatorAPI(operatorId, updatedOperator) {
     notification.notify("Modification de l'opérateur", "info")
-    const [res] = await safeCall(updateOperator(updatedOperator))
+    const [res,err] = await safeCall(updateOperator(operatorId, updatedOperator))
     if (res) updateOperatorLocal(res)
   }
 
+  async function fetchOperatorById(operatorId) {
+    const [res,err] = await safeCall(getOperator(operatorId))
+    if (res) {
+      // Remplace localement l'opérateur
+      const index = operators.value.findIndex(op => op.id === operatorId)
+      if (index !== -1) {
+        operators.value.splice(index, 1, res) // Remplace l'opérateur
+      } else {
+        operators.value.push(res)
+      }
+      notification.notify("Opérateur chargé", "success")
+    }
+  }
+  
   // 🔹 Comptes
   const accounts = ref([])
 
@@ -117,9 +132,9 @@ export const useAppStore = defineStore('app', () => {
     const [res] = await safeCall(deleteAccount(accountId))
     if (res) removeAccount(accountId)
   }
-  async function editAccountAPI(updatedAccount) {
+  async function editAccountAPI(accountId, updatedAccount) {
     notification.notify("Modification du compte", "info")
-    const [res] = await safeCall(updateAccount(updatedAccount))
+    const [res] = await safeCall(updateAccount(accountId, updatedAccount))
     if (res) updateAccountLocal(res)
   }
 
@@ -130,6 +145,12 @@ export const useAppStore = defineStore('app', () => {
   const getOperatorsByTeamId = teamId => operators.value.filter(op => op.team_id === teamId)
   const getAccountById = id => accounts.value.find(acc => acc.id === id)
   const getAccountsByTeamId = teamId => accounts.value.filter(acc => acc.team_id === teamId)
+
+  const reset = () => {
+    teams.value = []
+    operators.value = []
+    accounts.value = []
+  }
 
   return {
     // état
@@ -144,11 +165,14 @@ export const useAppStore = defineStore('app', () => {
     createTeamAPI, deleteTeamAPI, editTeamAPI,
     createOperatorAPI, deleteOperatorAPI, editOperatorAPI,
     createAccountAPI, deleteAccountAPI, editAccountAPI,
+    fetchOperatorById,
 
     // getters
     getTeamById, getTeamByName,
     getOperatorById, getOperatorsByTeamId,
     getAccountById, getAccountsByTeamId,
+
+    reset,
   }
 }, {
   persist: {

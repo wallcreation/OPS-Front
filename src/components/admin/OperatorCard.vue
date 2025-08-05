@@ -1,82 +1,166 @@
 <script setup>
-import { useAppStore } from '@/stores/app'
 import { ref } from 'vue'
+import { useAppStore } from '@/stores/app'
+import ConfirmDeleteModal from '../ConfirmDeleteModal.vue'
+import 'primeicons/primeicons.css'
+
 const props = defineProps({
   id: String,
   fname: String,
   lname: String,
   team: String,
   team_id: Number,
-  workat: String,
+  work_at: String,
+  code: String,
 })
 
-const deleting = ref(false)
 const stores = useAppStore()
 
-const deloperator = async () => {
+const showConfirmModal = ref(false)
+const editing = ref(false)
+const deleting = ref(false)
+const updating = ref(false)
+
+const editedFname = ref(props.fname)
+const editedLname = ref(props.lname)
+
+const askDelete = () => {
+  showConfirmModal.value = true
+}
+
+const confirmDelete = async () => {
   deleting.value = true
-  stores.deleteOperatorAPI(props.id)
+  showConfirmModal.value = false
+  try {
+    await stores.deleteOperatorAPI(props.id)
+  } catch (e) {
+    console.error('Erreur suppression :', e)
+    deleting.value = false
+  }
+}
+
+const startEdit = () => {
+  editing.value = true
+}
+
+const cancelEdit = () => {
+  editing.value = false
+  editedFname.value = props.fname
+  editedLname.value = props.lname
+}
+
+const confirmEdit = async () => {
+  if (
+    (editedFname.value.trim() === props.fname && editedLname.value.trim() === props.lname) ||
+    !editedFname.value.trim() ||
+    !editedLname.value.trim()
+  ) {
+    editing.value = false
+    return
+  }
+
+  updating.value = true
+  try {
+    await stores.editOperatorAPI({
+      id: props.id,
+      fname: editedFname.value,
+      lname: editedLname.value,
+    })
+    editing.value = false
+  } catch (e) {
+    console.error('Erreur mise à jour :', e)
+  } finally {
+    updating.value = false
+  }
 }
 </script>
+
 <template>
   <div
-    v-if="deleting"
-    class="group bg-surface rounded-lg border-2 border-border hover:border-primary p-2"
+    class="relative flex flex-col gap-4 bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 border border-zinc-700 rounded-2xl p-5 text-white shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
   >
-    <h2 class="flex items-center justify-between">{{ lname }} {{ fname }}</h2>
-    <p class="text-error underline animate-pulse">Suppression</p>
-  </div>
-  <div v-else class="bg-surface rounded-lg border-2 border-border hover:border-primary-light p-2">
-    <div class="flex items-center justify-between">
+    <!-- Suppression -->
+    <div
+      v-if="deleting"
+      class="absolute inset-0 bg-error/30 rounded-2xl flex items-center justify-center z-10"
+    >
+      <p class="text-error font-bold animate-pulse">Suppression en cours...</p>
+    </div>
+
+    <!-- Header -->
+    <div class="flex justify-between items-start gap-2">
+      <div class="flex-1 space-y-1">
+        <!-- Affichage normal -->
+        <div v-if="!editing">
+          <RouterLink
+            :to="{ name: 'operator-info', params: { id: props.id } }"
+            class="text-xl font-semibold text-primary-400 hover:underline break-words"
+          >
+            {{ props.lname }} {{ props.fname }}
+          </RouterLink>
+        </div>
+
+        <!-- Mode édition -->
+        <div v-else class="flex flex-col sm:flex-row gap-2 w-full flex-wrap">
+          <input
+            v-model="editedLname"
+            placeholder="Nom"
+            class="flex-1 min-w-0 px-3 py-1.5 text-sm rounded-md bg-zinc-800 border border-zinc-600 text-white placeholder-zinc-500 focus:ring-2 focus:ring-primary focus:outline-none transition"
+          />
+          <input
+            v-model="editedFname"
+            placeholder="Prénom"
+            class="flex-1 min-w-0 px-3 py-1.5 text-sm rounded-md bg-zinc-800 border border-zinc-600 text-white placeholder-zinc-500 focus:ring-2 focus:ring-primary focus:outline-none transition"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Infos supplémentaires -->
+    <div class="flex flex-wrap gap-2 text-sm text-muted">
       <RouterLink
-        :to="{ name: 'operator-info', params: { id: id } }"
-        class="text-primary font-bold"
+        :to="{ name: 'team-info', params: { id: team_id } }"
+        class="text-primary underline hover:text-primary-light transition"
       >
-        {{ lname }} {{ fname }}
+        {{ team }}
       </RouterLink>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        class="text-error"
-        @click="deloperator"
+
+      <span class="flex items-center gap-1">
+        <span v-if="work_at === 'Jour'" class="text-yellow-400"><i class="pi pi-sun"></i></span>
+        <span v-else class="text-blue-400"><i class="pi pi-moon"></i></span>
+        {{ work_at }}
+      </span>
+
+      <span class="ml-auto text-xs text-zinc-400 font-mono">#{{ code }}</span>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex gap-2 justify-end w-full">
+      <button
+        @click="editing ? confirmEdit() : startEdit()"
+        :disabled="updating"
+        class="px-4 py-2 flex items-center w-[50%] justify-center gap-2 border border-primary text-primary hover:bg-primary hover:text-white hover:border-transparent rounded-lg text-sm font-semibold transition disabled:opacity-50"
       >
-        <path
-          fill="currentColor"
-          d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z"
-        />
-      </svg>
+        <i :class="editing ? 'pi pi-check' : 'pi pi-pencil'" class="text-sm"></i>
+        {{ editing ? 'Valider' : 'Modifier' }}
+      </button>
+
+      <button
+        @click="editing ? cancelEdit() : askDelete()"
+        :disabled="updating"
+        class="px-4 py-2 flex items-center w-[50%] justify-center gap-2 border border-red-500 text-red-400 hover:bg-red-600 hover:text-white hover:border-transparent rounded-lg text-sm font-semibold transition disabled:opacity-50"
+      >
+        <i :class="editing ? 'pi pi-times' : 'pi pi-trash'" class="text-sm"></i>
+        {{ editing ? 'Annuler' : 'Supprimer' }}
+      </button>
     </div>
-    <div class="flex gap-1.5">
-      <p>{{ team }}</p>
-      <p v-if="workat === 'Jour'">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-          <g fill="none" stroke="currentColor" stroke-width="1.2">
-            <circle cx="12" cy="12" r="3.4" fill="currentColor" fill-opacity="0.25" />
-            <path
-              stroke-linecap="round"
-              d="M12 5V3m0 18v-2m4.95-11.95l1.414-1.414M5.636 18.364L7.05 16.95M19 12h2M3 12h2m11.95 4.95l1.414 1.414M5.636 5.636L7.05 7.05"
-            />
-          </g>
-        </svg>
-      </p>
-      <p v-else>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-          <path
-            fill="currentColor"
-            fill-opacity="0.25"
-            fill-rule="evenodd"
-            d="M15 4c.292 0 .438 0 .578.042a1 1 0 0 1 .586 1.448c-.072.127-.29.338-.725.759A7.98 7.98 0 0 0 13 12c0 2.257.935 4.297 2.439 5.751c.435.421.653.632.725.76a1 1 0 0 1-.586 1.447C15.438 20 15.292 20 15 20a8 8 0 1 1 0-16"
-            clip-rule="evenodd"
-          />
-          <path
-            fill="currentColor"
-            d="m16.164 18.51l.523-.294zm-.586 1.448l-.172-.575zm-.14-13.709l.418.431zm.726-.76l.523.295zm-.586-1.447l-.172.575zM13.6 12c0-2.088.864-3.974 2.256-5.32l-.834-.862A8.58 8.58 0 0 0 12.4 12zm2.256 5.32A7.38 7.38 0 0 1 13.6 12h-1.2a8.58 8.58 0 0 0 2.622 6.182zM15 19.4A7.4 7.4 0 0 1 7.6 12H6.4a8.6 8.6 0 0 0 8.6 8.6zM7.6 12A7.4 7.4 0 0 1 15 4.6V3.4A8.6 8.6 0 0 0 6.4 12zm7.422 6.182c.22.214.376.364.486.477c.122.126.14.159.133.145l1.046-.588a2 2 0 0 0-.319-.393q-.19-.194-.512-.503zM15 20.6c.258 0 .507.006.75-.067l-.344-1.15c-.037.011-.08.017-.406.017zm.64-1.796a.4.4 0 0 1-.234.58l.344 1.15a1.6 1.6 0 0 0 .937-2.318zm.216-12.124q.323-.31.512-.503c.114-.116.24-.252.319-.393l-1.046-.588c.007-.014-.011.02-.133.145c-.11.113-.265.263-.486.477zM15 4.6c.326 0 .37.006.406.017l.344-1.15c-.243-.073-.492-.067-.75-.067zm1.687 1.184a1.6 1.6 0 0 0-.937-2.317l-.344 1.15a.4.4 0 0 1 .235.579z"
-          />
-        </svg>
-      </p>
-      <p>{{ workat }}</p>
-    </div>
+
+    <!-- Modale de confirmation -->
+    <ConfirmDeleteModal
+      v-if="showConfirmModal"
+      :itemName="`${props.lname} ${props.fname}`"
+      @confirm="confirmDelete"
+      @cancel="showConfirmModal = false"
+    />
   </div>
 </template>

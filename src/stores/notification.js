@@ -28,7 +28,15 @@ export const useNotificationStore = defineStore('notification', () => {
     timer = setTimeout(() => {
       show.value = false
       displayNext()
-    }, 4000)
+    }, 2000)
+  }
+
+  function reset() {
+    queue.value = []
+    show.value = false
+    message.value = ''
+    type.value = 'info'
+    clearTimeout(timer)
   }
 
   return {
@@ -36,5 +44,6 @@ export const useNotificationStore = defineStore('notification', () => {
     message,
     type,
     notify,
+    reset,
   }
 })

@@ -1,20 +1,15 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { createOperator, getErrorMessage, safeCall } from '@/api'
+import { ref, computed } from 'vue'
 import { useAppStore } from '@/stores/app'
 import TeamSelector from './TeamSelector.vue'
 
-const stores = useAppStore()
-const loading = ref(false)
-const error = ref([false, ''])
-
 const emit = defineEmits(['created', 'close'])
+const stores = useAppStore()
 
-const close = async () => {
-  emit('close')
-}
+const loading = ref(false)
+const error = ref(false)
+const errormsg = ref('')
 
-// Champs du formulaire
 const lname = ref('')
 const fname = ref('')
 const email = ref('')
@@ -22,185 +17,226 @@ const password = ref('')
 const team = ref({ show: false, teamid: 0, textvalue: '', list: computed(() => stores.teams) })
 const workat = ref({ show: false, choice: 'Jour' })
 
-// Functions
-const closetteamselector = async (choosedteam) => {
-  team.value.teamid = choosedteam.id
-  team.value.textvalue = choosedteam.name
+const closetteamselector = (chosen) => {
+  team.value.teamid = chosen.id
+  team.value.textvalue = chosen.name
   team.value.show = false
 }
 
 const oncreate = async () => {
-  loading.value = true
   if (!lname.value || !fname.value || !email.value || !password.value || !team.value.teamid) {
-    error.value = [true, 'Veuillez remplir tous les champs.']
+    error.value = true
+    errormsg.value = 'Tous les champs sont obligatoires'
     setTimeout(() => {
-      error.value = [false, '']
-    }, 5000)
-    loading.value = false
+      error.value = false
+      errormsg.value = ''
+    }, 3000)
     return
   }
 
-  const data = {
-    lname: lname.value,
-    fname: fname.value,
-    email: email.value,
-    password: password.value,
-    team_id: team.value.teamid,
-    work_at: workat.value.choice, // inclure le work_at dans les données envoyées
+  loading.value = true
+
+  try {
+    await stores.createOperatorAPI({
+      lname: lname.value,
+      fname: fname.value,
+      email: email.value,
+      password: password.value,
+      team_id: team.value.teamid,
+      work_at: workat.value.choice,
+    })
+
+    // Reset form
+    lname.value = ''
+    fname.value = ''
+    email.value = ''
+    password.value = ''
+    team.value.teamid = 0
+    team.value.textvalue = ''
+    workat.value.choice = 'Jour'
+
+    emit('created')
+    emit('close')
+  } catch (e) {
+    errormsg.value = 'Erreur lors de la création de l’opérateur'
+    error.value = true
+    loading.value = false
   }
-
-  // console.log('data :', data)
-  // const [res, err] = await safeCall(createOperator(data))
-  // if (err) {
-  //   loading.value = false
-  //   error.value = [true, err.message || getErrorMessage(err.code)]
-  //   setTimeout(() => {
-  //     error.value = [false, '']
-  //   }, 5000)
-  //   return
-  // } else {
-  //   console.log('op cre res: ', res)
-  //   emit('created', res)
-  // }
-
-  stores.createOperatorAPI(data)
-
-  lname.value = ''
-  fname.value = ''
-  email.value = ''
-  password.value = ''
-  team.value.teamid = 0
-  team.value.textvalue = ''
-  workat.value.choice = 'jour'
-
-  loading.value = false
-  emit('close')
 }
 </script>
 
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md transition">
-    <div class="mx-5 p-3 max-w-lg w-full rounded-lg border-1 border-border bg-surface">
-      <h1 class="text-center text-xl font-bold">Ajouter un opérateur</h1>
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md p-4"
+    @click.self="emit('close')"
+  >
+    <!-- Loading -->
+    <div
+      v-if="loading"
+      class="w-full max-w-sm p-6 rounded-xl border border-zinc-700 bg-zinc-900 shadow-lg animate-pulse text-white text-center"
+    >
+      <p class="text-lg font-semibold mb-2">Création en cours...</p>
+      <p class="text-zinc-400">Veuillez patienter</p>
+    </div>
 
-      <form class="my-2 grid gap-2 grid-cols-1 md:grid-cols-2" @submit.prevent="oncreate">
-        <input
-          type="text"
-          name="lname"
-          id="lname"
-          v-model="lname"
-          required
-          placeholder="Nom"
-          class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
-        />
-        <input
-          type="text"
-          id="fname"
-          v-model="fname"
-          placeholder="Prénom"
-          class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
-        />
-        <input
-          type="email"
-          id="email"
-          v-model="email"
-          placeholder="Adresse mail"
-          class="md:col-span-2 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
-        />
-        <input
-          type="password"
-          id="password"
-          v-model="password"
-          placeholder="Mot de passe"
-          class="md:col-span-2 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
-        />
-        <div class="md:col-span-2 grid grid-cols-3 gap-1 items-center">
+    <!-- Form -->
+    <div
+      v-else
+      class="w-full max-w-lg bg-zinc-900 text-white rounded-xl border border-zinc-700 shadow-lg p-6"
+    >
+      <h2 class="text-xl font-bold mb-4">Ajouter un nouvel opérateur</h2>
+
+      <form @submit.prevent="oncreate" class="space-y-4">
+        <!-- Email -->
+        <div>
+          <label for="email" class="block text-sm mb-1">Adresse e-mail</label>
           <input
-            type="text"
-            name="team"
+            id="email"
+            v-model="email"
+            type="email"
+            placeholder="ex: user@mail.com"
+            class="w-full px-4 py-2 rounded-md bg-zinc-800 border text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
+            :class="error ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700'"
+          />
+        </div>
+
+        <!-- Mot de passe -->
+        <div>
+          <label for="password" class="block text-sm mb-1">Mot de passe</label>
+          <input
+            id="password"
+            v-model="password"
+            type="password"
+            placeholder="••••••••"
+            class="w-full px-4 py-2 rounded-md bg-zinc-800 border text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
+            :class="error ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700'"
+          />
+        </div>
+
+        <!-- Nom & Prénom -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="lname" class="block text-sm mb-1">Nom</label>
+            <input
+              id="lname"
+              v-model="lname"
+              type="text"
+              placeholder="Nom"
+              class="w-full px-4 py-2 rounded-md bg-zinc-800 border text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
+              :class="error ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700'"
+            />
+          </div>
+          <div>
+            <label for="fname" class="block text-sm mb-1">Prénom</label>
+            <input
+              id="fname"
+              v-model="fname"
+              type="text"
+              placeholder="Prénom"
+              class="w-full px-4 py-2 rounded-md bg-zinc-800 border text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
+              :class="error ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700'"
+            />
+          </div>
+        </div>
+
+        <!-- Équipe -->
+        <div>
+          <label for="team" class="block text-sm mb-1">Équipe</label>
+          <input
             id="team"
-            :value="team.textvalue"
-            readonly
-            placeholder="Équipe"
-            class="col-span-2 border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none cursor-pointer"
-            @click="team.show = true"
-          />
-          <input
             type="text"
-            name="work_at"
-            id="work_at"
-            @click="workat.show = true"
-            :value="workat.choice"
-            placeholder="Horaire"
-            class="border-b-2 border-border focus:border-primary hover:border-primary-dark outline-none"
+            readonly
+            v-model="team.textvalue"
+            placeholder="Choisir une équipe"
+            @click="team.show = true"
+            class="w-full px-4 py-2 rounded-md bg-zinc-800 border cursor-pointer text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
+            :class="error ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700'"
           />
         </div>
-        <div v-if="error[0]" class="w-full p-1 bg-error">
-          <p class="text-lg font-bold text-center">{{ error[1] }}</p>
+
+        <!-- Travail de -->
+        <div>
+          <label for="work_at" class="block text-sm mb-1">Travail de</label>
+          <input
+            id="work_at"
+            type="text"
+            readonly
+            :value="workat.choice"
+            @click="workat.show = true"
+            placeholder="Jour / Nuit"
+            class="w-full px-4 py-2 rounded-md bg-zinc-800 border cursor-pointer text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
+            :class="error ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700'"
+          />
         </div>
-        <div class="md:col-span-2 flex gap-2 items-center justify-end">
+
+        <!-- Message d'erreur -->
+        <p v-if="error" class="text-red-400 mt-1 text-sm">{{ errormsg }}</p>
+
+        <!-- Boutons -->
+        <div class="flex justify-end gap-3 pt-2">
           <button
-            type="submit"
-            class="px-2 border-2 border-primary rounded-lg hover:border-primary-dark hover:motion-bg-out-primary-dark"
-            :class="loading ? 'animate-pulse' : ''"
-            :disabled="loading"
-          >
-            {{ loading ? 'Création...' : 'Valider' }}
-          </button>
-          <button
-            @click="close"
-            class="px-2 border-2 border-error rounded-lg hover:bg-error-dark hover:border-error-dark transition"
+            type="button"
+            @click="emit('close')"
+            class="px-4 py-2 rounded-md border border-zinc-600 text-zinc-300 hover:bg-zinc-700 transition"
           >
             Annuler
+          </button>
+          <button
+            type="submit"
+            class="px-4 py-2 rounded-md bg-primary hover:bg-primary-dark text-white transition"
+          >
+            Ajouter
           </button>
         </div>
       </form>
     </div>
   </div>
-  <!-- Error message -->
-  <div v-if="error[0]" class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
-    <div class="p-4 flex flex-col gap-1.5 border-2 rounded-lg border-border bg-surface">
-      <h1 class="text-xl text-warning font-bold">{{ error[1] }}</h1>
-      <button
-        @click="error[0] = false"
-        class="mx-2 px-2 border-2 border-error rounded-lg hover:bg-error-dark hover:border-error-dark"
-      >
-        Fermer
-      </button>
-    </div>
-  </div>
-  <!-- Quick team selector -->
+
+  <!-- Team Selector -->
   <TeamSelector
     v-if="team.show"
     :teamlist="team.list"
     @close="team.show = false"
     @select="closetteamselector"
   />
-  <!-- Quick workat chooser -->
-  <div
-    v-if="workat.show"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-bg/50 transition"
-  >
-    <div class="flex flex-col gap-1.5 p-4 backdrop-blur-md border-2 border-border rounded-lg">
-      <h2 class="p-2 rounded-lg bg-primary-dark">Travaille de ?</h2>
+
+<!-- Work At Selector -->
+<div
+  v-if="workat.show"
+  class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/50 p-4"
+  @click.self="workat.show = false"
+>
+  <div class="w-full max-w-sm bg-zinc-900 text-white p-6 rounded-xl border border-zinc-700 shadow-lg">
+    <!-- Header -->
+    <h2 class="text-lg font-bold text-center mb-4">Choisissez l’horaire de travail</h2>
+
+    <!-- Options -->
+    <div class="flex flex-col gap-3">
       <button
-        @click="
-          workat.choice = 'Jour';
-          workat.show = false
-        "
-        class="border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
+        @click="workat.choice = 'Jour'; workat.show = false"
+        class="w-full px-4 py-2 rounded-md border border-primary text-primary hover:bg-primary hover:text-white transition"
       >
         Jour
       </button>
       <button
-        @click="
-          workat.choice = 'Nuit';
-          workat.show = false
-        "
-        class="border-2 border-primary rounded-lg hover:bg-primary-dark hover:border-primary-dark"
+        @click="workat.choice = 'Nuit'; workat.show = false"
+        class="w-full px-4 py-2 rounded-md border border-primary text-primary hover:bg-primary hover:text-white transition"
       >
         Nuit
       </button>
     </div>
+
+    <!-- Cancel -->
+    <div class="mt-6 flex justify-center">
+      <button
+        @click="workat.show = false"
+        class="text-zinc-400 hover:text-white text-sm px-4 py-2 rounded-md border border-zinc-600  transition"
+      >
+        Annuler
+      </button>
+    </div>
   </div>
+</div>
+
+
 </template>

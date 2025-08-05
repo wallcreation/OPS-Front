@@ -1,12 +1,21 @@
 <script setup>
-import AdminSide from '@/components/AdminSide.vue'
+import { useSessionStore } from '@/stores/session'
+import { useErrorStore } from '@/stores/error'
+import { RouterView } from 'vue-router'
+import Header from '@/components/ops/Header.vue'
+import ErrorModal from '@/components/utils/ErrorModal.vue'
+import SessionExpired from '@/components/utils/SessionExpired.vue'
+import Notification from '@/components/utils/Notification.vue'
+const error = useErrorStore()
+const session = useSessionStore()
 </script>
 
 <template>
-  <div class="flex">
-    <AdminSide class="w-1/6 h-screen fixed top-0 left-0" />
-    <main class="ml-[16.666667%] w-5/6 p-4">
-      <slot />
-    </main>
-  </div>
+  <Header :profile="session.user" class="h-[8%] md:h-[10%] w-full text-text" />
+  <main class="h-[90%] w-full overflow-auto px-1 text-text">
+    <RouterView />
+  </main>
+  <Notification />
+  <ErrorModal v-if="error.showErrorModal" :error="error.error" @close="error.clearError" />
+  <SessionExpired v-if="session.showExpiredModal" @close="session.hideSessionExpired" />
 </template>

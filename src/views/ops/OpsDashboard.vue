@@ -70,8 +70,8 @@ async function deleteCurrentStat() {
 }
 onMounted(async () => {
   await me()
-  await monthChanged(selectedMonth.value)
   await stores.fetchAllAccounts()
+  await monthChanged(selectedMonth.value)
 })
 </script>
 <template>
@@ -171,12 +171,9 @@ onMounted(async () => {
               @click="selectCurrentStat(accountId)"
               class="px-2 py-1 flex gap-1 items-center bg-primary/20 rounded-lg"
             >
-              <RouterLink
-                :to="{ name: 'account-info', params: { id: accountId } }"
-                class="font-bold underline"
-              >
+              <p class="font-bold underline">
                 {{ stores.getAccountById(accountId)?.name }}:
-              </RouterLink>
+              </p>
               <p>{{ stats.entry_start }}</p>
               <sup>{{ stats.stop_start }}</sup>
             </div>

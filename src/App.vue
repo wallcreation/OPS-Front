@@ -1,7 +1,6 @@
 <script setup>
 // Importation des composants de routing Vue Router
 import { RouterLink, RouterView } from 'vue-router'
-import CustomCursor from './components/CustomCusor.vue'
 </script>
 
 <template>
@@ -9,7 +8,6 @@ import CustomCursor from './components/CustomCusor.vue'
   <div class="h-screen w-screen">
     <!-- Affiche la vue correspondant à la route courante -->
     <RouterView/>
-    <CustomCursor/>
   </div>
 </template>
 

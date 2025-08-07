@@ -60,13 +60,13 @@ async function removeStat(statid) {
 </script>
 
 <template>
-  <div v-if="Object.keys(stats || {}).length" class="space-y-3 grid lg:grid-cols-2">
+  <div v-if="Object.keys(stats || {}).length" class="space-y-3">
     <div v-for="(stat, date) in stats" :key="date">
       <h2 class="text-xl font-semibold text-muted mb-1">
         {{ new Date(date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long' }) }}
       </h2>
 
-      <div :class="stat.lenght === 1 ? 'lg:flex gap-2 mb-1' : 'grid grid-cols-1 gap-2 mb-1'">
+      <div :class="stat.lenght === 1 ? 'lg:flex gap-2 mb-1 md:h-[210px] overflow-y-scroll' : 'grid grid-cols-1 gap-2 mb-1 md:h-[210px] overflow-y-scroll'">
         <div
           v-for="item in stat"
           :key="item.account_id"
@@ -93,41 +93,45 @@ async function removeStat(statid) {
               </svg>
             </button>
           </div>
-          <div class="flex gap-2">
-            <p class="flex items-center gap-0.5 text-text">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <g
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M12 19H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5.5M19 16v6m3-3l-3 3l-3-3"
-                  />
-                  <path d="m3 7l9 6l9-6" />
-                </g>
-              </svg>
-              Entrant:
-              <span class="font-semibold">{{ item.entry_total }}</span>
-            </p>
-            <p class="flex items-center gap-0.5 text-text">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <g
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                >
-                  <path d="M13.5 19H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" />
-                  <path d="m3 7l9 6l9-6m1 15l-5-5m0 5l5-5" />
-                </g>
-              </svg>
-              Stop:
-              <span class="font-semibold">{{ item.stop_total }}</span>
-            </p>
+          <div class="flex flex-wrap justify-between px-5">
+            <div>
+              <p class="flex items-center gap-0.5 text-text">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <g
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M12 19H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5.5M19 16v6m3-3l-3 3l-3-3"
+                    />
+                    <path d="m3 7l9 6l9-6" />
+                  </g>
+                </svg>
+                Entrant:
+                <span class="font-semibold">{{ item.entry_total }}</span>
+              </p>
+            </div>
+            <div>
+              <p class="flex items-center gap-0.5 text-text">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <g
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  >
+                    <path d="M13.5 19H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" />
+                    <path d="m3 7l9 6l9-6m1 15l-5-5m0 5l5-5" />
+                  </g>
+                </svg>
+                Stop:
+                <span class="font-semibold">{{ item.stop_total }}</span>
+              </p>
+            </div>
           </div>
         </div>
       </div>

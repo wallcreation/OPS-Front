@@ -80,6 +80,16 @@ function addPenality() {
   showpenality.value = false
 }
 
+const shortFirstNames = computed(() => {
+  if (!operator.value?.fname) return ''
+  const names = operator.value.fname
+    .trim()
+    .split(' ')
+    .filter((n) => n)
+  const initials = names.slice(0, 2).map((n) => n[0].toUpperCase() + '.')
+  return initials.join(' ')
+})
+
 // Au montage du composant, on charge les stats du mois courant
 onMounted(async () => {
   await reloadOp()
@@ -87,26 +97,34 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="w-full h-full flex flex-col p-10">
+  <div class="w-full h-full flex flex-col p-3">
     <!-- Espace utilisateur -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_0.5fr_1fr] gap-4 pb-4">
-      <div id="uinfo" class="col-span-1 md:col-span-2 lg:col-span-1 p-4 bg-surface border border-border rounded-lg shadow-lg ">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_0.5fr_0.5fr] gap-4">
+      <div
+        id="uinfo"
+        class="col-span-1 md:col-span-2 lg:col-span-1 p-8 bg-surface border border-border rounded-lg shadow-lg"
+      >
         <section class="flex justify-between items-center pb-3 mt-2">
           <div class="flex items-center gap-2">
-            <i class="pi pi-user" size="40" color="primary"/>
-            <h1 class="text-3xl sm:text-4xl text-primary font-semibold">{{ operator.fname }} {{ operator.lname }}</h1>
+            <i class="pi pi-user" size="40" color="primary" />
+            <h1 class="text-2xl sm:text-3xl text-primary font-semibold">
+              {{ shortFirstNames }} {{ operator.lname }}
+            </h1>
           </div>
           <button class="hover:text-primary transition-colors" @click="showopedit = true">
-            <i class="pi pi-pencil" size="24" color="primary"/>
+            <i class="pi pi-pencil" size="24" color="primary" />
           </button>
         </section>
 
         <section class="flex flex-wrap items-center gap-4 text-sm text-muted">
-          <i class="pi pi-envelope" size="24" color="primary"/>
+          <i class="pi pi-envelope" size="24" color="primary" />
           <p>{{ operator.email }}</p>
-          <i class="pi pi-id-card" size="24" color="primary"/>
+          <i class="pi pi-id-card" size="24" color="primary" />
           <p>{{ operator.code }}</p>
-          <RouterLink :to="{ name: 'team-info', params: { id: team.id } }" class="text-primary hover:text-primary-dark text-base">
+          <RouterLink
+            :to="{ name: 'team-info', params: { id: team.id } }"
+            class="text-primary hover:text-primary-dark text-base"
+          >
             {{ team.name }}
           </RouterLink>
           <WorkAt :work_at="operator.work_at" />
@@ -119,14 +137,22 @@ onMounted(async () => {
           <h1 class="text-primary font-bold text-xl">Statistiques</h1>
           <button class="hover:text-primary transition-colors" @click="showstatadd = true">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-              <path fill="currentColor" d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z" />
+              <path
+                fill="currentColor"
+                d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z"
+              />
             </svg>
           </button>
         </div>
         <section class="flex gap-2 overflow-x-auto sm:flex-wrap sm:overflow-auto">
-          <div v-for="(data, weeks) in stats_summaries" class="bg-surface text-sm p-2 rounded-lg shadow-md flex items-center gap-2">
+          <div
+            v-for="(data, weeks) in stats_summaries"
+            class="bg-surface text-sm p-2 rounded-lg shadow-md flex items-center gap-2"
+          >
             <h3 class="uppercase font-semibold text-muted">{{ weeks }}:</h3>
-            <p class="text-muted">{{ data.total_entry }}<sup>{{ data.total_stop }}</sup></p>
+            <p class="text-muted">
+              {{ data.total_entry }}<sup>{{ data.total_stop }}</sup>
+            </p>
           </div>
         </section>
       </section>
@@ -137,40 +163,71 @@ onMounted(async () => {
           <h1 class="text-error font-bold text-xl">Pénalités</h1>
           <button class="hover:text-error transition-colors" @click="showpenality = true">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-              <path fill="currentColor" d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z" />
+              <path
+                fill="currentColor"
+                d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z"
+              />
             </svg>
           </button>
         </div>
         <section class="flex gap-2 overflow-x-auto sm:flex-wrap sm:overflow-auto">
-          <div v-for="(amount, weeks) in penalties_summaries" class="bg-surface text-sm p-2 rounded-lg shadow-md flex items-center gap-2">
+          <div
+            v-for="(amount, weeks) in penalties_summaries"
+            class="bg-surface text-sm p-2 rounded-lg shadow-md flex items-center gap-2"
+          >
             <h3 class="uppercase font-semibold text-muted">{{ weeks }}:</h3>
             <p class="text-muted">{{ amount }}</p>
           </div>
         </section>
       </section>
-
     </div>
     <!-- Sélecteur de mois -->
-    <section class="my-6">
-      <MonthSelector @update:month="monthChanged" class="p-4 bg-surface border-2 border-border rounded-lg shadow-lg" />
+    <section class="my-3">
+      <MonthSelector
+        @update:month="monthChanged"
+        class="p-2 bg-surface border-2 border-border rounded-lg shadow-lg"
+      />
     </section>
 
     <!-- Détails des Statistiques et Pénalités -->
     <div class="w-full flex flex-col sm:flex-row sm:gap-4 space-y-4 sm:space-y-0">
-      <div class="h-full w-full sm:w-1/2 p-4 bg-surface border-2 border-border rounded-lg shadow-lg">
+      <!-- Détail des Statistiques -->
+      <div
+        class="h-full w-full sm:w-1/2 p-4 md:max-h-[330px] overflow-auto md:overflow-hidden bg-surface border-2 border-border rounded-lg shadow-lg"
+      >
         <h2 class="text-xl font-bold text-primary">Détail des statistiques</h2>
         <StatDisplay :stats="stats" :stores="stores" />
       </div>
-      <div class="h-full w-full sm:w-1/2 p-4 bg-surface border-2 border-border rounded-lg shadow-lg">
+
+      <!-- Détail des Pénalités -->
+      <div
+        class="h-full w-full sm:w-1/2 p-4 md:max-h-[330px] overflow-auto md:overflow-hidden bg-surface border-2 border-border rounded-lg shadow-lg"
+      >
         <h2 class="text-xl font-bold text-error">Détail des pénalités</h2>
         <PenaltyDisplay :penalties="penalties" :stores="stores" />
       </div>
     </div>
 
     <!-- Modales -->
-    <OperatorEdit v-if="showopedit" :operator="operator" :stores="stores" @close="showopedit = false" @updated="reloadOp()" />
-    <StatAdd v-if="showstatadd" :operatorid="operatorid" @created="getStats()" @close="showstatadd = false" />
-    <PenaltyAdd v-if="showpenality" :operatorid="operatorid" @created="getPenalties()" @close="showpenality = false" />
+    <OperatorEdit
+      v-if="showopedit"
+      :operator="operator"
+      :stores="stores"
+      @close="showopedit = false"
+      @updated="reloadOp()"
+    />
+    <StatAdd
+      v-if="showstatadd"
+      :operatorid="operatorid"
+      @created="getStats()"
+      @close="showstatadd = false"
+    />
+    <PenaltyAdd
+      v-if="showpenality"
+      :operatorid="operatorid"
+      @created="getPenalties()"
+      @close="showpenality = false"
+    />
   </div>
 </template>
 
